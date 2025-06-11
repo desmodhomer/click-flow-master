@@ -1,8 +1,15 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import AuthDialog from "./AuthDialog";
+import UserProfile from "./UserProfile";
 
 const Header = () => {
+  const { user, loading } = useAuth();
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -26,14 +33,35 @@ const Header = () => {
         </nav>
         
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm">
-            Login
-          </Button>
-          <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-            Get Started
-          </Button>
+          {loading ? (
+            <div className="h-8 w-20 bg-gray-200 animate-pulse rounded"></div>
+          ) : user ? (
+            <UserProfile />
+          ) : (
+            <>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setAuthDialogOpen(true)}
+              >
+                Login
+              </Button>
+              <Button 
+                size="sm" 
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                onClick={() => setAuthDialogOpen(true)}
+              >
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
       </div>
+      
+      <AuthDialog 
+        open={authDialogOpen} 
+        onOpenChange={setAuthDialogOpen} 
+      />
     </header>
   );
 };
