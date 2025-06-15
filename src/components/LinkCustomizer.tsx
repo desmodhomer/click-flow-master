@@ -6,18 +6,26 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Copy, ExternalLink } from "lucide-react";
+import { Copy, ExternalLink, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const LinkCustomizer = () => {
   const [originalUrl, setOriginalUrl] = useState("");
   const [customSlug, setCustomSlug] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [generatedUrl, setGeneratedUrl] = useState("");
+  const [generatedLink, setGeneratedLink] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  const handleGenerate = () => {
+  const generateSlug = () => {
+    return customSlug || `link-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+  };
+
+  const handleGenerate = async () => {
     if (!originalUrl) {
       toast({
         title: "Errore",
@@ -27,18 +35,84 @@ const LinkCustomizer = () => {
       return;
     }
 
-    const slug = customSlug || `link-${Date.now()}`;
-    const generated = `https://linkmaster.app/${slug}`;
-    setGeneratedUrl(generated);
-    
-    toast({
-      title: "Link generato!",
-      description: "Il tuo link personalizzato è pronto",
-    });
+    // Validate URL format
+    try {
+      new URL(originalUrl);
+    } catch {
+      toast({
+        title: "Errore",
+        description: "Inserisci un URL valido (es. https://esempio.com)",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+
+    try {
+      const slug = generateSlug();
+      
+      // Check if slug already exists
+      const { data: existingLink } = await supabase
+        .from('custom_links')
+        .select('id')
+        .eq('slug', slug)
+        .single();
+
+      if (existingLink) {
+        toast({
+          title: "Errore",
+          description: "Questo slug è già in uso. Prova con un nome diverso.",
+          variant: "destructive",
+        });
+        setIsGenerating(false);
+        return;
+      }
+
+      // Insert new custom link
+      const { data, error } = await supabase
+        .from('custom_links')
+        .insert({
+          slug,
+          destination_url: originalUrl,
+          title: title || "Link Personalizzato",
+          description: description || null,
+          user_id: user?.id || null
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error creating link:', error);
+        toast({
+          title: "Errore",
+          description: "Errore durante la creazione del link",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const generated = `https://${slug}.lnkfire.dev`;
+      setGeneratedLink(generated);
+      
+      toast({
+        title: "Link generato!",
+        description: "Il tuo link personalizzato è pronto",
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Errore",
+        description: "Errore durante la creazione del link",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatedUrl);
+    navigator.clipboard.writeText(generatedLink);
     toast({
       title: "Copiato!",
       description: "Link copiato negli appunti",
@@ -53,7 +127,7 @@ const LinkCustomizer = () => {
             Crea il tuo link personalizzato
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Trasforma qualsiasi URL in una landing page brandizzata in pochi secondi
+            Trasforma qualsiasi URL in un sottodominio brandizzato su lnkfire.dev
           </p>
         </div>
 
@@ -78,19 +152,22 @@ const LinkCustomizer = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="custom-slug">Slug Personalizzato (opzionale)</Label>
+                <Label htmlFor="custom-slug">Sottodominio Personalizzato (opzionale)</Label>
                 <div className="flex">
-                  <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-input bg-muted text-muted-foreground text-sm">
-                    linkmaster.app/
-                  </span>
                   <Input
                     id="custom-slug"
                     placeholder="mio-link-speciale"
                     value={customSlug}
-                    onChange={(e) => setCustomSlug(e.target.value)}
-                    className="rounded-l-none"
+                    onChange={(e) => setCustomSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                    className="rounded-r-none"
                   />
+                  <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-input bg-muted text-muted-foreground text-sm">
+                    .lnkfire.dev
+                  </span>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  Solo lettere minuscole, numeri e trattini. Se vuoto, verrà generato automaticamente.
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -118,8 +195,16 @@ const LinkCustomizer = () => {
                 onClick={handleGenerate}
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                 size="lg"
+                disabled={isGenerating}
               >
-                Genera Link Personalizzato
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generazione...
+                  </>
+                ) : (
+                  "Genera Link Personalizzato"
+                )}
               </Button>
             </CardContent>
           </Card>
@@ -129,7 +214,7 @@ const LinkCustomizer = () => {
               <CardTitle>Anteprima</CardTitle>
             </CardHeader>
             <CardContent>
-              {generatedUrl ? (
+              {generatedLink ? (
                 <div className="space-y-6">
                   <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border">
                     <div className="flex items-center justify-between mb-2">
@@ -146,7 +231,7 @@ const LinkCustomizer = () => {
                       </Button>
                     </div>
                     <div className="text-blue-600 font-mono text-sm break-all">
-                      {generatedUrl}
+                      {generatedLink}
                     </div>
                   </div>
 
@@ -154,12 +239,12 @@ const LinkCustomizer = () => {
                     <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
                       <div className="flex items-center justify-between">
                         <h3 className="font-semibold">
-                          {title || "Il tuo titolo qui"}
+                          {title || "Link Personalizzato"}
                         </h3>
                         <ExternalLink className="h-4 w-4" />
                       </div>
                       <p className="text-blue-100 text-sm mt-1">
-                        {description || "La tua descrizione apparirà qui"}
+                        {description || "Clicca per visitare il link"}
                       </p>
                     </div>
                     <div className="p-4 bg-white">
@@ -188,6 +273,9 @@ const LinkCustomizer = () => {
                 <div className="text-center py-12 text-muted-foreground">
                   <ExternalLink className="h-12 w-12 mx-auto mb-4 opacity-50" />
                   <p>L'anteprima del tuo link apparirà qui</p>
+                  <p className="text-sm mt-2">
+                    Formato: <code className="bg-muted px-2 py-1 rounded">tuoslug.lnkfire.dev</code>
+                  </p>
                 </div>
               )}
             </CardContent>

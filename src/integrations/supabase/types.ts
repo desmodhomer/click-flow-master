@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      custom_links: {
+        Row: {
+          click_count: number
+          created_at: string
+          description: string | null
+          destination_url: string
+          id: string
+          slug: string
+          title: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          click_count?: number
+          created_at?: string
+          description?: string | null
+          destination_url: string
+          id?: string
+          slug: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          click_count?: number
+          created_at?: string
+          description?: string | null
+          destination_url?: string
+          id?: string
+          slug?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
