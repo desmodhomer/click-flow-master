@@ -205,7 +205,7 @@ const LinkCustomizerForm = ({
 
         <Button 
           onClick={handleGenerate}
-          className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0"
+          className="w-full h-14 text-lg font-semibold bg-white/20 text-white border border-white/30 hover:bg-white/30 hover:border-white/50 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
           disabled={isGenerating}
         >
           {isGenerating ? (
