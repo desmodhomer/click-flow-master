@@ -1,6 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { LogIn } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -28,9 +30,22 @@ const HeroSection = () => {
         </p>
         
         <div className="flex justify-center items-center">
-          <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-200">
-            Accedi
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  size="lg" 
+                  className="bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 px-8 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                >
+                  <LogIn className="w-6 h-6" />
+                  Accedi
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Clicca qui per accedere alla piattaforma</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </section>
