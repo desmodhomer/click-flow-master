@@ -33,7 +33,7 @@ const HeroSection = () => {
       </div>
       
       {/* Login Button - Bottom Left */}
-      <div className="absolute bottom-8 left-4 md:left-8 lg:left-16 z-20">
+      <div className="absolute bottom-12 left-4 md:left-8 lg:left-16 z-20">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
