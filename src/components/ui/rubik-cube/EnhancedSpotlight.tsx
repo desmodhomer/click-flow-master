@@ -1,6 +1,5 @@
 
 import React, { useRef, useEffect } from "react";
-import { SpotLight } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function EnhancedSpotlight(props: any) {
@@ -14,10 +13,14 @@ export function EnhancedSpotlight(props: any) {
   }, []);
   
   return (
-    <SpotLight 
-      castShadow={false}
-      ref={light} 
-      {...props} 
+    <spotLight 
+      ref={light}
+      position={[10, 10, 5]}
+      angle={0.3}
+      penumbra={1}
+      intensity={1}
+      castShadow
+      {...props}
     />
   );
 }

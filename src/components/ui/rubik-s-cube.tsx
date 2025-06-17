@@ -1,39 +1,26 @@
 
-import React, { useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import * as THREE from 'three';
-import { SceneContent } from "./rubik-cube/SceneContent";
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { SceneContent } from './rubik-cube/SceneContent';
 
-export function Scene() {
-  const [isDesktop, setIsDesktop] = useState(true);
-
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    checkIsDesktop();
-
-    window.addEventListener("resize", checkIsDesktop);
-
-    return () => window.removeEventListener("resize", checkIsDesktop);
-  }, []);
-
+const RubiksCube = () => {
   return (
-    <div className="h-svh w-screen relative bg-black">
+    <div style={{ width: '300px', height: '300px' }}>
       <Canvas
-        shadows
-        gl={{
-          antialias: isDesktop,
-          preserveDrawingBuffer: isDesktop,
-          powerPreference: isDesktop ? "high-performance" : "default",
-          alpha: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1,
+        camera={{ position: [5, 5, 5], fov: 75 }}
+        style={{ background: 'transparent' }}
+        gl={{ alpha: true, antialias: true }}
+        onCreated={({ gl }) => {
+          gl.shadowMap.enabled = true;
+          gl.shadowMap.type = THREE.PCFSoftShadowMap;
         }}
       >
-        <SceneContent />
+        <Suspense fallback={null}>
+          <SceneContent />
+        </Suspense>
       </Canvas>
     </div>
   );
-}
+};
+
+export { RubiksCube };
