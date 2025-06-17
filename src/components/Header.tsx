@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "lucide-react";
+import { Link as LinkIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import AuthDialog from "./AuthDialog";
 import UserProfile from "./UserProfile";
@@ -13,12 +14,12 @@ const Header = () => {
   return (
     <header className="fixed top-0 z-50 w-full bg-transparent backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Link className="h-6 w-6 text-white" />
+        <Link to="/" className="flex items-center space-x-2">
+          <LinkIcon className="h-6 w-6 text-white" />
           <span className="text-xl font-bold text-white">
             LinkMaster
           </span>
-        </div>
+        </Link>
         
         <nav className="hidden md:flex items-center space-x-6">
           <a href="#features" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
@@ -27,6 +28,9 @@ const Header = () => {
           <a href="#pricing" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Pricing
           </a>
+          <Link to="/quest" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+            Quest
+          </Link>
           <a href="#contact" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Contact
           </a>
