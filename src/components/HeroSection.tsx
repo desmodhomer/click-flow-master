@@ -34,11 +34,10 @@ const HeroSection = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button 
-                  size="lg" 
-                  className="bg-white/30 backdrop-blur-md text-black border border-white/50 hover:bg-white/40 px-8 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                  size="icon"
+                  className="bg-white/30 backdrop-blur-md text-black border border-white/50 hover:bg-white/40 w-16 h-16 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300"
                 >
-                  <LogIn className="w-6 h-6" />
-                  Accedi
+                  <LogIn className="w-8 h-8" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
