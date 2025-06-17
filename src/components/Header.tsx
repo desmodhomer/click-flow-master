@@ -11,30 +11,30 @@ const Header = () => {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 z-50 w-full bg-transparent backdrop-blur-sm">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Link className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <Link className="h-6 w-6 text-white" />
+          <span className="text-xl font-bold text-white">
             LinkMaster
           </span>
         </div>
         
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
+          <a href="#features" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Features
           </a>
-          <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
+          <a href="#pricing" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Pricing
           </a>
-          <a href="#contact" className="text-sm font-medium hover:text-primary transition-colors">
+          <a href="#contact" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Contact
           </a>
         </nav>
         
         <div className="flex items-center space-x-4">
           {loading ? (
-            <div className="h-8 w-20 bg-gray-200 animate-pulse rounded"></div>
+            <div className="h-8 w-20 bg-white/20 animate-pulse rounded"></div>
           ) : user ? (
             <UserProfile />
           ) : (
@@ -42,13 +42,14 @@ const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm"
+                className="text-white hover:bg-white/10 hover:text-white"
                 onClick={() => setAuthDialogOpen(true)}
               >
                 Login
               </Button>
               <Button 
                 size="sm" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                className="bg-white/20 text-white border border-white/30 hover:bg-white/30 backdrop-blur-sm"
                 onClick={() => setAuthDialogOpen(true)}
               >
                 Get Started
