@@ -1,10 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
-
 const HeroSection = () => {
-  return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+  return <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* 3D Background */}
       <div className="absolute inset-0">
         <RubiksCube />
@@ -25,7 +22,7 @@ const HeroSection = () => {
           <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
             Inizia Gratuitamente
           </Button>
-          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg">
+          <Button variant="outline" size="lg" className="border-white px-8 py-3 text-lg text-slate-50 bg-gray-950 hover:bg-gray-800">
             Guarda Demo
           </Button>
         </div>
@@ -34,8 +31,6 @@ const HeroSection = () => {
           <p>Trusted by 10,000+ creators worldwide</p>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
