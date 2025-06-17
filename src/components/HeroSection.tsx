@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -25,7 +24,7 @@ const HeroSection = () => {
           lnki.it
         </h1>
         
-        <p className="text-base md:text-lg text-gray-200 max-w-md mx-auto leading-relaxed mb-12 font-normal">
+        <p className="text-base md:text-lg text-gray-200 max-w-md mx-auto leading-relaxed mb-12 font-light">
           Link shortening veloce e affidabile.
         </p>
         
