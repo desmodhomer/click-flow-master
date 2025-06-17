@@ -6,10 +6,10 @@ import { SceneContent } from './rubik-cube/SceneContent';
 
 const RubiksCube = () => {
   return (
-    <div style={{ width: '300px', height: '300px' }}>
+    <div className="absolute inset-0 w-full h-full">
       <Canvas
         camera={{ position: [5, 5, 5], fov: 75 }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', width: '100%', height: '100%' }}
         gl={{ alpha: true, antialias: true }}
         onCreated={({ gl }) => {
           gl.shadowMap.enabled = true;
