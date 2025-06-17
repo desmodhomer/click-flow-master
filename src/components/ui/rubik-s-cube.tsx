@@ -1,4 +1,3 @@
-
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
@@ -13,6 +12,20 @@ interface RubiksCubeModelProps {
   scale?: number;
 }
 
+interface CubeData {
+  position: Vector3;
+  rotationMatrix: Matrix4;
+  id: string;
+  originalCoords: { x: number; y: number; z: number };
+}
+
+interface Move {
+  axis: string;
+  layer: number;
+  direction: number;
+  rotationAngle?: number;
+}
+
 const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, ref) => {
   const ANIMATION_DURATION = 1.2;
   const GAP = 0.01;
@@ -22,7 +35,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
   const isAnimatingRef = useRef(false);
   const currentRotationRef = useRef(0);
   const lastMoveAxisRef = useRef<string | null>(null);
-  const currentMoveRef = useRef<any>(null);
+  const currentMoveRef = useRef<Move | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const isMountedRef = useRef(true); 
   const viewportSizeRef = useRef({ width: window.innerWidth, height: window.innerHeight });
@@ -31,7 +44,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   const [size, setSize] = useState(0.8);
-  const [cubes, setCubes] = useState<any[]>([]);
+  const [cubes, setCubes] = useState<CubeData[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [deviceSettings, setDeviceSettings] = useState(() => {
     const isMobile = window.innerWidth < 768;
@@ -52,7 +65,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
   }));
 
   const initializeCubes = useCallback(() => {
-    const initial = [];
+    const initial: CubeData[] = [];
     const positions = [-1, 0, 1];
     
     for (let x of positions) {
@@ -224,7 +237,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
   }, [resetCube, handleViewportChange]);
 
   const possibleMoves = useMemo(() => {
-    const moves = [];
+    const moves: Move[] = [];
     for (let axis of ['x', 'y', 'z']) {
       for (let layer of [-1, 0, 1]) {
         for (let direction of [1, -1]) {
@@ -311,7 +324,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
     return reusableQuaternion.clone();
   }, [reusableQuaternion]);
 
-  const normalizePositions = useCallback((cubes: any[]) => {
+  const normalizePositions = useCallback((cubes: CubeData[]) => {
     return cubes.map(cube => {
       const x = Math.round(cube.position.x);
       const y = Math.round(cube.position.y);
@@ -331,7 +344,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
     });
   }, []);
 
-  const checkCubeIntegrity = useCallback((cubes: any[]) => {
+  const checkCubeIntegrity = useCallback((cubes: CubeData[]) => {
     if (cubes.length !== 27) {
       console.warn("Incorrect number of cubes:", cubes.length);
       return false;
@@ -348,7 +361,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
     return true;
   }, []);
 
-  const updateCubes = useCallback((prevCubes: any[], move: any, stepRotationMatrix: Matrix4) => {
+  const updateCubes = useCallback((prevCubes: CubeData[], move: Move, stepRotationMatrix: Matrix4) => {
     return prevCubes.map((cube) => {
       if (isInLayer(cube.position, move.axis, move.layer)) {
         const tempVec3 = new Vector3(
@@ -390,7 +403,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
 
     if (isAnimatingRef.current && currentMoveRef.current) {
       const move = currentMoveRef.current;
-      const targetRotation = move.rotationAngle;
+      const targetRotation = move.rotationAngle!;
       const rotation = delta / ANIMATION_DURATION;
 
       if (currentRotationRef.current < 1) {
@@ -450,10 +463,6 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
     envMapIntensity: 8
   }), []);
 
-  const sharedMaterial = useMemo(() => (
-    <meshPhysicalMaterial {...chromeMaterial} />
-  ), [chromeMaterial]);
-
   return (
     <group ref={mainGroupRef} {...props}>
       {cubes.map((cube) => (
@@ -473,7 +482,7 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
             castShadow={deviceSettings.castShadow}
             receiveShadow={deviceSettings.receiveShadow}
           >
-            {sharedMaterial}
+            <meshPhysicalMaterial {...chromeMaterial} />
           </RoundedBox>
         </group>
       ))}
