@@ -4,36 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Sparkles, ArrowRight, Zap, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
+import { RubiksCube } from "@/components/ui/rubik-s-cube";
 
 const LinkCustomizer = () => {
   return (
     <section className="relative py-20 overflow-hidden bg-black">
-      {/* Neon Background Effects */}
+      {/* 3D Background */}
       <div className="absolute inset-0">
-        {/* Animated neon gradients */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
-        
-        {/* Scrolling neon lines */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-[slide-in-right_3s_ease-in-out_infinite]"></div>
-          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-[slide-in-right_4s_ease-in-out_infinite_0.5s]"></div>
-          <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-[slide-in-right_5s_ease-in-out_infinite_1s]"></div>
-        </div>
-        
-        {/* Floating neon particles */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-blue-400 rounded-full blur-sm animate-bounce"></div>
-          <div className="absolute top-1/2 left-1/4 w-1 h-1 bg-purple-400 rounded-full blur-sm animate-bounce delay-500"></div>
-          <div className="absolute top-3/4 right-1/3 w-1.5 h-1.5 bg-cyan-400 rounded-full blur-sm animate-bounce delay-1000"></div>
-        </div>
+        <RubiksCube />
       </div>
       
       {/* Light Effect Overlay */}
       <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-blue-200 opacity-5 rounded-full blur-2xl"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-transparent to-purple-900/10"></div>
       </div>
 
       <div className="container relative z-10">
