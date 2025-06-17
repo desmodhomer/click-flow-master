@@ -3,6 +3,7 @@ import { useState } from "react";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import LinkPreview from "@/components/LinkPreview";
+import ProfileCustomization from "@/components/ProfileCustomization";
 import LinkCustomizerFeatures from "@/components/LinkCustomizerFeatures";
 import LinkCustomizerHero from "@/components/LinkCustomizerHero";
 import Header from "@/components/Header";
@@ -15,6 +16,9 @@ const LinkCustomizerPage = () => {
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
   const [backgroundTheme, setBackgroundTheme] = useState("gradient-blue");
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [coverImageUrl, setCoverImageUrl] = useState("");
+  const [customBackgroundUrl, setCustomBackgroundUrl] = useState("");
   const [generatedLink, setGeneratedLink] = useState("");
 
   const handleLinkGenerated = (link: string) => {
@@ -51,7 +55,7 @@ const LinkCustomizerPage = () => {
             {/* Main Tool */}
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 max-w-6xl mx-auto">
               {/* Form Section */}
-              <div className="order-2 lg:order-1">
+              <div className="order-2 lg:order-1 space-y-6">
                 <LinkCustomizerForm
                   onLinkGenerated={handleLinkGenerated}
                   originalUrl={originalUrl}
@@ -62,6 +66,15 @@ const LinkCustomizerPage = () => {
                   setTitle={setTitle}
                   description={description}
                   setDescription={setDescription}
+                />
+
+                <ProfileCustomization
+                  profileImageUrl={profileImageUrl}
+                  setProfileImageUrl={setProfileImageUrl}
+                  coverImageUrl={coverImageUrl}
+                  setCoverImageUrl={setCoverImageUrl}
+                  customBackgroundUrl={customBackgroundUrl}
+                  setCustomBackgroundUrl={setCustomBackgroundUrl}
                 />
               </div>
 
@@ -74,6 +87,9 @@ const LinkCustomizerPage = () => {
                   displayName={displayName}
                   bio={bio}
                   backgroundTheme={backgroundTheme}
+                  profileImageUrl={profileImageUrl}
+                  coverImageUrl={coverImageUrl}
+                  customBackgroundUrl={customBackgroundUrl}
                 />
               </div>
             </div>

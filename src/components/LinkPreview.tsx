@@ -12,6 +12,9 @@ interface LinkPreviewProps {
   displayName?: string;
   bio?: string;
   backgroundTheme?: string;
+  profileImageUrl?: string;
+  coverImageUrl?: string;
+  customBackgroundUrl?: string;
 }
 
 const LinkPreview = ({ 
@@ -20,7 +23,10 @@ const LinkPreview = ({
   description,
   displayName,
   bio,
-  backgroundTheme = 'gradient-blue'
+  backgroundTheme = 'gradient-blue',
+  profileImageUrl,
+  coverImageUrl,
+  customBackgroundUrl
 }: LinkPreviewProps) => {
   const { toast } = useToast();
 
@@ -69,6 +75,21 @@ const LinkPreview = ({
       </Card>
     );
   }
+
+  // Determine background style
+  const getBackgroundStyle = () => {
+    if (customBackgroundUrl) {
+      return {
+        backgroundImage: `url(${customBackgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    }
+    return {};
+  };
+
+  const backgroundClass = customBackgroundUrl ? '' : selectedTheme.class;
 
   return (
     <div className="space-y-6">
@@ -125,51 +146,71 @@ const LinkPreview = ({
             <div className="bg-white rounded-lg overflow-hidden shadow-xl max-w-sm mx-auto">
               {/* Mobile Preview */}
               <div 
-                className={`${selectedTheme.class} px-6 py-8 text-center min-h-[400px] flex flex-col justify-center`}
+                className={`${backgroundClass} relative px-6 py-8 text-center min-h-[400px] flex flex-col justify-center`}
+                style={getBackgroundStyle()}
               >
-                {/* Profile Image Placeholder */}
-                <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-white text-2xl font-bold">
-                    {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
-                  </span>
-                </div>
-
-                {/* Display Name */}
-                {displayName && (
-                  <h1 className="text-white text-xl font-bold mb-2">
-                    {displayName}
-                  </h1>
+                {/* Cover Image */}
+                {coverImageUrl && (
+                  <div className="absolute top-0 left-0 right-0 h-24 bg-cover bg-center bg-no-repeat" 
+                       style={{ backgroundImage: `url(${coverImageUrl})` }}>
+                    <div className="absolute inset-0 bg-black/30"></div>
+                  </div>
                 )}
 
-                {/* Title */}
-                {title && (
-                  <h2 className="text-white/90 text-lg font-semibold mb-2">
-                    {title}
-                  </h2>
-                )}
+                {/* Content with backdrop if cover image exists */}
+                <div className={`relative ${coverImageUrl ? 'mt-16' : ''} ${customBackgroundUrl ? 'backdrop-blur-sm bg-black/30 rounded-lg p-4' : ''}`}>
+                  {/* Profile Image */}
+                  <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/30">
+                    {profileImageUrl ? (
+                      <img 
+                        src={profileImageUrl} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-white text-2xl font-bold">
+                        {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
+                      </span>
+                    )}
+                  </div>
 
-                {/* Bio */}
-                {bio && (
-                  <p className="text-white/80 text-sm mb-4 max-w-xs mx-auto">
-                    {bio}
-                  </p>
-                )}
+                  {/* Display Name */}
+                  {displayName && (
+                    <h1 className="text-white text-xl font-bold mb-2 drop-shadow-lg">
+                      {displayName}
+                    </h1>
+                  )}
 
-                {/* Description */}
-                {description && (
-                  <p className="text-white/70 text-xs mb-6 max-w-xs mx-auto">
-                    {description}
-                  </p>
-                )}
+                  {/* Title */}
+                  {title && (
+                    <h2 className="text-white/90 text-lg font-semibold mb-2 drop-shadow-lg">
+                      {title}
+                    </h2>
+                  )}
 
-                {/* Main Link Button */}
-                <div className="space-y-3">
-                  <Button 
-                    className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30"
-                    size="sm"
-                  >
-                    Vai al Link Principale
-                  </Button>
+                  {/* Bio */}
+                  {bio && (
+                    <p className="text-white/80 text-sm mb-4 max-w-xs mx-auto drop-shadow-lg">
+                      {bio}
+                    </p>
+                  )}
+
+                  {/* Description */}
+                  {description && (
+                    <p className="text-white/70 text-xs mb-6 max-w-xs mx-auto drop-shadow-lg">
+                      {description}
+                    </p>
+                  )}
+
+                  {/* Main Link Button */}
+                  <div className="space-y-3">
+                    <Button 
+                      className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30"
+                      size="sm"
+                    >
+                      Vai al Link Principale
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

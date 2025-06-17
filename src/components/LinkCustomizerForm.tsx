@@ -10,7 +10,7 @@ import { Loader2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { CustomLinkProfile, SocialLink } from "@/types/customLink";
+import { SocialLink } from "@/types/customLink";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
@@ -92,7 +92,7 @@ const LinkCustomizerForm = ({
         return;
       }
 
-      // Insert new custom link with all the new fields
+      // Insert new custom link with all the new fields, converting socialLinks to JSON
       const { data, error } = await supabase
         .from('custom_links')
         .insert({
@@ -103,7 +103,7 @@ const LinkCustomizerForm = ({
           display_name: displayName || null,
           bio: bio || null,
           background_theme: backgroundTheme,
-          social_links: socialLinks,
+          social_links: socialLinks as any, // Cast to any to satisfy Json type
           user_id: user?.id || null
         })
         .select()
