@@ -7,6 +7,7 @@ import ProfileCustomization from "@/components/ProfileCustomization";
 import LinkCustomizerFeatures from "@/components/LinkCustomizerFeatures";
 import LinkCustomizerHero from "@/components/LinkCustomizerHero";
 import Header from "@/components/Header";
+import { SocialLink } from "@/types/customLink";
 
 const LinkCustomizerPage = () => {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -19,6 +20,7 @@ const LinkCustomizerPage = () => {
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [customBackgroundUrl, setCustomBackgroundUrl] = useState("");
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [generatedLink, setGeneratedLink] = useState("");
 
   const handleLinkGenerated = (link: string) => {
@@ -66,6 +68,14 @@ const LinkCustomizerPage = () => {
                   setTitle={setTitle}
                   description={description}
                   setDescription={setDescription}
+                  displayName={displayName}
+                  setDisplayName={setDisplayName}
+                  bio={bio}
+                  setBio={setBio}
+                  backgroundTheme={backgroundTheme}
+                  setBackgroundTheme={setBackgroundTheme}
+                  socialLinks={socialLinks}
+                  setSocialLinks={setSocialLinks}
                 />
 
                 <ProfileCustomization
@@ -90,6 +100,7 @@ const LinkCustomizerPage = () => {
                   profileImageUrl={profileImageUrl}
                   coverImageUrl={coverImageUrl}
                   customBackgroundUrl={customBackgroundUrl}
+                  socialLinks={socialLinks}
                 />
               </div>
             </div>

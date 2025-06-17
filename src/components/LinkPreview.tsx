@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { BACKGROUND_THEMES } from "@/types/customLink";
+import { BACKGROUND_THEMES, SocialLink, SOCIAL_PLATFORMS } from "@/types/customLink";
 
 interface LinkPreviewProps {
   generatedLink: string;
@@ -15,6 +15,7 @@ interface LinkPreviewProps {
   profileImageUrl?: string;
   coverImageUrl?: string;
   customBackgroundUrl?: string;
+  socialLinks?: SocialLink[];
 }
 
 const LinkPreview = ({ 
@@ -26,7 +27,8 @@ const LinkPreview = ({
   backgroundTheme = 'gradient-blue',
   profileImageUrl,
   coverImageUrl,
-  customBackgroundUrl
+  customBackgroundUrl,
+  socialLinks = []
 }: LinkPreviewProps) => {
   const { toast } = useToast();
 
@@ -146,7 +148,7 @@ const LinkPreview = ({
             <div className="bg-white rounded-lg overflow-hidden shadow-xl max-w-sm mx-auto">
               {/* Mobile Preview */}
               <div 
-                className={`${backgroundClass} relative px-6 py-8 text-center min-h-[400px] flex flex-col justify-center`}
+                className={`${backgroundClass} relative px-6 py-8 text-center min-h-[500px] flex flex-col justify-center`}
                 style={getBackgroundStyle()}
               >
                 {/* Cover Image */}
@@ -210,6 +212,33 @@ const LinkPreview = ({
                     >
                       Vai al Link Principale
                     </Button>
+
+                    {/* Social Links */}
+                    {socialLinks.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-white/60 text-xs font-medium">Social Links</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {socialLinks.slice(0, 6).map((link, index) => {
+                            const platform = SOCIAL_PLATFORMS.find(p => p.id === link.platform);
+                            return (
+                              <Button
+                                key={index}
+                                variant="outline"
+                                size="sm"
+                                className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-xs py-1 h-8"
+                              >
+                                {link.display_text || platform?.name || link.platform}
+                              </Button>
+                            );
+                          })}
+                        </div>
+                        {socialLinks.length > 6 && (
+                          <p className="text-white/40 text-xs">
+                            +{socialLinks.length - 6} altri
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
