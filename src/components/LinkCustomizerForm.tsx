@@ -10,6 +10,7 @@ import { Loader2, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { CustomLinkProfile, SocialLink } from "@/types/customLink";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
@@ -35,6 +36,11 @@ const LinkCustomizerForm = ({
   setDescription
 }: LinkCustomizerFormProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [bio, setBio] = useState("");
+  const [backgroundTheme, setBackgroundTheme] = useState("gradient-blue");
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -86,7 +92,7 @@ const LinkCustomizerForm = ({
         return;
       }
 
-      // Insert new custom link
+      // Insert new custom link with all the new fields
       const { data, error } = await supabase
         .from('custom_links')
         .insert({
@@ -94,6 +100,10 @@ const LinkCustomizerForm = ({
           destination_url: originalUrl,
           title: title || "Link Personalizzato",
           description: description || null,
+          display_name: displayName || null,
+          bio: bio || null,
+          background_theme: backgroundTheme,
+          social_links: socialLinks,
           user_id: user?.id || null
         })
         .select()
@@ -177,6 +187,19 @@ const LinkCustomizerForm = ({
         </div>
 
         <div className="space-y-3">
+          <Label htmlFor="display-name" className="text-base font-medium text-gray-200">
+            Nome da Visualizzare
+          </Label>
+          <Input
+            id="display-name"
+            placeholder="Il tuo nome o brand"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            className="h-12 text-base bg-white/10 border-white/30 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400"
+          />
+        </div>
+
+        <div className="space-y-3">
           <Label htmlFor="title" className="text-base font-medium text-gray-200">
             Titolo della pagina
           </Label>
@@ -199,6 +222,20 @@ const LinkCustomizerForm = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
+            className="resize-none bg-white/10 border-white/30 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400"
+          />
+        </div>
+
+        <div className="space-y-3">
+          <Label htmlFor="bio" className="text-base font-medium text-gray-200">
+            Bio/Biografia
+          </Label>
+          <Textarea
+            id="bio"
+            placeholder="Racconta qualcosa di te o del tuo brand..."
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={3}
             className="resize-none bg-white/10 border-white/30 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-blue-400"
           />
         </div>

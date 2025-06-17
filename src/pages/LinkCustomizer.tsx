@@ -12,6 +12,9 @@ const LinkCustomizerPage = () => {
   const [customSlug, setCustomSlug] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [bio, setBio] = useState("");
+  const [backgroundTheme, setBackgroundTheme] = useState("gradient-blue");
   const [generatedLink, setGeneratedLink] = useState("");
 
   const handleLinkGenerated = (link: string) => {
@@ -68,6 +71,9 @@ const LinkCustomizerPage = () => {
                   generatedLink={generatedLink}
                   title={title}
                   description={description}
+                  displayName={displayName}
+                  bio={bio}
+                  backgroundTheme={backgroundTheme}
                 />
               </div>
             </div>

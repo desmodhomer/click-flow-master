@@ -11,34 +11,55 @@ export type Database = {
     Tables: {
       custom_links: {
         Row: {
+          background_theme: string | null
+          bio: string | null
           click_count: number
+          cover_image_url: string | null
           created_at: string
+          custom_background_url: string | null
           description: string | null
           destination_url: string
+          display_name: string | null
           id: string
+          profile_image_url: string | null
           slug: string
+          social_links: Json | null
           title: string | null
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          background_theme?: string | null
+          bio?: string | null
           click_count?: number
+          cover_image_url?: string | null
           created_at?: string
+          custom_background_url?: string | null
           description?: string | null
           destination_url: string
+          display_name?: string | null
           id?: string
+          profile_image_url?: string | null
           slug: string
+          social_links?: Json | null
           title?: string | null
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          background_theme?: string | null
+          bio?: string | null
           click_count?: number
+          cover_image_url?: string | null
           created_at?: string
+          custom_background_url?: string | null
           description?: string | null
           destination_url?: string
+          display_name?: string | null
           id?: string
+          profile_image_url?: string | null
           slug?: string
+          social_links?: Json | null
           title?: string | null
           updated_at?: string
           user_id?: string | null
