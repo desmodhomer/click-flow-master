@@ -78,4 +78,4 @@ export const SOCIAL_PLATFORMS = [
   { id: 'tiktok', name: 'TikTok', icon: 'Music', placeholder: 'https://tiktok.com/@username' },
   { id: 'facebook', name: 'Facebook', icon: 'Facebook', placeholder: 'https://facebook.com/username' },
   { id: 'website', name: 'Website', icon: 'Globe', placeholder: 'https://tuosito.com' }
-] as const;
+];
