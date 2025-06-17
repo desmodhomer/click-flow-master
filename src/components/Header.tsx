@@ -28,6 +28,9 @@ const Header = () => {
           <a href="#pricing" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Pricing
           </a>
+          <Link to="/link-customizer" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+            Crea Link
+          </Link>
           <Link to="/quest" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
             Quest
           </Link>
