@@ -26,8 +26,8 @@ const HeroSection = () => {
             lnki.it
           </h1>
           
-          <p className="text-base md:text-lg text-gray-200 max-w-md leading-relaxed mb-12 font-light text-left">
-            Link shortening veloce e affidabile.
+          <p className="text-lg md:text-xl text-gray-200 max-w-lg leading-relaxed mb-12 font-light text-left">
+            La piattaforma di link shortening più veloce e affidabile per ottimizzare la condivisione dei tuoi contenuti online.
           </p>
         </div>
         
