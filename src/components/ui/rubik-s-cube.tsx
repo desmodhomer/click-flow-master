@@ -11,8 +11,8 @@ import { RoundedBox } from "@react-three/drei";
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      group: any;
-      meshPhysicalMaterial: any;
+      group: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+      meshPhysicalMaterial: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }
   }
 }
