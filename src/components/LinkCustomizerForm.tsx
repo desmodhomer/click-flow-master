@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLink } from "@/types/customLink";
 import SocialLinksManager from "./SocialLinksManager";
+import ThemeCustomization from "./ThemeCustomization";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
@@ -273,6 +274,11 @@ const LinkCustomizerForm = ({
           </Button>
         </CardContent>
       </Card>
+
+      <ThemeCustomization 
+        backgroundTheme={backgroundTheme}
+        setBackgroundTheme={setBackgroundTheme}
+      />
 
       <SocialLinksManager 
         socialLinks={socialLinks}
