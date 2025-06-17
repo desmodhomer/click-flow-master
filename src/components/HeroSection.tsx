@@ -21,12 +21,12 @@ const HeroSection = () => {
       
       {/* Content Overlay */}
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black mb-8 tracking-tight text-white leading-none">
-          LinkMaster
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight text-white leading-none">
+          lnki.it
         </h1>
         
-        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
-          Veloce. Affidabile. Sincero. La piattaforma di link shortening che funziona davvero.
+        <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed mb-12 font-medium">
+          La piattaforma di link shortening veloce e affidabile.
         </p>
         
         <div className="flex justify-center items-center">
