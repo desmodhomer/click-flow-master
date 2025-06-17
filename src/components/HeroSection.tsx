@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
 
@@ -18,26 +19,18 @@ const HeroSection = () => {
       
       {/* Content Overlay */}
       <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold mb-6 tracking-tight text-white leading-tight">
-          Personalizza i tuoi link con stile
+        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black mb-8 tracking-tight text-white leading-none">
+          LinkMaster
         </h1>
         
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8">
-          Crea landing page personalizzate per i tuoi link, monitora le performance e costruisci il tuo brand. 
-          Tutto in un'unica piattaforma potente e intuitiva.
+        <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
+          Veloce. Affidabile. Sincero. La piattaforma di link shortening che funziona davvero.
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
-            Inizia Gratuitamente
+        <div className="flex justify-center items-center">
+          <Button size="lg" className="bg-white text-black hover:bg-gray-100 px-12 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-200">
+            Accedi
           </Button>
-          <Button variant="outline" size="lg" className="border-white px-8 py-3 text-lg text-slate-50 bg-gray-950 hover:bg-gray-800">
-            Guarda Demo
-          </Button>
-        </div>
-        
-        <div className="mt-12 text-sm text-gray-400 opacity-75">
-          <p>Trusted by 10,000+ creators worldwide</p>
         </div>
       </div>
     </section>
