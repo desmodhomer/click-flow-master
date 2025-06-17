@@ -22,7 +22,7 @@ const HeroSection = () => {
       {/* Content Overlay */}
       <div className="relative z-10 h-full flex flex-col justify-center px-4 md:px-8 lg:px-16">
         <div className="max-w-4xl">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium mb-4 tracking-tight text-white leading-none font-sans text-left">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium mb-4 tracking-tight text-white leading-none font-sans text-left">
             lnki.it
           </h1>
           
