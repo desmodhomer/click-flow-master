@@ -3,7 +3,6 @@ import { useState } from "react";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import LinkPreview from "@/components/LinkPreview";
-import ProfileCustomization from "@/components/ProfileCustomization";
 import LinkCustomizerFeatures from "@/components/LinkCustomizerFeatures";
 import LinkCustomizerHero from "@/components/LinkCustomizerHero";
 import Header from "@/components/Header";
@@ -76,9 +75,6 @@ const LinkCustomizerPage = () => {
                   setBackgroundTheme={setBackgroundTheme}
                   socialLinks={socialLinks}
                   setSocialLinks={setSocialLinks}
-                />
-
-                <ProfileCustomization
                   profileImageUrl={profileImageUrl}
                   setProfileImageUrl={setProfileImageUrl}
                   coverImageUrl={coverImageUrl}
