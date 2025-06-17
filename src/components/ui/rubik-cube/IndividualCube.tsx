@@ -20,7 +20,7 @@ export const IndividualCube: React.FC<IndividualCubeProps> = ({
   deviceSettings
 }) => {
   const chromeMaterial = useMemo(() => ({
-    color: '#404040',
+    color: '#000000',
     metalness: 0.8,
     roughness: 0.2,
     clearcoat: 1,
