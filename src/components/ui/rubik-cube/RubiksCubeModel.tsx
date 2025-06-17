@@ -15,7 +15,7 @@ export const RubiksCubeModel = forwardRef<RubiksCubeRef, RubiksCubeModelProps>((
   const lastMoveAxisRef = useRef<string | null>(null);
   const isMountedRef = useRef(true);
   
-  const [size, setSize] = useState(1.2);
+  const [size, setSize] = useState(1.6);
   const [cubes, setCubes] = useState<CubeData[]>([]);
 
   const resetCube = useCallback(() => {
