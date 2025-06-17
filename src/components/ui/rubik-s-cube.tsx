@@ -1,4 +1,3 @@
-
 import { Canvas } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
@@ -7,6 +6,16 @@ import * as THREE from 'three';
 import React, { Suspense, useRef, useState, useEffect, forwardRef, useMemo, useCallback } from "react";
 import { Vector3, Matrix4, Quaternion } from "three";
 import { RoundedBox } from "@react-three/drei";
+
+// Extend Three.js JSX elements
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      group: any;
+      meshPhysicalMaterial: any;
+    }
+  }
+}
 
 interface RubiksCubeModelProps {
   position?: [number, number, number];
@@ -27,7 +36,11 @@ interface Move {
   rotationAngle?: number;
 }
 
-const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, ref) => {
+interface RubiksCubeRef {
+  reset: () => void;
+}
+
+const RubiksCubeModel = forwardRef<RubiksCubeRef, RubiksCubeModelProps>((props, ref) => {
   const ANIMATION_DURATION = 1.2;
   const GAP = 0.01;
   const RADIUS = 0.075;
@@ -61,7 +74,6 @@ const RubiksCubeModel = forwardRef<THREE.Group, RubiksCubeModelProps>((props, re
   const reusableQuaternion = useMemo(() => new Quaternion(), []);
   
   React.useImperativeHandle(ref, () => ({
-    ...(mainGroupRef.current || {}),
     reset: resetCube
   }));
 
