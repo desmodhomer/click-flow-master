@@ -35,7 +35,7 @@ const HeroSection = () => {
               <TooltipTrigger asChild>
                 <Button 
                   size="lg" 
-                  className="bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white/30 px-8 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                  className="bg-white/30 backdrop-blur-md text-black border border-white/50 hover:bg-white/40 px-8 py-4 text-xl font-bold rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
                 >
                   <LogIn className="w-6 h-6" />
                   Accedi
