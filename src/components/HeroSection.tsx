@@ -35,9 +35,24 @@ const HeroSection = () => {
               <TooltipTrigger asChild>
                 <Button 
                   size="icon"
-                  className="bg-white/30 backdrop-blur-md text-black border border-white/50 hover:bg-white/40 w-16 h-16 rounded-full shadow-2xl transform hover:scale-105 transition-all duration-300"
+                  className="relative bg-white text-black border-2 border-white w-20 h-20 rounded-full shadow-2xl overflow-hidden group transition-all duration-500 hover:shadow-white/25 hover:shadow-3xl hover:scale-110 hover:rotate-6 active:scale-95 active:rotate-12"
                 >
-                  <LogIn className="w-8 h-8" />
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Ripple effect on hover */}
+                  <div className="absolute inset-0 rounded-full bg-white/30 scale-0 group-hover:scale-150 group-active:scale-110 transition-transform duration-700 ease-out"></div>
+                  
+                  {/* Pulsating ring */}
+                  <div className="absolute inset-0 rounded-full border-2 border-white/50 scale-100 group-hover:scale-125 group-hover:border-white/20 transition-all duration-1000 animate-pulse"></div>
+                  
+                  {/* Icon with animation */}
+                  <LogIn className="relative z-10 w-10 h-10 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 group-active:scale-90" />
+                  
+                  {/* Sparkle effects */}
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300 delay-100"></div>
+                  <div className="absolute bottom-3 left-3 w-1.5 h-1.5 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300 delay-200"></div>
+                  <div className="absolute top-4 left-2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300 delay-300"></div>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
