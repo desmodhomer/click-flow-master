@@ -1,6 +1,7 @@
 
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import { SceneContent } from './rubik-cube/SceneContent';
 
 const RubiksCube = () => {

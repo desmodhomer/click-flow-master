@@ -1,13 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { Scene } from "@/components/ui/rubik-s-cube";
+import { RubiksCube } from "@/components/ui/rubik-s-cube";
 
 const HeroSection = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* 3D Background */}
       <div className="absolute inset-0">
-        <Scene />
+        <RubiksCube />
       </div>
       
       {/* Content Overlay */}
