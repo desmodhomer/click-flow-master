@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -19,14 +20,16 @@ const HeroSection = () => {
       </div>
       
       {/* Content Overlay */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium mb-8 tracking-tight text-white leading-none font-sans">
-          lnki.it
-        </h1>
-        
-        <p className="text-base md:text-lg text-gray-200 max-w-md mx-auto leading-relaxed mb-12 font-light">
-          Link shortening veloce e affidabile.
-        </p>
+      <div className="relative z-10 h-full flex flex-col justify-center px-4 md:px-8 lg:px-16">
+        <div className="max-w-4xl">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium mb-8 tracking-tight text-white leading-none font-sans text-left">
+            lnki.it
+          </h1>
+          
+          <p className="text-base md:text-lg text-gray-200 max-w-md leading-relaxed mb-12 font-light text-left">
+            Link shortening veloce e affidabile.
+          </p>
+        </div>
         
         <div className="flex justify-center items-center">
           <TooltipProvider>
