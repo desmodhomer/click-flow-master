@@ -1,14 +1,11 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
 import { RubiksCube } from "@/components/ui/rubik-s-cube";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import LinkPreview from "@/components/LinkPreview";
 import LinkCustomizerFeatures from "@/components/LinkCustomizerFeatures";
 import LinkCustomizerHero from "@/components/LinkCustomizerHero";
+import Header from "@/components/Header";
 
 const LinkCustomizerPage = () => {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -35,9 +32,12 @@ const LinkCustomizerPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
       </div>
       
+      {/* Header Navigation */}
+      <Header />
+      
       {/* Content Overlay */}
       <div className="relative z-10 min-h-screen flex flex-col px-4 sm:px-6 md:px-8 lg:px-16">
-        <div className="flex-1 flex flex-col justify-center py-8 sm:py-12 lg:py-16">
+        <div className="flex-1 flex flex-col justify-center py-8 sm:py-12 lg:py-16 pt-24">
           <div className="max-w-7xl mx-auto w-full space-y-8 sm:space-y-12">
             {/* Hero Title */}
             <LinkCustomizerHero />
@@ -72,28 +72,6 @@ const LinkCustomizerPage = () => {
               </div>
             </div>
           </div>
-        </div>
-        
-        {/* Back Button - Bottom Left */}
-        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 lg:left-16 z-20">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to="/">
-                  <Button 
-                    className="bg-transparent text-white border border-white/30 hover:bg-white/10 hover:border-white/50 transition-all duration-300 rounded-full px-4 py-2 sm:px-6 flex items-center gap-2 text-sm sm:text-base"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span className="hidden sm:inline">Torna alla Home</span>
-                    <span className="sm:hidden">Home</span>
-                  </Button>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Torna alla pagina principale</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         </div>
       </div>
     </section>
