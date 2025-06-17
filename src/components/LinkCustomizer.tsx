@@ -8,7 +8,7 @@ import { RubiksCube } from "@/components/ui/rubik-s-cube";
 
 const LinkCustomizer = () => {
   return (
-    <section className="relative py-20 overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* 3D Background */}
       <div className="absolute inset-0">
         <RubiksCube />
@@ -21,7 +21,8 @@ const LinkCustomizer = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-transparent"></div>
       </div>
 
-      <div className="container relative z-10">
+      {/* Content Overlay */}
+      <div className="relative z-10 h-full flex flex-col justify-center px-4 md:px-8 lg:px-16">
         <div className="text-center mb-12 animate-fade-in">
           <div className="inline-flex items-center space-x-2 mb-6">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
@@ -32,10 +33,10 @@ const LinkCustomizer = () => {
             <div className="h-px w-12 bg-gradient-to-r from-purple-500 to-cyan-500"></div>
           </div>
           
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium mb-4 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent tracking-tight leading-none font-sans">
             Crea il tuo link personalizzato
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed font-light">
             Trasforma qualsiasi URL in un sottodominio brandizzato su lnkfire.dev
           </p>
         </div>
