@@ -20,16 +20,16 @@ export const IndividualCube: React.FC<IndividualCubeProps> = ({
   deviceSettings
 }) => {
   const chromeMaterial = useMemo(() => ({
-    color: '#000000',
-    metalness: 0.5,
-    roughness: 0.5,
-    clearcoat: 0,
-    clearcoatRoughness: 0,
-    reflectivity: 0.5,
-    iridescence: 0,
-    iridescenceIOR: 0,
+    color: '#ffffff',
+    metalness: 0.8,
+    roughness: 0.2,
+    clearcoat: 1,
+    clearcoatRoughness: 0.1,
+    reflectivity: 0.9,
+    iridescence: 0.3,
+    iridescenceIOR: 1.3,
     iridescenceThicknessRange: [100, 400],
-    envMapIntensity: 8
+    envMapIntensity: 1.5
   }), []);
 
   return (

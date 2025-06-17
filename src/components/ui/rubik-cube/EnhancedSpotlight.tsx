@@ -13,13 +13,17 @@ export function EnhancedSpotlight() {
   }, []);
   
   return (
-    <spotLight 
-      ref={light}
-      position={[10, 10, 5]}
-      angle={0.3}
-      penumbra={1}
-      intensity={1}
-      castShadow
-    />
+    <>
+      <spotLight 
+        ref={light}
+        position={[10, 10, 5]}
+        angle={0.4}
+        penumbra={0.5}
+        intensity={2}
+        castShadow
+      />
+      <pointLight position={[-5, 5, 5]} intensity={0.8} color="#ffffff" />
+      <pointLight position={[5, -5, -5]} intensity={0.6} color="#ffffff" />
+    </>
   );
 }

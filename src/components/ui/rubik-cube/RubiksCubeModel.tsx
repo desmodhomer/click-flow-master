@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from "react";
 import * as THREE from 'three';
 import { RubiksCubeModelProps, RubiksCubeRef, CubeData } from "./types";
@@ -9,14 +8,14 @@ import { useCubeMovementLogic } from "./CubeMovementLogic";
 import { useViewportManager } from "./ViewportManager";
 
 export const RubiksCubeModel = forwardRef<RubiksCubeRef, RubiksCubeModelProps>((props, ref) => {
-  const GAP = 0.01;
-  const RADIUS = 0.075;
+  const GAP = 0.02;
+  const RADIUS = 0.1;
   
   const mainGroupRef = useRef<THREE.Group>(null);
   const lastMoveAxisRef = useRef<string | null>(null);
   const isMountedRef = useRef(true);
   
-  const [size, setSize] = useState(0.8);
+  const [size, setSize] = useState(1.2);
   const [cubes, setCubes] = useState<CubeData[]>([]);
 
   const resetCube = useCallback(() => {
@@ -76,7 +75,6 @@ export const RubiksCubeModel = forwardRef<RubiksCubeRef, RubiksCubeModelProps>((
     resetAnimation();
   }, [resetCube, resetAnimation]);
 
-  // Update the reset function to include animation reset
   React.useImperativeHandle(ref, () => ({
     reset: handleReset
   }));
