@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import * as THREE from 'three';
 
-export function EnhancedSpotlight(props: any) {
+export function EnhancedSpotlight() {
   const light = useRef<THREE.SpotLight>(null);
   
   useEffect(() => {
@@ -20,7 +20,6 @@ export function EnhancedSpotlight(props: any) {
       penumbra={1}
       intensity={1}
       castShadow
-      {...props}
     />
   );
 }

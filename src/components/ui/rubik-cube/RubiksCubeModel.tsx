@@ -1,3 +1,4 @@
+
 import React, { Suspense, useRef, useState, useEffect, forwardRef, useCallback } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from 'three';
@@ -311,7 +312,7 @@ export const RubiksCubeModel = forwardRef<RubiksCubeRef, RubiksCubeModelProps>((
   });
 
   return (
-    <group ref={mainGroupRef} {...props}>
+    <group ref={mainGroupRef}>
       {cubes.map((cube) => (
         <IndividualCube
           key={cube.id}
