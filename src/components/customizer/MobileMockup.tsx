@@ -73,23 +73,23 @@ const MobileMockup = ({
           <div className="w-full h-full bg-black rounded-[20px] overflow-hidden relative">
             
             {/* Notch più piccolo */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[100px] h-[20px] bg-black rounded-b-[10px] z-50 flex items-center justify-center gap-1">
-              <div className="w-[6px] h-[6px] bg-gray-700 rounded-full shadow-inner"></div>
-              <div className="w-[25px] h-[3px] bg-gray-700 rounded-full"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[100px] h-[16px] bg-black rounded-b-[8px] z-50 flex items-center justify-center gap-1">
+              <div className="w-[5px] h-[5px] bg-gray-700 rounded-full shadow-inner"></div>
+              <div className="w-[20px] h-[2px] bg-gray-700 rounded-full"></div>
             </div>
             
-            {/* Status Bar */}
-            <div className="absolute top-[25px] left-0 right-0 px-3 flex items-center justify-between text-white text-xs font-medium z-40">
+            {/* Status Bar - Ridotta altezza */}
+            <div className="absolute top-[18px] left-0 right-0 px-3 py-1 flex items-center justify-between text-white text-[10px] font-medium z-40">
               <div className="ml-1 font-semibold">12:30</div>
               <div className="flex items-center gap-1 mr-1">
-                <Signal className="h-2.5 w-2.5" />
-                <Wifi className="h-2.5 w-2.5" />
-                <Battery className="h-2.5 w-2.5" />
+                <Signal className="h-2 w-2" />
+                <Wifi className="h-2 w-2" />
+                <Battery className="h-2 w-2" />
               </div>
             </div>
             
             {/* Safari Browser UI più compatto */}
-            <div className="absolute top-[45px] left-0 right-0 bg-gray-50 px-2 py-1 flex items-center gap-1 border-b border-gray-200 z-30">
+            <div className="absolute top-[38px] left-0 right-0 bg-gray-50 px-2 py-1 flex items-center gap-1 border-b border-gray-200 z-30">
               <div className="flex-1 bg-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-700 font-medium">
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-green-500 rounded-full flex items-center justify-center">
@@ -103,7 +103,7 @@ const MobileMockup = ({
             </div>
             
             {/* Website Content - Area scrollabile compatta */}
-            <ScrollArea className="h-[calc(100%-70px)] mt-[70px]">
+            <ScrollArea className="h-[calc(100%-63px)] mt-[63px]">
               <div 
                 className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
