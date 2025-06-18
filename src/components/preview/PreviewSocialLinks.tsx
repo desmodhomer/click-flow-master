@@ -12,30 +12,38 @@ const PreviewSocialLinks = ({ socialLinks }: PreviewSocialLinksProps) => {
   }
 
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8">
-      <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center gap-3">
-        <Globe className="h-6 w-6 text-blue-600" />
-        I miei social
+    <div className="px-4 mb-4">
+      {/* Header più compatto senza sfondo */}
+      <h3 className="text-sm font-semibold text-white/90 mb-3 text-center flex items-center justify-center gap-2">
+        <Globe className="h-4 w-4" />
+        Social Links
       </h3>
-      <div className="grid gap-4">
+      
+      {/* Links più compatti e moderni */}
+      <div className="space-y-2">
         {socialLinks.map((social, index) => (
           <div
             key={index}
-            className="h-16 justify-start bg-gradient-to-r from-gray-50 to-blue-50 border-2 border-gray-200/50 transition-all duration-300 rounded-lg p-4"
+            className="bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
           >
-            <div className="flex items-center gap-4 w-full">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white text-lg font-bold shadow-lg">
+            <div className="flex items-center gap-3">
+              {/* Icon più piccola e colorata */}
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg">
                 {social.platform.charAt(0).toUpperCase()}
               </div>
-              <div className="flex-1 text-left">
-                <div className="font-semibold text-gray-800 text-lg">
+              
+              {/* Testo più pulito */}
+              <div className="flex-1">
+                <div className="font-medium text-gray-800 text-sm">
                   {social.display_text || social.platform}
                 </div>
-                <div className="text-sm text-gray-500">
-                  Clicca per visitare il mio {social.platform}
+                <div className="text-xs text-gray-500 truncate">
+                  Tocca per visitare
                 </div>
               </div>
-              <ExternalLink className="h-5 w-5 text-gray-400" />
+              
+              {/* Arrow icon più piccola */}
+              <ExternalLink className="h-4 w-4 text-gray-400" />
             </div>
           </div>
         ))}
