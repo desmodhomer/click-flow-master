@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
@@ -104,21 +103,11 @@ const ButtonCustomizationControls = ({
 
   const handleCustomColorSubmit = () => {
     const customColorId = `custom-${Date.now()}`;
-    const textColor = isLightColor(customColorCode) ? 'text-gray-900' : 'text-white';
     const customColorClass = `text-white hover:opacity-90`;
     
     onButtonDesignUpdate('color', customColorId);
     onButtonDesignUpdate('customColorCode', customColorCode);
     onButtonDesignUpdate('customColorClass', customColorClass);
-  };
-
-  const handleSocialPlatformColor = (platform: any) => {
-    const socialColorId = `social-${platform.id}`;
-    const textColor = isLightColor(platform.color) ? 'text-gray-900' : 'text-white';
-    
-    onButtonDesignUpdate('color', socialColorId);
-    onButtonDesignUpdate('customColorCode', platform.color);
-    onButtonDesignUpdate('socialPlatform', platform.id);
   };
 
   const isLightColor = (color: string) => {
@@ -246,33 +235,6 @@ const ButtonCustomizationControls = ({
                 <span className="text-xs">{color.name}</span>
               </Button>
             ))}
-          </div>
-        </div>
-
-        {/* Colori Social Platform */}
-        <div className="space-y-3">
-          <h5 className="text-xs font-medium text-gray-600">Social Platform</h5>
-          <div className="grid grid-cols-2 gap-2">
-            {socialPlatformColors.map((platform) => {
-              const IconComponent = platform.icon;
-              return (
-                <Button
-                  key={platform.id}
-                  variant={currentColor === `social-${platform.id}` ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => handleSocialPlatformColor(platform)}
-                  className="w-full justify-start h-10"
-                >
-                  <div 
-                    className="w-5 h-5 rounded mr-2 border border-gray-200 flex items-center justify-center" 
-                    style={{ backgroundColor: platform.color }}
-                  >
-                    <IconComponent className="w-3 h-3 text-white" />
-                  </div>
-                  <span className="text-xs">{platform.name}</span>
-                </Button>
-              );
-            })}
           </div>
         </div>
 

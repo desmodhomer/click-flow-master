@@ -1,6 +1,23 @@
 
-import { ExternalLink } from "lucide-react";
 import { CustomButton } from "@/components/customizer/ConfigurationPanel";
+import {
+  TwitterIcon,
+  FacebookIcon,
+  InstagramIcon,
+  GoogleIcon,
+  WhatsAppIcon,
+  YouTubeIcon,
+  PinterestIcon,
+  LinkedInIcon,
+  SpotifyIcon,
+  VimeoIcon,
+  DribbbleIcon,
+  BehanceIcon,
+  StackOverflowIcon,
+  SkypeIcon,
+  TumblrIcon,
+  SnapchatIcon
+} from "@/components/customizer/button-design/SocialPlatformIcons";
 
 interface PreviewMainCTAProps {
   customButtons?: CustomButton[];
@@ -11,6 +28,32 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
   if (customButtons.length === 0) {
     return null;
   }
+
+  const socialIcons = {
+    twitter: TwitterIcon,
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+    google: GoogleIcon,
+    whatsapp: WhatsAppIcon,
+    youtube: YouTubeIcon,
+    pinterest: PinterestIcon,
+    linkedin: LinkedInIcon,
+    spotify: SpotifyIcon,
+    vimeo: VimeoIcon,
+    dribbble: DribbbleIcon,
+    behance: BehanceIcon,
+    stackoverflow: StackOverflowIcon,
+    skype: SkypeIcon,
+    tumblr: TumblrIcon,
+    snapchat: SnapchatIcon
+  };
+
+  const getButtonIcon = (button: CustomButton) => {
+    if (!button.icon || !socialIcons[button.icon as keyof typeof socialIcons]) {
+      return null;
+    }
+    return socialIcons[button.icon as keyof typeof socialIcons];
+  };
 
   const getButtonClasses = (button: CustomButton) => {
     const styleClasses = {
@@ -35,7 +78,7 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
       'gradient-blue': 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700',
       'gradient-orange': 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600',
       'gradient-green': 'bg-gradient-to-r from-green-500 to-teal-500 text-white hover:from-green-600 hover:to-teal-600',
-      'gradient-pink': 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600'
+      'gradient-pink':  'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600'
     };
 
     const sizeClasses = {
@@ -102,21 +145,21 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
     return spacing;
   };
 
-  // Use spacing from first button or default to 3
-  const spacing = customButtons[0]?.spacing || 3;
-
   return (
     <div className="px-4 mb-3">
-      {customButtons.map((button, index) => (
-        <div 
-          key={button.id} 
-          className={getButtonClasses(button)}
-          style={getButtonStyle(button)}
-        >
-          <ExternalLink className="mr-2 h-4 w-4" />
-          {button.text || 'Pulsante'}
-        </div>
-      ))}
+      {customButtons.map((button, index) => {
+        const IconComponent = getButtonIcon(button);
+        return (
+          <div 
+            key={button.id} 
+            className={getButtonClasses(button)}
+            style={getButtonStyle(button)}
+          >
+            {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+            {button.text || 'Pulsante'}
+          </div>
+        );
+      })}
     </div>
   );
 };

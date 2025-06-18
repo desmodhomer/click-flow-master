@@ -1,6 +1,23 @@
-
 import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../ConfigurationPanel";
+import {
+  TwitterIcon,
+  FacebookIcon,
+  InstagramIcon,
+  GoogleIcon,
+  WhatsAppIcon,
+  YouTubeIcon,
+  PinterestIcon,
+  LinkedInIcon,
+  SpotifyIcon,
+  VimeoIcon,
+  DribbbleIcon,
+  BehanceIcon,
+  StackOverflowIcon,
+  SkypeIcon,
+  TumblrIcon,
+  SnapchatIcon
+} from "./SocialPlatformIcons";
 
 interface ButtonPreviewProps {
   customButtons: CustomButton[];
@@ -68,6 +85,32 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
     return isLast ? {} : { marginBottom };
   };
 
+  const socialIcons = {
+    twitter: TwitterIcon,
+    facebook: FacebookIcon,
+    instagram: InstagramIcon,
+    google: GoogleIcon,
+    whatsapp: WhatsAppIcon,
+    youtube: YouTubeIcon,
+    pinterest: PinterestIcon,
+    linkedin: LinkedInIcon,
+    spotify: SpotifyIcon,
+    vimeo: VimeoIcon,
+    dribbble: DribbbleIcon,
+    behance: BehanceIcon,
+    stackoverflow: StackOverflowIcon,
+    skype: SkypeIcon,
+    tumblr: TumblrIcon,
+    snapchat: SnapchatIcon
+  };
+
+  const getButtonIcon = (button: CustomButton) => {
+    if (!button.icon || !socialIcons[button.icon as keyof typeof socialIcons]) {
+      return null;
+    }
+    return socialIcons[button.icon as keyof typeof socialIcons];
+  };
+
   const getButtonStyle = (button: CustomButton, index: number, isLast: boolean) => {
     const spacing = getButtonSpacing(button.spacing || currentSpacing, index, isLast);
     
@@ -107,27 +150,31 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
         <div>
           {selectedButtonId === "all" ? (
             // Mostra tutti i pulsanti se "all" è selezionato
-            customButtons.map((button, index) => (
-              <div 
-                key={button.id}
-                className={getButtonClasses(button)}
-                style={getButtonStyle(button, index, index === customButtons.length - 1)}
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                {button.text || `Pulsante ${index + 1}`}
-              </div>
-            ))
+            customButtons.map((button, index) => {
+              const IconComponent = getButtonIcon(button);
+              return (
+                <div 
+                  key={button.id}
+                  className={getButtonClasses(button)}
+                  style={getButtonStyle(button, index, index === customButtons.length - 1)}
+                >
+                  {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+                  {button.text || `Pulsante ${index + 1}`}
+                </div>
+              );
+            })
           ) : (
             // Mostra solo il pulsante selezionato
             (() => {
               const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
               if (!selectedButton) return null;
+              const IconComponent = getButtonIcon(selectedButton);
               return (
                 <div 
                   className={getButtonClasses(selectedButton)}
                   style={getButtonStyle(selectedButton, 0, true)}
                 >
-                  <ExternalLink className="mr-2 h-4 w-4" />
+                  {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
                   {selectedButton.text || 'Pulsante'}
                 </div>
               );
