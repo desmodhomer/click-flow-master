@@ -43,8 +43,17 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
   };
 
   const getSpacingClass = (spacing?: number) => {
+    const spacingClasses = {
+      1: 'space-y-1',
+      2: 'space-y-2',
+      3: 'space-y-3',
+      4: 'space-y-4',
+      5: 'space-y-5',
+      6: 'space-y-6'
+    };
+    
     const spacingValue = spacing || 3;
-    return `space-y-${spacingValue}`;
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'space-y-3';
   };
 
   // Use spacing from first button or default to 3
