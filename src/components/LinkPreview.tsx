@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Eye } from "lucide-react";
+import { Copy, ExternalLink, Eye, Monitor } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BACKGROUND_THEMES, SocialLink, SOCIAL_PLATFORMS } from "@/types/customLink";
 
@@ -50,6 +50,23 @@ const LinkPreview = ({
 
   const openLink = () => {
     window.open(generatedLink, '_blank');
+  };
+
+  const openPreview = () => {
+    // Extract slug from generated link for preview
+    if (generatedLink) {
+      const url = new URL(generatedLink);
+      const slug = url.hostname.split('.')[0];
+      
+      // Create a preview URL that simulates the subdomain
+      const previewUrl = `${window.location.origin}?preview=${slug}`;
+      window.open(previewUrl, '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
+      
+      toast({
+        title: "Anteprima aperta!",
+        description: "Si è aperta una finestra con l'anteprima del tuo link",
+      });
+    }
   };
 
   const selectedTheme = BACKGROUND_THEMES.find(theme => theme.id === backgroundTheme) || BACKGROUND_THEMES[0];
@@ -108,21 +125,30 @@ const LinkPreview = ({
             <p className="text-white font-mono text-sm break-all mb-3">
               {generatedLink}
             </p>
-            <div className="flex gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <Button
                 onClick={copyToClipboard}
                 variant="outline"
                 size="sm"
-                className="flex-1 bg-white/10 border-white/30 text-white hover:bg-white/20"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
               >
                 <Copy className="mr-2 h-4 w-4" />
                 Copia Link
               </Button>
               <Button
+                onClick={openPreview}
+                variant="outline"
+                size="sm"
+                className="bg-blue-600/20 border-blue-400/30 text-blue-200 hover:bg-blue-600/30"
+              >
+                <Monitor className="mr-2 h-4 w-4" />
+                Anteprima
+              </Button>
+              <Button
                 onClick={openLink}
                 variant="outline"
                 size="sm"
-                className="flex-1 bg-white/10 border-white/30 text-white hover:bg-white/20"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 Apri Link
@@ -246,7 +272,7 @@ const LinkPreview = ({
           </div>
 
           <p className="text-gray-400 text-xs text-center mt-3">
-            * Questa è un'anteprima semplificata. La pagina finale includerà tutte le funzionalità.
+            * Questa è un'anteprima semplificata. Clicca "Anteprima" per vedere la pagina completa.
           </p>
         </CardContent>
       </Card>
