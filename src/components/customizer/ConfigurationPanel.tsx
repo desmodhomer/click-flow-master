@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +12,7 @@ export interface CustomButton {
   color: 'white' | 'black' | 'blue' | 'gradient-blue' | 'gradient-orange';
   size: 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
   spacing: number;
+  icon: string | null;
 }
 
 interface ConfigurationPanelProps {
@@ -44,7 +44,8 @@ const ConfigurationPanel = ({
       style: 'rounded',
       color: 'white',
       size: 'medium',
-      spacing: 3
+      spacing: 3,
+      icon: null
     };
     setCustomButtons([...customButtons, newButton]);
   };
