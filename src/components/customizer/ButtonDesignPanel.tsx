@@ -1,8 +1,10 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Square, Circle, CornerRightUp, ExternalLink } from "lucide-react";
+import { Palette, Square, Circle, CornerRightUp, ExternalLink, ChevronDown } from "lucide-react";
 import { CustomButton } from "./ConfigurationPanel";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 interface ButtonDesignPanelProps {
   customButtons: CustomButton[];
@@ -10,6 +12,8 @@ interface ButtonDesignPanelProps {
 }
 
 const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPanelProps) => {
+  const [selectedButtonId, setSelectedButtonId] = useState<string>("all");
+  
   const buttonStyles = [
     { id: 'rounded', name: 'Arrotondato', class: 'rounded-xl', icon: CornerRightUp },
     { id: 'square', name: 'Quadrato', class: 'rounded-none', icon: Square },
@@ -25,16 +29,68 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
   ];
 
   const updateButtonDesign = (property: string, value: string) => {
-    const updatedButtons = customButtons.map(button => ({
-      ...button,
-      [property]: value
-    }));
-    setCustomButtons(updatedButtons);
+    if (selectedButtonId === "all") {
+      // Modifica tutti i pulsanti
+      const updatedButtons = customButtons.map(button => ({
+        ...button,
+        [property]: value
+      }));
+      setCustomButtons(updatedButtons);
+    } else {
+      // Modifica solo il pulsante selezionato
+      const updatedButtons = customButtons.map(button => 
+        button.id === selectedButtonId 
+          ? { ...button, [property]: value }
+          : button
+      );
+      setCustomButtons(updatedButtons);
+    }
   };
 
-  const currentButton = customButtons[0];
-  const currentStyle = currentButton?.style || 'rounded';
-  const currentColor = currentButton?.color || 'white';
+  const getCurrentButtonStyle = () => {
+    if (selectedButtonId === "all") {
+      // Se tutti i pulsanti hanno lo stesso stile, mostralo, altrimenti mostra il default
+      const firstButtonStyle = customButtons[0]?.style || 'rounded';
+      const allSameStyle = customButtons.every(btn => btn.style === firstButtonStyle);
+      return allSameStyle ? firstButtonStyle : 'rounded';
+    } else {
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      return selectedButton?.style || 'rounded';
+    }
+  };
+
+  const getCurrentButtonColor = () => {
+    if (selectedButtonId === "all") {
+      // Se tutti i pulsanti hanno lo stesso colore, mostralo, altrimenti mostra il default
+      const firstButtonColor = customButtons[0]?.color || 'white';
+      const allSameColor = customButtons.every(btn => btn.color === firstButtonColor);
+      return allSameColor ? firstButtonColor : 'white';
+    } else {
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      return selectedButton?.color || 'white';
+    }
+  };
+
+  const currentStyle = getCurrentButtonStyle();
+  const currentColor = getCurrentButtonColor();
+
+  if (customButtons.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="text-center pb-4 border-b border-gray-100">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+            <Palette className="h-6 w-6 text-white" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900">Design Pulsanti</h3>
+          <p className="text-sm text-gray-500 mt-1">Aggiungi prima dei pulsanti per personalizzarne il design</p>
+        </div>
+        
+        <div className="text-center py-8">
+          <p className="text-gray-500">Nessun pulsante disponibile per la personalizzazione</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -44,6 +100,24 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         </div>
         <h3 className="text-lg font-semibold text-gray-900">Design Pulsanti</h3>
         <p className="text-sm text-gray-500 mt-1">Personalizza l'aspetto dei tuoi pulsanti</p>
+      </div>
+
+      {/* Selezione pulsante da modificare */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700">Modifica</h4>
+        <Select value={selectedButtonId} onValueChange={setSelectedButtonId}>
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tutti i pulsanti</SelectItem>
+            {customButtons.map((button, index) => (
+              <SelectItem key={button.id} value={button.id}>
+                Pulsante {index + 1}: {button.text || 'Senza titolo'}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Forma del pulsante */}
@@ -90,18 +164,39 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
       {/* Anteprima */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700">Anteprima</h4>
-        <div className="p-4 bg-gray-50 rounded-lg">
-          {currentButton && (
-            <div 
-              className={`w-full h-12 flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
-                buttonStyles.find(s => s.id === currentStyle)?.class || 'rounded-xl'
-              } ${
-                buttonColors.find(c => c.id === currentColor)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
-              }`}
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              {currentButton.text || 'Pulsante'}
-            </div>
+        <div className="p-4 bg-gray-50 rounded-lg space-y-3">
+          {selectedButtonId === "all" ? (
+            // Mostra tutti i pulsanti se "all" è selezionato
+            customButtons.map((button, index) => (
+              <div 
+                key={button.id}
+                className={`w-full h-12 flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                  buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl'
+                } ${
+                  buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                }`}
+              >
+                <ExternalLink className="mr-2 h-4 w-4" />
+                {button.text || `Pulsante ${index + 1}`}
+              </div>
+            ))
+          ) : (
+            // Mostra solo il pulsante selezionato
+            (() => {
+              const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+              return selectedButton ? (
+                <div 
+                  className={`w-full h-12 flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                    buttonStyles.find(s => s.id === selectedButton.style)?.class || 'rounded-xl'
+                  } ${
+                    buttonColors.find(c => c.id === selectedButton.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                  }`}
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  {selectedButton.text || 'Pulsante'}
+                </div>
+              ) : null;
+            })()
           )}
         </div>
       </div>
