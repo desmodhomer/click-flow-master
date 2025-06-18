@@ -9,10 +9,10 @@ export interface CustomButton {
   id: string;
   text: string;
   url: string;
-  style: string;
-  color: string;
-  size?: string;
-  spacing?: number;
+  style: 'rounded' | 'square' | 'pill';
+  color: 'white' | 'black' | 'blue' | 'gradient-blue' | 'gradient-orange';
+  size: 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
+  spacing: number;
 }
 
 interface ConfigurationPanelProps {

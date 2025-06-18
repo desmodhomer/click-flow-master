@@ -29,10 +29,11 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
   ];
 
   const buttonSizes = [
-    { id: 'tiny', name: 'Piccolissimo', height: 'h-8' },
-    { id: 'small', name: 'Piccolo', height: 'h-9' },
-    { id: 'medium', name: 'Medio', height: 'h-11' },
-    { id: 'large', name: 'Grande', height: 'h-13' }
+    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
+    { id: 'small', name: '2 - Piccolo', height: 'h-8' },
+    { id: 'medium', name: '3 - Medio', height: 'h-10' },
+    { id: 'large', name: '4 - Grande', height: 'h-12' },
+    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
   ];
 
   const updateButtonDesign = (property: string, value: string | number) => {
@@ -176,17 +177,16 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
       {/* Dimensione del pulsante */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700">Dimensione</h4>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2">
           {buttonSizes.map((size) => (
             <Button
               key={size.id}
               variant={currentSize === size.id ? "default" : "outline"}
               size="sm"
               onClick={() => updateButtonDesign('size', size.id)}
-              className="flex flex-col items-center gap-1 h-auto py-2"
+              className="justify-start"
             >
-              <ALargeSmall className="h-3 w-3" />
-              <span className="text-xs">{size.name}</span>
+              <span className="text-sm">{size.name}</span>
             </Button>
           ))}
         </div>
@@ -205,8 +205,8 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
             className="w-full"
           />
           <div className="flex justify-between text-xs text-gray-500 mt-1">
-            <span>Minima</span>
-            <span>Massima</span>
+            <span>1 - Minima</span>
+            <span>6 - Massima</span>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
             {selectedButtonId === "all" ? (
               // Mostra tutti i pulsanti se "all" è selezionato
               customButtons.map((button, index) => {
-                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-11';
+                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
                 return (
                   <div 
                     key={button.id}
@@ -258,7 +258,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
               (() => {
                 const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
                 if (!selectedButton) return null;
-                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-11';
+                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-10';
                 return (
                   <div 
                     className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
