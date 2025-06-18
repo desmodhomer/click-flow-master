@@ -31,25 +31,28 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
     { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
   ];
 
-  const getSpacingClass = (spacing?: number) => {
-    const spacingClasses = {
-      1: 'space-y-1',
-      2: 'space-y-2',
-      3: 'space-y-3',
-      4: 'space-y-4',
-      5: 'space-y-5',
-      6: 'space-y-6'
+  const getButtonSpacing = (spacing?: number, index?: number, isLast?: boolean) => {
+    const spacingValues = {
+      1: '4px',
+      2: '8px', 
+      3: '12px',
+      4: '16px',
+      5: '20px',
+      6: '24px'
     };
     
     const spacingValue = spacing || 3;
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'space-y-3';
+    const marginBottom = spacingValues[spacingValue as keyof typeof spacingValues] || '12px';
+    
+    // Non applicare margin-bottom all'ultimo elemento
+    return isLast ? {} : { marginBottom };
   };
 
   return (
     <div className="space-y-3">
       <h4 className="text-sm font-medium text-gray-700">Anteprima</h4>
       <div className="p-4 bg-gray-50 rounded-lg">
-        <div className={`space-y-${currentSpacing}`}>
+        <div>
           {selectedButtonId === "all" ? (
             // Mostra tutti i pulsanti se "all" è selezionato
             customButtons.map((button, index) => {
@@ -62,6 +65,7 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
                   } ${
                     buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
                   }`}
+                  style={getButtonSpacing(button.spacing || currentSpacing, index, index === customButtons.length - 1)}
                 >
                   <ExternalLink className="mr-2 h-4 w-4" />
                   {button.text || `Pulsante ${index + 1}`}

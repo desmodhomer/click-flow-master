@@ -43,27 +43,34 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
     return `${baseClasses} ${styleClass} ${colorClass} ${sizeClass}`;
   };
 
-  const getSpacingClass = (spacing?: number) => {
-    const spacingClasses = {
-      1: 'space-y-1',
-      2: 'space-y-2',
-      3: 'space-y-3',
-      4: 'space-y-4',
-      5: 'space-y-5',
-      6: 'space-y-6'
+  const getButtonSpacing = (spacing?: number, index?: number, isLast?: boolean) => {
+    const spacingValues = {
+      1: '4px',
+      2: '8px', 
+      3: '12px',
+      4: '16px',
+      5: '20px',
+      6: '24px'
     };
     
     const spacingValue = spacing || 3;
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'space-y-3';
+    const marginBottom = spacingValues[spacingValue as keyof typeof spacingValues] || '12px';
+    
+    // Non applicare margin-bottom all'ultimo elemento
+    return isLast ? {} : { marginBottom };
   };
 
   // Use spacing from first button or default to 3
   const spacing = customButtons[0]?.spacing || 3;
 
   return (
-    <div className={`px-4 mb-3 ${getSpacingClass(spacing)}`}>
-      {customButtons.map((button) => (
-        <div key={button.id} className={getButtonClasses(button)}>
+    <div className="px-4 mb-3">
+      {customButtons.map((button, index) => (
+        <div 
+          key={button.id} 
+          className={getButtonClasses(button)}
+          style={getButtonSpacing(button.spacing || spacing, index, index === customButtons.length - 1)}
+        >
           <ExternalLink className="mr-2 h-4 w-4" />
           {button.text || 'Pulsante'}
         </div>
