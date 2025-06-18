@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "./ConfigurationPanel";
 import LinkActionsCard from "@/components/preview/LinkActionsCard";
 import MobileMockup from "./MobileMockup";
 import EmptyPreviewState from "./EmptyPreviewState";
@@ -19,6 +20,7 @@ interface PreviewPanelProps {
   customBackgroundUrl?: string;
   socialLinks?: SocialLink[];
   customSlug?: string;
+  customButtons?: CustomButton[];
 }
 
 const PreviewPanel = ({ 
@@ -32,9 +34,10 @@ const PreviewPanel = ({
   coverImageUrl,
   customBackgroundUrl,
   socialLinks = [],
-  customSlug
+  customSlug,
+  customButtons = []
 }: PreviewPanelProps) => {
-  const hasContent = title || displayName || generatedLink;
+  const hasContent = title || displayName || generatedLink || customButtons.length > 0;
 
   return (
     <div className="space-y-6 h-full">
@@ -67,6 +70,7 @@ const PreviewPanel = ({
               customBackgroundUrl={customBackgroundUrl}
               socialLinks={socialLinks}
               customSlug={customSlug}
+              customButtons={customButtons}
             />
           ) : (
             <EmptyPreviewState />

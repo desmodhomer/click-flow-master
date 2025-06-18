@@ -6,9 +6,9 @@ import { Loader2, Sparkles, ExternalLink } from "lucide-react";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "@/components/customizer/ConfigurationPanel";
 
 const LinkCustomizerPage = () => {
-  const [originalUrl, setOriginalUrl] = useState("");
   const [customSlug, setCustomSlug] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,6 +19,7 @@ const LinkCustomizerPage = () => {
   const [coverImageUrl, setCoverImageUrl] = useState("");
   const [customBackgroundUrl, setCustomBackgroundUrl] = useState("");
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
+  const [customButtons, setCustomButtons] = useState<CustomButton[]>([]);
   const [generatedLink, setGeneratedLink] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -33,9 +34,7 @@ const LinkCustomizerPage = () => {
   };
 
   const handleGenerate = async () => {
-    // Questa funzione sarà passata al form per gestire la generazione
     setIsGenerating(true);
-    // La logica di generazione rimane nel LinkCustomizerForm
     setIsGenerating(false);
   };
 
@@ -45,7 +44,7 @@ const LinkCustomizerPage = () => {
       <div className="absolute top-4 right-4 z-50">
         <Button 
           onClick={handleGenerate}
-          disabled={isGenerating || !originalUrl}
+          disabled={isGenerating || customButtons.length === 0}
           size="sm"
           className="bg-black hover:bg-gray-800 text-white font-medium px-4 h-8 text-sm shadow-lg hover:shadow-xl transition-all duration-200"
         >
@@ -71,8 +70,6 @@ const LinkCustomizerPage = () => {
       )}>
         <LinkCustomizerForm
           onLinkGenerated={handleLinkGenerated}
-          originalUrl={originalUrl}
-          setOriginalUrl={setOriginalUrl}
           customSlug={customSlug}
           setCustomSlug={setCustomSlug}
           title={title}
@@ -93,6 +90,8 @@ const LinkCustomizerPage = () => {
           setCoverImageUrl={setCoverImageUrl}
           customBackgroundUrl={customBackgroundUrl}
           setCustomBackgroundUrl={setCustomBackgroundUrl}
+          customButtons={customButtons}
+          setCustomButtons={setCustomButtons}
           onPanelStateChange={handlePanelStateChange}
           isGenerating={isGenerating}
           setIsGenerating={setIsGenerating}
@@ -116,6 +115,7 @@ const LinkCustomizerPage = () => {
           customBackgroundUrl={customBackgroundUrl}
           socialLinks={socialLinks}
           customSlug={customSlug}
+          customButtons={customButtons}
         />
       </div>
     </div>

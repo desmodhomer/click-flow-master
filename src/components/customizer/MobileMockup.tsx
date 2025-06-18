@@ -1,10 +1,10 @@
-
 import { Signal, Wifi, Battery } from "lucide-react";
 import PreviewHeroSection from "@/components/preview/PreviewHeroSection";
 import PreviewSocialLinks from "@/components/preview/PreviewSocialLinks";
 import PreviewMainCTA from "@/components/preview/PreviewMainCTA";
 import PreviewStatsFooter from "@/components/preview/PreviewStatsFooter";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "./ConfigurationPanel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface MobileMockupProps {
@@ -18,6 +18,7 @@ interface MobileMockupProps {
   customBackgroundUrl?: string;
   socialLinks?: SocialLink[];
   customSlug?: string;
+  customButtons?: CustomButton[];
 }
 
 const MobileMockup = ({
@@ -30,7 +31,8 @@ const MobileMockup = ({
   coverImageUrl,
   customBackgroundUrl,
   socialLinks = [],
-  customSlug
+  customSlug,
+  customButtons = []
 }: MobileMockupProps) => {
   // Get background style logic
   const getBackgroundStyle = () => {
@@ -128,8 +130,8 @@ const MobileMockup = ({
                     {/* Social Links Section */}
                     <PreviewSocialLinks socialLinks={socialLinks} />
                     
-                    {/* Main CTA Section */}
-                    <PreviewMainCTA />
+                    {/* Main CTA Section with custom buttons */}
+                    <PreviewMainCTA customButtons={customButtons} />
                     
                     {/* Stats and Footer */}
                     <PreviewStatsFooter />

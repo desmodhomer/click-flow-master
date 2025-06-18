@@ -4,6 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "./customizer/ConfigurationPanel";
 import CustomizerSidebar from "./customizer/CustomizerSidebar";
 import CustomizerHeader from "./customizer/CustomizerHeader";
 import ConfigurationPanel from "./customizer/ConfigurationPanel";
@@ -13,8 +14,6 @@ import DesignPanel from "./customizer/DesignPanel";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
-  originalUrl: string;
-  setOriginalUrl: (url: string) => void;
   customSlug: string;
   setCustomSlug: (slug: string) => void;
   title: string;
@@ -35,6 +34,8 @@ interface LinkCustomizerFormProps {
   setCoverImageUrl: (url: string) => void;
   customBackgroundUrl: string;
   setCustomBackgroundUrl: (url: string) => void;
+  customButtons: CustomButton[];
+  setCustomButtons: (buttons: CustomButton[]) => void;
   onPanelStateChange: (isOpen: boolean) => void;
   isGenerating: boolean;
   setIsGenerating: (generating: boolean) => void;
@@ -42,8 +43,6 @@ interface LinkCustomizerFormProps {
 
 const LinkCustomizerForm = ({
   onLinkGenerated,
-  originalUrl,
-  setOriginalUrl,
   customSlug,
   setCustomSlug,
   title,
@@ -64,6 +63,8 @@ const LinkCustomizerForm = ({
   setCoverImageUrl,
   customBackgroundUrl,
   setCustomBackgroundUrl,
+  customButtons,
+  setCustomButtons,
   onPanelStateChange,
   isGenerating,
   setIsGenerating
@@ -84,22 +85,10 @@ const LinkCustomizerForm = ({
   };
 
   const handleGenerate = async () => {
-    if (!originalUrl) {
+    if (customButtons.length === 0) {
       toast({
         title: "Errore",
-        description: "Inserisci un URL valido",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Validate URL format
-    try {
-      new URL(originalUrl);
-    } catch {
-      toast({
-        title: "Errore",
-        description: "Inserisci un URL valido (es. https://esempio.com)",
+        description: "Aggiungi almeno un pulsante prima di generare il link",
         variant: "destructive",
       });
       return;
@@ -127,12 +116,12 @@ const LinkCustomizerForm = ({
         return;
       }
 
-      // Insert new custom link with all the new fields
+      // Insert new custom link with custom buttons
       const { data, error } = await supabase
         .from('custom_links')
         .insert({
           slug,
-          destination_url: originalUrl,
+          destination_url: customButtons[0]?.url || '', // Keep for compatibility
           title: title || "Link Personalizzato",
           description: description || null,
           display_name: displayName || null,
@@ -142,6 +131,7 @@ const LinkCustomizerForm = ({
           cover_image_url: coverImageUrl || null,
           custom_background_url: customBackgroundUrl || null,
           social_links: socialLinks as any,
+          custom_buttons: customButtons as any,
           user_id: user?.id || null
         })
         .select()
@@ -176,22 +166,19 @@ const LinkCustomizerForm = ({
     }
   };
 
-  // Esponiamo handleGenerate tramite useEffect o altri metodi
-  // Per ora la logica rimane qui ma sarà triggerata dal pulsante esterno
-
   const renderActivePanel = () => {
     switch (activeTab) {
       case "basic":
         return (
           <ConfigurationPanel
-            originalUrl={originalUrl}
-            setOriginalUrl={setOriginalUrl}
             customSlug={customSlug}
             setCustomSlug={setCustomSlug}
             title={title}
             setTitle={setTitle}
             description={description}
             setDescription={setDescription}
+            customButtons={customButtons}
+            setCustomButtons={setCustomButtons}
           />
         );
       case "profile":
@@ -234,7 +221,7 @@ const LinkCustomizerForm = ({
       <CustomizerHeader
         onGenerate={handleGenerate}
         isGenerating={isGenerating}
-        originalUrl={originalUrl}
+        hasButtons={customButtons.length > 0}
       />
 
       {/* Main Content */}
