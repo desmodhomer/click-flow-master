@@ -1,6 +1,5 @@
 
-import { Button } from "@/components/ui/button";
-import { Loader2, Sparkles, ExternalLink } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface CustomizerHeaderProps {
   onGenerate: () => void;
@@ -22,25 +21,6 @@ const CustomizerHeader = ({ onGenerate, isGenerating, originalUrl }: CustomizerH
           </div>
         </div>
       </div>
-      
-      <Button 
-        onClick={onGenerate}
-        disabled={isGenerating || !originalUrl}
-        className="bg-black hover:bg-gray-800 text-white font-semibold px-6 h-10 shadow-lg hover:shadow-xl transition-all duration-200"
-      >
-        {isGenerating ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Generazione...
-          </>
-        ) : (
-          <>
-            <Sparkles className="mr-2 h-4 w-4" />
-            Genera Link
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </>
-        )}
-      </Button>
     </div>
   );
 };

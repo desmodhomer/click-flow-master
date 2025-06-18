@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,6 +36,8 @@ interface LinkCustomizerFormProps {
   customBackgroundUrl: string;
   setCustomBackgroundUrl: (url: string) => void;
   onPanelStateChange: (isOpen: boolean) => void;
+  isGenerating: boolean;
+  setIsGenerating: (generating: boolean) => void;
 }
 
 const LinkCustomizerForm = ({
@@ -61,9 +64,10 @@ const LinkCustomizerForm = ({
   setCoverImageUrl,
   customBackgroundUrl,
   setCustomBackgroundUrl,
-  onPanelStateChange
+  onPanelStateChange,
+  isGenerating,
+  setIsGenerating
 }: LinkCustomizerFormProps) => {
-  const [isGenerating, setIsGenerating] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   
   const { toast } = useToast();
@@ -171,6 +175,9 @@ const LinkCustomizerForm = ({
       setIsGenerating(false);
     }
   };
+
+  // Esponiamo handleGenerate tramite useEffect o altri metodi
+  // Per ora la logica rimane qui ma sarà triggerata dal pulsante esterno
 
   const renderActivePanel = () => {
     switch (activeTab) {

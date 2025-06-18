@@ -1,6 +1,8 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Loader2, Sparkles, ExternalLink } from "lucide-react";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { SocialLink } from "@/types/customLink";
@@ -19,6 +21,7 @@ const LinkCustomizerPage = () => {
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [generatedLink, setGeneratedLink] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleLinkGenerated = (link: string) => {
     console.log('Link generated:', link);
@@ -29,8 +32,38 @@ const LinkCustomizerPage = () => {
     setIsPanelOpen(isOpen);
   };
 
+  const handleGenerate = async () => {
+    // Questa funzione sarà passata al form per gestire la generazione
+    setIsGenerating(true);
+    // La logica di generazione rimane nel LinkCustomizerForm
+    setIsGenerating(false);
+  };
+
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="relative flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Pulsante Generate Link in alto a destra */}
+      <div className="absolute top-4 right-4 z-50">
+        <Button 
+          onClick={handleGenerate}
+          disabled={isGenerating || !originalUrl}
+          size="sm"
+          className="bg-black hover:bg-gray-800 text-white font-medium px-4 h-8 text-sm shadow-lg hover:shadow-xl transition-all duration-200"
+        >
+          {isGenerating ? (
+            <>
+              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+              Generazione...
+            </>
+          ) : (
+            <>
+              <Sparkles className="mr-1 h-3 w-3" />
+              Genera
+              <ExternalLink className="ml-1 h-3 w-3" />
+            </>
+          )}
+        </Button>
+      </div>
+
       {/* Form Panel */}
       <div className={cn(
         "transition-all duration-500 ease-in-out shadow-xl",
@@ -61,6 +94,8 @@ const LinkCustomizerPage = () => {
           customBackgroundUrl={customBackgroundUrl}
           setCustomBackgroundUrl={setCustomBackgroundUrl}
           onPanelStateChange={handlePanelStateChange}
+          isGenerating={isGenerating}
+          setIsGenerating={setIsGenerating}
         />
       </div>
 
