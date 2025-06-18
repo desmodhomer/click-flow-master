@@ -86,35 +86,36 @@ const PreviewPanel = ({
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 text-xs text-gray-500">
                 <Smartphone className="h-4 w-4" />
-                <span>Mobile</span>
+                <span>Mobile (375×812px)</span>
               </div>
             </div>
           </div>
           <p className="text-sm text-gray-500">
-            Replica fedele di come vedranno la pagina i tuoi visitatori
+            Dimensioni reali iPhone 12/13/14 - Visualizzazione 1:1
           </p>
         </CardHeader>
         
         <CardContent className="flex-1 p-0">
           {(title || displayName || generatedLink) ? (
-            <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-8">
-              {/* Mobile Preview Frame con notch e dettagli realistici */}
-              <div className="relative">
-                {/* Ombra del telefono */}
-                <div className="absolute inset-0 bg-black/20 rounded-[3rem] transform translate-y-4 translate-x-2 blur-xl"></div>
+            <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-6">
+              {/* Mobile Preview Frame con dimensioni realistiche iPhone */}
+              <div className="relative scale-75 lg:scale-90 xl:scale-100">
+                {/* Ombra del telefono più realistica */}
+                <div className="absolute inset-0 bg-black/25 rounded-[3.5rem] transform translate-y-6 translate-x-3 blur-2xl scale-105"></div>
                 
-                {/* Frame del telefono */}
-                <div className="relative w-80 h-[640px] bg-gray-900 rounded-[3rem] p-2 shadow-2xl">
-                  {/* Schermo interno */}
-                  <div className="w-full h-full bg-black rounded-[2.5rem] overflow-hidden relative">
+                {/* Frame del telefono - Dimensioni iPhone reali */}
+                <div className="relative w-[375px] h-[812px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[3.5rem] p-[3px] shadow-2xl">
+                  
+                  {/* Schermo interno con proporzioni corrette */}
+                  <div className="w-full h-full bg-black rounded-[3.2rem] overflow-hidden relative">
                     
-                    {/* Status Bar realistico */}
-                    <div className="relative h-10 bg-black flex items-center justify-between px-6 text-white text-sm font-medium">
-                      {/* Notch simulation */}
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl"></div>
-                      
+                    {/* Dynamic Island / Notch più realistico */}
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-36 h-7 bg-black rounded-full z-50 shadow-lg border border-gray-800"></div>
+                    
+                    {/* Status Bar iPhone-style */}
+                    <div className="relative h-12 bg-black flex items-center justify-between px-8 pt-3 text-white text-sm font-medium z-40">
                       {/* Left side - Time */}
-                      <div className="text-white font-semibold">
+                      <div className="text-white font-semibold text-[17px]">
                         9:41
                       </div>
                       
@@ -123,25 +124,26 @@ const PreviewPanel = ({
                         <Signal className="h-4 w-4" />
                         <Wifi className="h-4 w-4" />
                         <Battery className="h-4 w-4" />
-                        <div className="text-xs">100%</div>
                       </div>
                     </div>
                     
-                    {/* Browser Address Bar */}
-                    <div className="bg-gray-100 px-4 py-2 flex items-center gap-3">
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      </div>
-                      <div className="flex-1 bg-white rounded-full px-3 py-1 text-xs text-gray-600 font-mono">
-                        {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
+                    {/* Safari Browser UI più accurato */}
+                    <div className="bg-gray-50 px-4 py-3 flex items-center gap-3 border-b border-gray-200">
+                      <div className="flex-1 bg-gray-200 rounded-full px-4 py-2 text-sm text-gray-700 font-medium">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-xs">
+                            {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                     
-                    {/* Website Content */}
+                    {/* Website Content - Area scrollabile con dimensioni corrette */}
                     <div 
-                      className={`h-full overflow-y-auto ${backgroundStyle.className || ''}`} 
+                      className={`h-[calc(100%-96px)] overflow-y-auto ${backgroundStyle.className || ''}`} 
                       style={backgroundStyle}
                     >
                       {/* Hero Section */}
@@ -154,9 +156,9 @@ const PreviewPanel = ({
                         coverImageUrl={coverImageUrl}
                       />
 
-                      {/* Main Content con spaziatura migliorata */}
-                      <div className="relative z-10 px-4 pb-12 space-y-4">
-                        <div className="max-w-lg mx-auto space-y-4">
+                      {/* Main Content con padding mobile-first */}
+                      <div className="relative z-10 px-4 pb-8 space-y-4">
+                        <div className="max-w-full mx-auto space-y-4">
                           {/* Social Links Section */}
                           <PreviewSocialLinks socialLinks={socialLinks} />
                           
@@ -168,14 +170,25 @@ const PreviewPanel = ({
                         </div>
                       </div>
                     </div>
+                    
+                    {/* Home indicator iOS accurato */}
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-90"></div>
                   </div>
                   
-                  {/* Home indicator iOS */}
-                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-white rounded-full opacity-80"></div>
+                  {/* Riflesso realistico sullo schermo */}
+                  <div className="absolute inset-[3px] rounded-[3.2rem] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+                  
+                  {/* Highlight sui bordi del telefono */}
+                  <div className="absolute inset-0 rounded-[3.5rem] bg-gradient-to-t from-transparent via-white/5 to-white/10 pointer-events-none"></div>
                 </div>
 
-                {/* Riflesso sullo schermo */}
-                <div className="absolute inset-2 rounded-[2.5rem] bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
+                {/* Volume buttons */}
+                <div className="absolute left-[-2px] top-24 w-1 h-8 bg-gray-700 rounded-l-sm"></div>
+                <div className="absolute left-[-2px] top-36 w-1 h-8 bg-gray-700 rounded-l-sm"></div>
+                <div className="absolute left-[-2px] top-48 w-1 h-12 bg-gray-700 rounded-l-sm"></div>
+                
+                {/* Power button */}
+                <div className="absolute right-[-2px] top-40 w-1 h-12 bg-gray-700 rounded-r-sm"></div>
               </div>
             </div>
           ) : (
@@ -204,7 +217,7 @@ const PreviewPanel = ({
           <div className="flex items-center justify-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             <p className="text-green-700 text-sm font-medium">
-              ✨ Anteprima aggiornata in tempo reale
+              ✨ Anteprima 1:1 - Dimensioni reali iPhone
             </p>
           </div>
         </div>
