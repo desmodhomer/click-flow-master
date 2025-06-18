@@ -1,4 +1,3 @@
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Palette, Square, Circle, CornerRightUp, ExternalLink, ChevronDown, ALargeSmall, Minus, Plus } from "lucide-react";
@@ -30,9 +29,10 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
   ];
 
   const buttonSizes = [
-    { id: 'small', name: 'Piccolo', height: 'h-10' },
-    { id: 'medium', name: 'Medio', height: 'h-12' },
-    { id: 'large', name: 'Grande', height: 'h-14' }
+    { id: 'tiny', name: 'Piccolissimo', height: 'h-8' },
+    { id: 'small', name: 'Piccolo', height: 'h-9' },
+    { id: 'medium', name: 'Medio', height: 'h-11' },
+    { id: 'large', name: 'Grande', height: 'h-13' }
   ];
 
   const updateButtonDesign = (property: string, value: string | number) => {
@@ -176,16 +176,16 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
       {/* Dimensione del pulsante */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700">Dimensione</h4>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {buttonSizes.map((size) => (
             <Button
               key={size.id}
               variant={currentSize === size.id ? "default" : "outline"}
               size="sm"
               onClick={() => updateButtonDesign('size', size.id)}
-              className="flex flex-col items-center gap-1 h-auto py-3"
+              className="flex flex-col items-center gap-1 h-auto py-2"
             >
-              <ALargeSmall className="h-4 w-4" />
+              <ALargeSmall className="h-3 w-3" />
               <span className="text-xs">{size.name}</span>
             </Button>
           ))}
@@ -199,7 +199,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
           <Slider
             value={[currentSpacing]}
             onValueChange={(value) => updateButtonDesign('spacing', value[0])}
-            max={8}
+            max={6}
             min={1}
             step={1}
             className="w-full"
@@ -238,7 +238,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
             {selectedButtonId === "all" ? (
               // Mostra tutti i pulsanti se "all" è selezionato
               customButtons.map((button, index) => {
-                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-12';
+                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-11';
                 return (
                   <div 
                     key={button.id}
@@ -258,7 +258,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
               (() => {
                 const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
                 if (!selectedButton) return null;
-                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-12';
+                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-11';
                 return (
                   <div 
                     className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${

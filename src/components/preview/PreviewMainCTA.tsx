@@ -28,15 +28,16 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
     };
 
     const sizeClasses = {
-      'small': 'h-10',
-      'medium': 'h-12',
-      'large': 'h-14'
+      'tiny': 'h-8',
+      'small': 'h-9',
+      'medium': 'h-11',
+      'large': 'h-13'
     };
 
     const baseClasses = 'w-full text-sm font-medium shadow-lg flex items-center justify-center cursor-pointer transition-all duration-200';
     const styleClass = styleClasses[button.style as keyof typeof styleClasses] || 'rounded-xl';
     const colorClass = colorClasses[button.color as keyof typeof colorClasses] || 'bg-white/90 text-gray-900 hover:bg-white';
-    const sizeClass = sizeClasses[button.size as keyof typeof sizeClasses] || 'h-12';
+    const sizeClass = sizeClasses[button.size as keyof typeof sizeClasses] || 'h-11';
 
     return `${baseClasses} ${styleClass} ${colorClass} ${sizeClass}`;
   };
