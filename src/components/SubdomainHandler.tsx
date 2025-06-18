@@ -18,22 +18,6 @@ const SubdomainHandler = () => {
   const [notFound, setNotFound] = useState(false);
   const { toast } = useToast();
 
-  const handleVisitLink = async () => {
-    if (!link) return;
-
-    try {
-      await supabase
-        .from('custom_links')
-        .update({ click_count: link.click_count + 1 })
-        .eq('id', link.id);
-
-      window.location.href = link.destination_url;
-    } catch (error) {
-      console.error('Error updating click count:', error);
-      window.location.href = link.destination_url;
-    }
-  };
-
   const handleSocialClick = async (socialLink: SocialLink) => {
     window.open(socialLink.url, '_blank');
   };
@@ -89,7 +73,7 @@ const SubdomainHandler = () => {
             
             {/* Main CTA Section */}
             <SubdomainMainCTA 
-              onVisitLink={handleVisitLink}
+              customButtons={link.custom_buttons}
               onShare={handleShare}
             />
             

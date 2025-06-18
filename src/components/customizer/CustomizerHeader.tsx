@@ -4,10 +4,11 @@ import { Sparkles } from "lucide-react";
 interface CustomizerHeaderProps {
   onGenerate: () => void;
   isGenerating: boolean;
-  originalUrl: string;
+  originalUrl?: string;
+  hasButtons: boolean;
 }
 
-const CustomizerHeader = ({ onGenerate, isGenerating, originalUrl }: CustomizerHeaderProps) => {
+const CustomizerHeader = ({ onGenerate, isGenerating, originalUrl, hasButtons }: CustomizerHeaderProps) => {
   return (
     <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
       <div className="flex items-center gap-4">
