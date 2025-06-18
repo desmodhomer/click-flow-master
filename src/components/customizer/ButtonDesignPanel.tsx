@@ -1,7 +1,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Square, Circle, Rounded, ExternalLink } from "lucide-react";
+import { Palette, Square, Circle, CornerRightUp, ExternalLink } from "lucide-react";
 import { CustomButton } from "./ConfigurationPanel";
 
 interface ButtonDesignPanelProps {
@@ -11,7 +11,7 @@ interface ButtonDesignPanelProps {
 
 const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPanelProps) => {
   const buttonStyles = [
-    { id: 'rounded', name: 'Arrotondato', class: 'rounded-xl', icon: Rounded },
+    { id: 'rounded', name: 'Arrotondato', class: 'rounded-xl', icon: CornerRightUp },
     { id: 'square', name: 'Quadrato', class: 'rounded-none', icon: Square },
     { id: 'pill', name: 'Pillola', class: 'rounded-full', icon: Circle }
   ];
