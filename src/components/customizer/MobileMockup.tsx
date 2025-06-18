@@ -72,38 +72,38 @@ const MobileMockup = ({
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[20px] overflow-hidden relative">
             
-            {/* Notch più piccolo */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[100px] h-[16px] bg-black rounded-b-[8px] z-50 flex items-center justify-center gap-1">
-              <div className="w-[5px] h-[5px] bg-gray-700 rounded-full shadow-inner"></div>
-              <div className="w-[20px] h-[2px] bg-gray-700 rounded-full"></div>
+            {/* Notch ultra compatto */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[80px] h-[12px] bg-black rounded-b-[6px] z-50 flex items-center justify-center gap-1">
+              <div className="w-[3px] h-[3px] bg-gray-700 rounded-full shadow-inner"></div>
+              <div className="w-[15px] h-[1px] bg-gray-700 rounded-full"></div>
             </div>
             
-            {/* Status Bar - Ridotta altezza */}
-            <div className="absolute top-[18px] left-0 right-0 px-3 py-1 flex items-center justify-between text-white text-[10px] font-medium z-40">
+            {/* Status Bar ultra compatta */}
+            <div className="absolute top-[14px] left-0 right-0 px-3 flex items-center justify-between text-white text-[9px] font-medium z-40">
               <div className="ml-1 font-semibold">12:30</div>
               <div className="flex items-center gap-1 mr-1">
-                <Signal className="h-2 w-2" />
-                <Wifi className="h-2 w-2" />
-                <Battery className="h-2 w-2" />
+                <Signal className="h-1.5 w-1.5" />
+                <Wifi className="h-1.5 w-1.5" />
+                <Battery className="h-1.5 w-1.5" />
               </div>
             </div>
             
-            {/* Safari Browser UI più compatto */}
-            <div className="absolute top-[38px] left-0 right-0 bg-gray-50 px-2 py-1 flex items-center gap-1 border-b border-gray-200 z-30">
+            {/* Safari Browser UI ultra compatto */}
+            <div className="absolute top-[28px] left-0 right-0 bg-gray-50 px-2 py-0.5 flex items-center gap-1 border-b border-gray-200 z-30">
               <div className="flex-1 bg-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-700 font-medium">
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex items-center justify-center">
                     <div className="w-0.5 h-0.5 bg-white rounded-full"></div>
                   </div>
-                  <span className="text-[9px] truncate">
+                  <span className="text-[8px] truncate">
                     {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
                   </span>
                 </div>
               </div>
             </div>
             
-            {/* Website Content - Area scrollabile compatta */}
-            <ScrollArea className="h-[calc(100%-63px)] mt-[63px]">
+            {/* Website Content - Area scrollabile ottimizzata */}
+            <ScrollArea className="h-[calc(100%-48px)] mt-[48px]">
               <div 
                 className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
