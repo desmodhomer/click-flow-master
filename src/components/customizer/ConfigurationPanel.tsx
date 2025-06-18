@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,7 +9,8 @@ export interface CustomButton {
   id: string;
   text: string;
   url: string;
-  style?: 'primary' | 'secondary' | 'outline';
+  color?: string;
+  style?: string;
 }
 
 interface ConfigurationPanelProps {
@@ -39,6 +39,7 @@ const ConfigurationPanel = ({
       id: `btn-${Date.now()}`,
       text: '',
       url: '',
+      color: 'primary',
       style: 'primary'
     };
     setCustomButtons([...customButtons, newButton]);
