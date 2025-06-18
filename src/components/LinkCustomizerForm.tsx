@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +10,7 @@ import ConfigurationPanel from "./customizer/ConfigurationPanel";
 import ProfilePanel from "./customizer/ProfilePanel";
 import ImagesPanel from "./customizer/ImagesPanel";
 import DesignPanel from "./customizer/DesignPanel";
+import ButtonDesignPanel from "./customizer/ButtonDesignPanel";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
@@ -208,6 +208,13 @@ const LinkCustomizerForm = ({
           <DesignPanel
             backgroundTheme={backgroundTheme}
             setBackgroundTheme={setBackgroundTheme}
+          />
+        );
+      case "buttons":
+        return (
+          <ButtonDesignPanel
+            customButtons={customButtons}
+            setCustomButtons={setCustomButtons}
           />
         );
       default:

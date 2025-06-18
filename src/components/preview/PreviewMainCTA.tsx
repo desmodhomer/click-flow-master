@@ -7,21 +7,37 @@ interface PreviewMainCTAProps {
 }
 
 const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
+  // Don't render anything if there are no buttons
   if (customButtons.length === 0) {
-    return (
-      <div className="px-4 mb-3">
-        <div className="w-full h-12 bg-white/90 text-gray-900 text-sm font-medium shadow-lg rounded-xl flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200">
-          <ExternalLink className="mr-2 h-4 w-4" />
-          Aggiungi un pulsante
-        </div>
-      </div>
-    );
+    return null;
   }
+
+  const getButtonClasses = (button: CustomButton) => {
+    const styleClasses = {
+      'rounded': 'rounded-xl',
+      'square': 'rounded-none', 
+      'pill': 'rounded-full'
+    };
+
+    const colorClasses = {
+      'white': 'bg-white/90 text-gray-900 hover:bg-white',
+      'black': 'bg-gray-900 text-white hover:bg-gray-800',
+      'blue': 'bg-blue-600 text-white hover:bg-blue-700',
+      'gradient-blue': 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700',
+      'gradient-orange': 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600'
+    };
+
+    const baseClasses = 'w-full h-12 text-sm font-medium shadow-lg flex items-center justify-center cursor-pointer transition-all duration-200';
+    const styleClass = styleClasses[button.style as keyof typeof styleClasses] || 'rounded-xl';
+    const colorClass = colorClasses[button.color as keyof typeof colorClasses] || 'bg-white/90 text-gray-900 hover:bg-white';
+
+    return `${baseClasses} ${styleClass} ${colorClass}`;
+  };
 
   return (
     <div className="px-4 mb-3 space-y-3">
       {customButtons.map((button) => (
-        <div key={button.id} className="w-full h-12 bg-white/90 text-gray-900 text-sm font-medium shadow-lg rounded-xl flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200">
+        <div key={button.id} className={getButtonClasses(button)}>
           <ExternalLink className="mr-2 h-4 w-4" />
           {button.text || 'Pulsante'}
         </div>
