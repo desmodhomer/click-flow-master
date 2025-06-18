@@ -8,6 +8,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Quest from "./pages/Quest";
 import LinkCustomizerPage from "./pages/LinkCustomizer";
+import PreviewPage from "./pages/PreviewPage";
 import NotFound from "./pages/NotFound";
 import SubdomainHandler from "./components/SubdomainHandler";
 import { useEffect, useState } from "react";
@@ -62,6 +63,7 @@ const App = () => {
               <Route path="/" element={<Index />} />
               <Route path="/quest" element={<Quest />} />
               <Route path="/link-customizer" element={<LinkCustomizerPage />} />
+              <Route path="/preview/:slug" element={<PreviewPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

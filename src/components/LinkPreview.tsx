@@ -1,9 +1,9 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Eye, Monitor, Heart, Globe, BarChart3, Calendar } from "lucide-react";
+import { Copy, ExternalLink, Eye, Monitor, Heart, Globe, BarChart3, Calendar, Code } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { SocialLink } from "@/types/customLink";
+import { useNavigate } from "react-router-dom";
 
 interface LinkPreviewProps {
   generatedLink: string;
@@ -16,6 +16,7 @@ interface LinkPreviewProps {
   coverImageUrl?: string;
   customBackgroundUrl?: string;
   socialLinks?: SocialLink[];
+  customSlug?: string;
 }
 
 const LinkPreview = ({ 
@@ -28,9 +29,11 @@ const LinkPreview = ({
   profileImageUrl,
   coverImageUrl,
   customBackgroundUrl,
-  socialLinks = []
+  socialLinks = [],
+  customSlug
 }: LinkPreviewProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const copyToClipboard = async () => {
     try {
@@ -59,6 +62,18 @@ const LinkPreview = ({
       toast({
         title: "Anteprima aperta!",
         description: "Si è aperta una finestra con l'anteprima del tuo link",
+      });
+    }
+  };
+
+  const openDevPreview = () => {
+    if (customSlug) {
+      navigate(`/preview/${customSlug}`);
+    } else {
+      toast({
+        title: "Errore",
+        description: "Slug non disponibile per la preview",
+        variant: "destructive",
       });
     }
   };
@@ -129,7 +144,7 @@ const LinkPreview = ({
             <p className="text-white font-mono text-sm break-all mb-3">
               {generatedLink}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
               <Button
                 onClick={copyToClipboard}
                 variant="outline"
@@ -137,7 +152,7 @@ const LinkPreview = ({
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20"
               >
                 <Copy className="mr-2 h-4 w-4" />
-                Copia Link
+                Copia
               </Button>
               <Button
                 onClick={openPreview}
@@ -146,7 +161,16 @@ const LinkPreview = ({
                 className="bg-blue-600/20 border-blue-400/30 text-blue-200 hover:bg-blue-600/30"
               >
                 <Monitor className="mr-2 h-4 w-4" />
-                Anteprima
+                Popup
+              </Button>
+              <Button
+                onClick={openDevPreview}
+                variant="outline"
+                size="sm"
+                className="bg-purple-600/20 border-purple-400/30 text-purple-200 hover:bg-purple-600/30"
+              >
+                <Code className="mr-2 h-4 w-4" />
+                Dev Preview
               </Button>
               <Button
                 onClick={openLink}
@@ -155,7 +179,7 @@ const LinkPreview = ({
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
-                Apri Link
+                Apri
               </Button>
             </div>
           </div>
