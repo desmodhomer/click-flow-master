@@ -6,7 +6,7 @@ import PreviewSocialLinks from "@/components/preview/PreviewSocialLinks";
 import PreviewMainCTA from "@/components/preview/PreviewMainCTA";
 import PreviewStatsFooter from "@/components/preview/PreviewStatsFooter";
 import LinkActionsCard from "@/components/preview/LinkActionsCard";
-import { Eye, Smartphone, Monitor } from "lucide-react";
+import { Eye, Smartphone, Monitor, Signal, Wifi, Battery } from "lucide-react";
 
 interface PreviewPanelProps {
   generatedLink: string;
@@ -97,49 +97,85 @@ const PreviewPanel = ({
         
         <CardContent className="flex-1 p-0">
           {(title || displayName || generatedLink) ? (
-            <div className="h-full bg-gray-50 flex items-center justify-center p-6">
-              {/* Mobile Preview Frame */}
-              <div className="w-80 h-[600px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
-                <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
-                  {/* Status Bar */}
-                  <div className="h-6 bg-gray-900 flex items-center justify-center">
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-white rounded-full"></div>
-                      <div className="w-1 h-1 bg-white rounded-full"></div>
-                      <div className="w-1 h-1 bg-white rounded-full"></div>
+            <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-8">
+              {/* Mobile Preview Frame con notch e dettagli realistici */}
+              <div className="relative">
+                {/* Ombra del telefono */}
+                <div className="absolute inset-0 bg-black/20 rounded-[3rem] transform translate-y-4 translate-x-2 blur-xl"></div>
+                
+                {/* Frame del telefono */}
+                <div className="relative w-80 h-[640px] bg-gray-900 rounded-[3rem] p-2 shadow-2xl">
+                  {/* Schermo interno */}
+                  <div className="w-full h-full bg-black rounded-[2.5rem] overflow-hidden relative">
+                    
+                    {/* Status Bar realistico */}
+                    <div className="relative h-10 bg-black flex items-center justify-between px-6 text-white text-sm font-medium">
+                      {/* Notch simulation */}
+                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl"></div>
+                      
+                      {/* Left side - Time */}
+                      <div className="text-white font-semibold">
+                        9:41
+                      </div>
+                      
+                      {/* Right side - Status icons */}
+                      <div className="flex items-center gap-1">
+                        <Signal className="h-4 w-4" />
+                        <Wifi className="h-4 w-4" />
+                        <Battery className="h-4 w-4" />
+                        <div className="text-xs">100%</div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Preview Content */}
-                  <div 
-                    className={`h-full overflow-y-auto ${backgroundStyle.className || ''}`} 
-                    style={backgroundStyle}
-                  >
-                    {/* Hero Section */}
-                    <PreviewHeroSection
-                      profileImageUrl={profileImageUrl}
-                      displayName={displayName}
-                      title={title}
-                      bio={bio}
-                      description={description}
-                      coverImageUrl={coverImageUrl}
-                    />
+                    
+                    {/* Browser Address Bar */}
+                    <div className="bg-gray-100 px-4 py-2 flex items-center gap-3">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      </div>
+                      <div className="flex-1 bg-white rounded-full px-3 py-1 text-xs text-gray-600 font-mono">
+                        {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
+                      </div>
+                    </div>
+                    
+                    {/* Website Content */}
+                    <div 
+                      className={`h-full overflow-y-auto ${backgroundStyle.className || ''}`} 
+                      style={backgroundStyle}
+                    >
+                      {/* Hero Section */}
+                      <PreviewHeroSection
+                        profileImageUrl={profileImageUrl}
+                        displayName={displayName}
+                        title={title}
+                        bio={bio}
+                        description={description}
+                        coverImageUrl={coverImageUrl}
+                      />
 
-                    {/* Main Content */}
-                    <div className="relative z-10 px-4 pb-12">
-                      <div className="max-w-lg mx-auto space-y-6">
-                        {/* Social Links Section */}
-                        <PreviewSocialLinks socialLinks={socialLinks} />
-                        
-                        {/* Main CTA Section */}
-                        <PreviewMainCTA />
-                        
-                        {/* Stats and Footer */}
-                        <PreviewStatsFooter />
+                      {/* Main Content con spaziatura migliorata */}
+                      <div className="relative z-10 px-4 pb-12 space-y-4">
+                        <div className="max-w-lg mx-auto space-y-4">
+                          {/* Social Links Section */}
+                          <PreviewSocialLinks socialLinks={socialLinks} />
+                          
+                          {/* Main CTA Section */}
+                          <PreviewMainCTA />
+                          
+                          {/* Stats and Footer */}
+                          <PreviewStatsFooter />
+                        </div>
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Home indicator iOS */}
+                  <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-white rounded-full opacity-80"></div>
                 </div>
+
+                {/* Riflesso sullo schermo */}
+                <div className="absolute inset-2 rounded-[2.5rem] bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none"></div>
               </div>
             </div>
           ) : (
