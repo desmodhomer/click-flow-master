@@ -1,5 +1,4 @@
 
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Eye, Monitor } from "lucide-react";
@@ -91,8 +90,11 @@ const LinkPreview = ({
     );
   }
 
-  // Determine background style to match SubdomainHandler
+  // Fixed background style determination to match exactly what SubdomainHandler uses
   const getBackgroundStyle = () => {
+    console.log('Current backgroundTheme:', backgroundTheme);
+    console.log('Custom background URL:', customBackgroundUrl);
+    
     if (customBackgroundUrl) {
       return {
         backgroundImage: `url(${customBackgroundUrl})`,
@@ -102,7 +104,7 @@ const LinkPreview = ({
       };
     }
     
-    // Use the actual theme mapping from SubdomainHandler
+    // Use exact same mapping as SubdomainHandler
     const themeStyles: Record<string, string> = {
       'gradient-blue': 'bg-gradient-to-br from-blue-50 to-purple-50',
       'gradient-purple': 'bg-gradient-to-br from-purple-50 to-pink-50',
@@ -165,21 +167,24 @@ const LinkPreview = ({
         </CardContent>
       </Card>
 
-      {/* Preview Card - Styled to match SubdomainHandler */}
+      {/* Enhanced Live Preview Card */}
       <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-white">
-            Anteprima Pagina
+            Anteprima Live - Come apparirà il tuo link
           </CardTitle>
           <p className="text-gray-300 text-sm">
-            Ecco come apparirà la tua pagina personalizzata
+            Anteprima fedele alla pagina che vedranno i tuoi visitatori
           </p>
         </CardHeader>
         <CardContent>
-          {/* Preview Window - styled to match the actual subdomain page */}
-          <div className="bg-black/20 rounded-lg p-4 border border-white/10">
-            <div className={`${backgroundStyle.className || ''} relative min-h-[500px] flex items-center justify-center p-4 rounded-lg overflow-hidden`} style={backgroundStyle}>
-              {/* Cover Image */}
+          {/* Live Preview Window */}
+          <div className="bg-black/30 rounded-lg p-6 border border-white/10">
+            <div 
+              className={`min-h-[600px] flex items-center justify-center p-4 rounded-lg overflow-hidden relative ${backgroundStyle.className || ''}`} 
+              style={backgroundStyle}
+            >
+              {/* Cover Image Overlay */}
               {coverImageUrl && (
                 <div 
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
@@ -187,9 +192,9 @@ const LinkPreview = ({
                 />
               )}
               
-              <div className="relative z-10 max-w-lg mx-auto">
-                <div className="shadow-2xl backdrop-blur-sm bg-white/90 rounded-lg overflow-hidden">
-                  {/* Header with gradient - matching SubdomainHandler */}
+              <div className="relative z-10 max-w-lg mx-auto w-full">
+                <Card className="shadow-2xl backdrop-blur-sm bg-white/90">
+                  {/* Header Section - Matching SubdomainHandler exactly */}
                   <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white rounded-t-lg relative">
                     {profileImageUrl && (
                       <div className="flex justify-center mb-4">
@@ -228,9 +233,9 @@ const LinkPreview = ({
                     </div>
                   </div>
                   
-                  <div className="p-8">
+                  <CardContent className="p-8">
                     <div className="space-y-6">
-                      {/* Social Links */}
+                      {/* Social Links Preview */}
                       {socialLinks.length > 0 && (
                         <div className="space-y-3">
                           <h3 className="font-semibold text-gray-700 flex items-center gap-2">
@@ -251,7 +256,7 @@ const LinkPreview = ({
                           </div>
                           {socialLinks.length > 4 && (
                             <p className="text-gray-500 text-xs text-center">
-                              +{socialLinks.length - 4} altri
+                              +{socialLinks.length - 4} altri link social
                             </p>
                           )}
                         </div>
@@ -261,6 +266,7 @@ const LinkPreview = ({
                       <Button 
                         className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                         size="lg"
+                        disabled
                       >
                         <ExternalLink className="mr-2 h-5 w-5" />
                         Visita Link
@@ -278,20 +284,24 @@ const LinkPreview = ({
                           variant="ghost" 
                           size="sm"
                           className="text-blue-600 hover:text-blue-700"
+                          disabled
                         >
                           🔗 lnkfire.dev
                         </Button>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
 
-          <p className="text-gray-400 text-xs text-center mt-3">
-            * Questa è un'anteprima del design. Clicca "Anteprima" per testare la pagina reale.
-          </p>
+          {/* Live Update Indicator */}
+          <div className="mt-4 p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
+            <p className="text-green-300 text-sm text-center">
+              ✨ Anteprima aggiornata in tempo reale - Le modifiche al form si riflettono qui immediatamente
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
@@ -299,4 +309,3 @@ const LinkPreview = ({
 };
 
 export default LinkPreview;
-

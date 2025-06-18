@@ -23,8 +23,23 @@ const LinkCustomizerPage = () => {
   const [generatedLink, setGeneratedLink] = useState("");
 
   const handleLinkGenerated = (link: string) => {
+    console.log('Link generated:', link);
     setGeneratedLink(link);
   };
+
+  // Log state changes for debugging
+  console.log('Current state:', {
+    title,
+    description,
+    displayName,
+    bio,
+    backgroundTheme,
+    profileImageUrl,
+    coverImageUrl,
+    customBackgroundUrl,
+    socialLinks: socialLinks.length,
+    generatedLink
+  });
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-black">
