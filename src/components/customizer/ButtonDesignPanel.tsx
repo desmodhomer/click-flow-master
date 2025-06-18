@@ -1,9 +1,10 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Square, Circle, CornerRightUp, ExternalLink, ChevronDown } from "lucide-react";
+import { Palette, Square, Circle, CornerRightUp, ExternalLink, ChevronDown, ALargeSmall, Minus, Plus } from "lucide-react";
 import { CustomButton } from "./ConfigurationPanel";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 
 interface ButtonDesignPanelProps {
@@ -28,7 +29,13 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     { id: 'gradient-orange', name: 'Gradiente Arancione', class: 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600' }
   ];
 
-  const updateButtonDesign = (property: string, value: string) => {
+  const buttonSizes = [
+    { id: 'small', name: 'Piccolo', height: 'h-10' },
+    { id: 'medium', name: 'Medio', height: 'h-12' },
+    { id: 'large', name: 'Grande', height: 'h-14' }
+  ];
+
+  const updateButtonDesign = (property: string, value: string | number) => {
     if (selectedButtonId === "all") {
       // Modifica tutti i pulsanti
       const updatedButtons = customButtons.map(button => ({
@@ -71,8 +78,32 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     }
   };
 
+  const getCurrentButtonSize = () => {
+    if (selectedButtonId === "all") {
+      const firstButtonSize = customButtons[0]?.size || 'medium';
+      const allSameSize = customButtons.every(btn => btn.size === firstButtonSize);
+      return allSameSize ? firstButtonSize : 'medium';
+    } else {
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      return selectedButton?.size || 'medium';
+    }
+  };
+
+  const getCurrentButtonSpacing = () => {
+    if (selectedButtonId === "all") {
+      const firstButtonSpacing = customButtons[0]?.spacing || 3;
+      const allSameSpacing = customButtons.every(btn => btn.spacing === firstButtonSpacing);
+      return allSameSpacing ? firstButtonSpacing : 3;
+    } else {
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      return selectedButton?.spacing || 3;
+    }
+  };
+
   const currentStyle = getCurrentButtonStyle();
   const currentColor = getCurrentButtonColor();
+  const currentSize = getCurrentButtonSize();
+  const currentSpacing = getCurrentButtonSpacing();
 
   if (customButtons.length === 0) {
     return (
@@ -142,6 +173,44 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         </div>
       </div>
 
+      {/* Dimensione del pulsante */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700">Dimensione</h4>
+        <div className="grid grid-cols-3 gap-2">
+          {buttonSizes.map((size) => (
+            <Button
+              key={size.id}
+              variant={currentSize === size.id ? "default" : "outline"}
+              size="sm"
+              onClick={() => updateButtonDesign('size', size.id)}
+              className="flex flex-col items-center gap-1 h-auto py-3"
+            >
+              <ALargeSmall className="h-4 w-4" />
+              <span className="text-xs">{size.name}</span>
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      {/* Spaziatura tra pulsanti */}
+      <div className="space-y-3">
+        <h4 className="text-sm font-medium text-gray-700">Spaziatura</h4>
+        <div className="px-2">
+          <Slider
+            value={[currentSpacing]}
+            onValueChange={(value) => updateButtonDesign('spacing', value[0])}
+            max={8}
+            min={1}
+            step={1}
+            className="w-full"
+          />
+          <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <span>Minima</span>
+            <span>Massima</span>
+          </div>
+        </div>
+      </div>
+
       {/* Colore del pulsante */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700">Colore</h4>
@@ -164,40 +233,47 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
       {/* Anteprima */}
       <div className="space-y-3">
         <h4 className="text-sm font-medium text-gray-700">Anteprima</h4>
-        <div className="p-4 bg-gray-50 rounded-lg space-y-3">
-          {selectedButtonId === "all" ? (
-            // Mostra tutti i pulsanti se "all" è selezionato
-            customButtons.map((button, index) => (
-              <div 
-                key={button.id}
-                className={`w-full h-12 flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
-                  buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl'
-                } ${
-                  buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
-                }`}
-              >
-                <ExternalLink className="mr-2 h-4 w-4" />
-                {button.text || `Pulsante ${index + 1}`}
-              </div>
-            ))
-          ) : (
-            // Mostra solo il pulsante selezionato
-            (() => {
-              const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
-              return selectedButton ? (
-                <div 
-                  className={`w-full h-12 flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
-                    buttonStyles.find(s => s.id === selectedButton.style)?.class || 'rounded-xl'
-                  } ${
-                    buttonColors.find(c => c.id === selectedButton.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
-                  }`}
-                >
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  {selectedButton.text || 'Pulsante'}
-                </div>
-              ) : null;
-            })()
-          )}
+        <div className="p-4 bg-gray-50 rounded-lg">
+          <div className={`space-y-${currentSpacing}`}>
+            {selectedButtonId === "all" ? (
+              // Mostra tutti i pulsanti se "all" è selezionato
+              customButtons.map((button, index) => {
+                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-12';
+                return (
+                  <div 
+                    key={button.id}
+                    className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                      buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl'
+                    } ${
+                      buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                    }`}
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    {button.text || `Pulsante ${index + 1}`}
+                  </div>
+                );
+              })
+            ) : (
+              // Mostra solo il pulsante selezionato
+              (() => {
+                const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+                if (!selectedButton) return null;
+                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-12';
+                return (
+                  <div 
+                    className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                      buttonStyles.find(s => s.id === selectedButton.style)?.class || 'rounded-xl'
+                    } ${
+                      buttonColors.find(c => c.id === selectedButton.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                    }`}
+                  >
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    {selectedButton.text || 'Pulsante'}
+                  </div>
+                );
+              })()
+            )}
+          </div>
         </div>
       </div>
     </div>

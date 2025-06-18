@@ -27,15 +27,30 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
       'gradient-orange': 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600'
     };
 
-    const baseClasses = 'w-full h-12 text-sm font-medium shadow-lg flex items-center justify-center cursor-pointer transition-all duration-200';
+    const sizeClasses = {
+      'small': 'h-10',
+      'medium': 'h-12',
+      'large': 'h-14'
+    };
+
+    const baseClasses = 'w-full text-sm font-medium shadow-lg flex items-center justify-center cursor-pointer transition-all duration-200';
     const styleClass = styleClasses[button.style as keyof typeof styleClasses] || 'rounded-xl';
     const colorClass = colorClasses[button.color as keyof typeof colorClasses] || 'bg-white/90 text-gray-900 hover:bg-white';
+    const sizeClass = sizeClasses[button.size as keyof typeof sizeClasses] || 'h-12';
 
-    return `${baseClasses} ${styleClass} ${colorClass}`;
+    return `${baseClasses} ${styleClass} ${colorClass} ${sizeClass}`;
   };
 
+  const getSpacingClass = (spacing?: number) => {
+    const spacingValue = spacing || 3;
+    return `space-y-${spacingValue}`;
+  };
+
+  // Use spacing from first button or default to 3
+  const spacing = customButtons[0]?.spacing || 3;
+
   return (
-    <div className="px-4 mb-3 space-y-3">
+    <div className={`px-4 mb-3 ${getSpacingClass(spacing)}`}>
       {customButtons.map((button) => (
         <div key={button.id} className={getButtonClasses(button)}>
           <ExternalLink className="mr-2 h-4 w-4" />

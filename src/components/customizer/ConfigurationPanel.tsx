@@ -9,8 +9,10 @@ export interface CustomButton {
   id: string;
   text: string;
   url: string;
-  color?: string;
-  style?: string;
+  style: string;
+  color: string;
+  size?: string;
+  spacing?: number;
 }
 
 interface ConfigurationPanelProps {
@@ -39,8 +41,10 @@ const ConfigurationPanel = ({
       id: `btn-${Date.now()}`,
       text: '',
       url: '',
+      style: 'primary',
       color: 'primary',
-      style: 'primary'
+      size: 'md',
+      spacing: 4
     };
     setCustomButtons([...customButtons, newButton]);
   };
