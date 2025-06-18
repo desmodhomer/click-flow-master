@@ -151,6 +151,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
 
   return (
     <div className="space-y-6">
+      {/* Header Section - SEMPRE visibile */}
       <div className="text-center pb-4 border-b border-gray-100">
         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3">
           <Palette className="h-6 w-6 text-white" />
@@ -159,35 +160,44 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         <p className="text-sm text-gray-500 mt-1">Aggiungi e personalizza i tuoi pulsanti</p>
       </div>
 
-      {/* Sezione Aggiungi Pulsante - SEMPRE visibile */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-gray-700">I tuoi Pulsanti</h4>
-          <Button onClick={addButton} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
-            <Plus className="h-3 w-3 mr-1" />
+      {/* PULSANTE AGGIUNGI - SEMPRE PROMINENTE */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-blue-200 rounded-xl p-6">
+        <div className="text-center space-y-4">
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto">
+            <Plus className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold text-gray-900 mb-2">Crea un nuovo pulsante</h4>
+            <p className="text-sm text-gray-600 mb-4">Aggiungi pulsanti personalizzati per i tuoi link</p>
+          </div>
+          <Button 
+            onClick={addButton} 
+            size="lg" 
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-3 text-base shadow-lg hover:shadow-xl transition-all duration-200"
+          >
+            <Plus className="h-5 w-5 mr-2" />
             Aggiungi Pulsante
           </Button>
         </div>
+      </div>
 
-        {customButtons.length === 0 ? (
-          <div className="text-center py-8 text-gray-500 text-sm border-2 border-dashed border-gray-200 rounded-lg">
-            <p className="mb-4">Nessun pulsante aggiunto ancora.</p>
-            <Button onClick={addButton} variant="outline" size="sm">
-              <Plus className="h-3 w-3 mr-1" />
-              Crea il tuo primo pulsante
-            </Button>
+      {/* Lista pulsanti esistenti */}
+      {customButtons.length > 0 && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="text-sm font-medium text-gray-700">I tuoi Pulsanti ({customButtons.length})</h4>
           </div>
-        ) : (
+
           <div className="space-y-3">
             {customButtons.map((button, index) => (
-              <div key={button.id} className="p-4 border border-gray-200 rounded-lg space-y-3">
+              <div key={button.id} className="p-4 border border-gray-200 rounded-lg space-y-3 bg-white">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-700">Pulsante {index + 1}</span>
                   <Button 
                     onClick={() => removeButton(button.id)} 
                     size="sm" 
                     variant="ghost"
-                    className="text-red-500 hover:text-red-700"
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
                   >
                     <Trash2 className="h-3 w-3" />
                   </Button>
@@ -216,10 +226,10 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Resto delle opzioni di personalizzazione - Solo se ci sono pulsanti */}
+      {/* Opzioni di personalizzazione - Solo se ci sono pulsanti */}
       {customButtons.length > 0 && (
         <>
           {/* Selezione pulsante da modificare */}
