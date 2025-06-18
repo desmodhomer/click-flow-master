@@ -7,6 +7,24 @@ import { Label } from "@/components/ui/label";
 import { Square, Circle, CornerRightUp, Palette } from "lucide-react";
 import { CustomButton } from "../ConfigurationPanel";
 import { useState } from "react";
+import {
+  TwitterIcon,
+  FacebookIcon,
+  InstagramIcon,
+  GoogleIcon,
+  WhatsAppIcon,
+  YouTubeIcon,
+  PinterestIcon,
+  LinkedInIcon,
+  SpotifyIcon,
+  VimeoIcon,
+  DribbbleIcon,
+  BehanceIcon,
+  StackOverflowIcon,
+  SkypeIcon,
+  TumblrIcon,
+  SnapchatIcon
+} from "./SocialPlatformIcons";
 
 interface ButtonCustomizationControlsProps {
   customButtons: CustomButton[];
@@ -57,6 +75,25 @@ const ButtonCustomizationControls = ({
     { id: 'gradient-pink', name: 'Gradiente Rosa-Viola', class: 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600', color: 'linear-gradient(to right, #ec4899, #a855f7)' }
   ];
 
+  const socialPlatformColors = [
+    { id: 'twitter', name: 'Twitter', icon: TwitterIcon, color: '#1DA1F2' },
+    { id: 'facebook', name: 'Facebook', icon: FacebookIcon, color: '#3b5998' },
+    { id: 'instagram', name: 'Instagram', icon: InstagramIcon, color: '#E4405F' },
+    { id: 'google', name: 'Google', icon: GoogleIcon, color: '#db4437' },
+    { id: 'whatsapp', name: 'WhatsApp', icon: WhatsAppIcon, color: '#25D366' },
+    { id: 'youtube', name: 'YouTube', icon: YouTubeIcon, color: '#FF0000' },
+    { id: 'pinterest', name: 'Pinterest', icon: PinterestIcon, color: '#BD081C' },
+    { id: 'linkedin', name: 'LinkedIn', icon: LinkedInIcon, color: '#0077B5' },
+    { id: 'spotify', name: 'Spotify', icon: SpotifyIcon, color: '#1DB954' },
+    { id: 'vimeo', name: 'Vimeo', icon: VimeoIcon, color: '#1ab7ea' },
+    { id: 'dribbble', name: 'Dribbble', icon: DribbbleIcon, color: '#ea4c89' },
+    { id: 'behance', name: 'Behance', icon: BehanceIcon, color: '#1769ff' },
+    { id: 'stackoverflow', name: 'Stack Overflow', icon: StackOverflowIcon, color: '#f48024' },
+    { id: 'skype', name: 'Skype', icon: SkypeIcon, color: '#00AFF0' },
+    { id: 'tumblr', name: 'Tumblr', icon: TumblrIcon, color: '#001935' },
+    { id: 'snapchat', name: 'Snapchat', icon: SnapchatIcon, color: '#FFFC00' }
+  ];
+
   const buttonSizes = [
     { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
     { id: 'small', name: '2 - Piccolo', height: 'h-8' },
@@ -73,6 +110,15 @@ const ButtonCustomizationControls = ({
     onButtonDesignUpdate('color', customColorId);
     onButtonDesignUpdate('customColorCode', customColorCode);
     onButtonDesignUpdate('customColorClass', customColorClass);
+  };
+
+  const handleSocialPlatformColor = (platform: any) => {
+    const socialColorId = `social-${platform.id}`;
+    const textColor = isLightColor(platform.color) ? 'text-gray-900' : 'text-white';
+    
+    onButtonDesignUpdate('color', socialColorId);
+    onButtonDesignUpdate('customColorCode', platform.color);
+    onButtonDesignUpdate('socialPlatform', platform.id);
   };
 
   const isLightColor = (color: string) => {
@@ -179,25 +225,55 @@ const ButtonCustomizationControls = ({
         </div>
 
         {/* Colori predefiniti */}
-        <div className="grid grid-cols-2 gap-2">
-          {buttonColors.map((color) => (
-            <Button
-              key={color.id}
-              variant={currentColor === color.id ? "default" : "outline"}
-              size="sm"
-              onClick={() => onButtonDesignUpdate('color', color.id)}
-              className="w-full justify-start h-10"
-            >
-              <div 
-                className="w-5 h-5 rounded mr-2 border border-gray-200" 
-                style={{ 
-                  background: color.color.startsWith('linear-gradient') ? color.color : color.color,
-                  backgroundColor: !color.color.startsWith('linear-gradient') ? color.color : undefined
-                }}
-              ></div>
-              <span className="text-xs">{color.name}</span>
-            </Button>
-          ))}
+        <div className="space-y-3">
+          <h5 className="text-xs font-medium text-gray-600">Colori Base</h5>
+          <div className="grid grid-cols-2 gap-2">
+            {buttonColors.map((color) => (
+              <Button
+                key={color.id}
+                variant={currentColor === color.id ? "default" : "outline"}
+                size="sm"
+                onClick={() => onButtonDesignUpdate('color', color.id)}
+                className="w-full justify-start h-10"
+              >
+                <div 
+                  className="w-5 h-5 rounded mr-2 border border-gray-200" 
+                  style={{ 
+                    background: color.color.startsWith('linear-gradient') ? color.color : color.color,
+                    backgroundColor: !color.color.startsWith('linear-gradient') ? color.color : undefined
+                  }}
+                ></div>
+                <span className="text-xs">{color.name}</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Colori Social Platform */}
+        <div className="space-y-3">
+          <h5 className="text-xs font-medium text-gray-600">Social Platform</h5>
+          <div className="grid grid-cols-2 gap-2">
+            {socialPlatformColors.map((platform) => {
+              const IconComponent = platform.icon;
+              return (
+                <Button
+                  key={platform.id}
+                  variant={currentColor === `social-${platform.id}` ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handleSocialPlatformColor(platform)}
+                  className="w-full justify-start h-10"
+                >
+                  <div 
+                    className="w-5 h-5 rounded mr-2 border border-gray-200 flex items-center justify-center" 
+                    style={{ backgroundColor: platform.color }}
+                  >
+                    <IconComponent className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs">{platform.name}</span>
+                </Button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Sezione colore avanzato */}
