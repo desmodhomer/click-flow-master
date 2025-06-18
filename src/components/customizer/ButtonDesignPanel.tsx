@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -156,22 +157,26 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
           <Palette className="h-6 w-6 text-white" />
         </div>
         <h3 className="text-lg font-semibold text-gray-900">Gestione Pulsanti</h3>
-        <p className="text-sm text-gray-500 mt-1">Personalizza l'aspetto dei tuoi pulsanti</p>
+        <p className="text-sm text-gray-500 mt-1">Aggiungi e personalizza i tuoi pulsanti</p>
       </div>
 
-      {/* Sezione Aggiungi Pulsante - Sempre visibile */}
+      {/* Sezione Aggiungi Pulsante - SEMPRE visibile */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h4 className="text-sm font-medium text-gray-700">I tuoi Pulsanti</h4>
-          <Button onClick={addButton} size="sm" variant="outline">
+          <Button onClick={addButton} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
             <Plus className="h-3 w-3 mr-1" />
             Aggiungi Pulsante
           </Button>
         </div>
 
         {customButtons.length === 0 ? (
-          <div className="text-center py-6 text-gray-500 text-sm border-2 border-dashed border-gray-200 rounded-lg">
-            Nessun pulsante aggiunto. Clicca "Aggiungi Pulsante" per iniziare.
+          <div className="text-center py-8 text-gray-500 text-sm border-2 border-dashed border-gray-200 rounded-lg">
+            <p className="mb-4">Nessun pulsante aggiunto ancora.</p>
+            <Button onClick={addButton} variant="outline" size="sm">
+              <Plus className="h-3 w-3 mr-1" />
+              Crea il tuo primo pulsante
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -215,6 +220,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         )}
       </div>
 
+      {/* Resto delle opzioni di personalizzazione - Solo se ci sono pulsanti */}
       {customButtons.length > 0 && (
         <>
           {/* Selezione pulsante da modificare */}
