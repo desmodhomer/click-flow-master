@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Palette, Square, Circle, CornerRightUp, ExternalLink, ChevronDown, ALargeSmall, Minus, Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Palette, Square, Circle, CornerRightUp, ExternalLink, Plus, Trash2 } from "lucide-react";
 import { CustomButton } from "./ConfigurationPanel";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
@@ -35,6 +37,29 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     { id: 'large', name: '4 - Grande', height: 'h-12' },
     { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
   ];
+
+  const addButton = () => {
+    const newButton: CustomButton = {
+      id: `btn-${Date.now()}`,
+      text: '',
+      url: '',
+      style: 'rounded',
+      color: 'white',
+      size: 'medium',
+      spacing: 3
+    };
+    setCustomButtons([...customButtons, newButton]);
+  };
+
+  const updateButton = (id: string, field: keyof CustomButton, value: string) => {
+    setCustomButtons(customButtons.map(btn => 
+      btn.id === id ? { ...btn, [field]: value } : btn
+    ));
+  };
+
+  const removeButton = (id: string) => {
+    setCustomButtons(customButtons.filter(btn => btn.id !== id));
+  };
 
   const updateButtonDesign = (property: string, value: string | number) => {
     if (selectedButtonId === "all") {
@@ -113,8 +138,8 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
           <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3">
             <Palette className="h-6 w-6 text-white" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">Design Pulsanti</h3>
-          <p className="text-sm text-gray-500 mt-1">Aggiungi prima dei pulsanti per personalizzarne il design</p>
+          <h3 className="text-lg font-semibold text-gray-900">Gestione Pulsanti</h3>
+          <p className="text-sm text-gray-500 mt-1">Aggiungi e personalizza i tuoi pulsanti</p>
         </div>
         
         <div className="text-center py-8">
@@ -130,152 +155,212 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-3">
           <Palette className="h-6 w-6 text-white" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-900">Design Pulsanti</h3>
+        <h3 className="text-lg font-semibold text-gray-900">Gestione Pulsanti</h3>
         <p className="text-sm text-gray-500 mt-1">Personalizza l'aspetto dei tuoi pulsanti</p>
       </div>
 
-      {/* Selezione pulsante da modificare */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Modifica</h4>
-        <Select value={selectedButtonId} onValueChange={setSelectedButtonId}>
-          <SelectTrigger className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Tutti i pulsanti</SelectItem>
+      {/* Sezione Aggiungi/Gestisci Pulsanti */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h4 className="text-sm font-medium text-gray-700">I tuoi Pulsanti</h4>
+          <Button onClick={addButton} size="sm" variant="outline">
+            <Plus className="h-3 w-3 mr-1" />
+            Aggiungi Pulsante
+          </Button>
+        </div>
+
+        {customButtons.length === 0 ? (
+          <div className="text-center py-6 text-gray-500 text-sm border-2 border-dashed border-gray-200 rounded-lg">
+            Nessun pulsante aggiunto. Clicca "Aggiungi Pulsante" per iniziare.
+          </div>
+        ) : (
+          <div className="space-y-3">
             {customButtons.map((button, index) => (
-              <SelectItem key={button.id} value={button.id}>
-                Pulsante {index + 1}: {button.text || 'Senza titolo'}
-              </SelectItem>
+              <div key={button.id} className="p-4 border border-gray-200 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-700">Pulsante {index + 1}</span>
+                  <Button 
+                    onClick={() => removeButton(button.id)} 
+                    size="sm" 
+                    variant="ghost"
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </Button>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs text-gray-600">Testo del pulsante</Label>
+                    <Input
+                      placeholder="Visita il sito"
+                      value={button.text}
+                      onChange={(e) => updateButton(button.id, 'text', e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs text-gray-600">URL di destinazione</Label>
+                    <Input
+                      placeholder="https://esempio.com"
+                      value={button.url}
+                      onChange={(e) => updateButton(button.id, 'url', e.target.value)}
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
             ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Forma del pulsante */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Forma</h4>
-        <div className="grid grid-cols-3 gap-2">
-          {buttonStyles.map((style) => {
-            const IconComponent = style.icon;
-            return (
-              <Button
-                key={style.id}
-                variant={currentStyle === style.id ? "default" : "outline"}
-                size="sm"
-                onClick={() => updateButtonDesign('style', style.id)}
-                className="flex flex-col items-center gap-1 h-auto py-3"
-              >
-                <IconComponent className="h-4 w-4" />
-                <span className="text-xs">{style.name}</span>
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Dimensione del pulsante */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Dimensione</h4>
-        <div className="grid grid-cols-1 gap-2">
-          {buttonSizes.map((size) => (
-            <Button
-              key={size.id}
-              variant={currentSize === size.id ? "default" : "outline"}
-              size="sm"
-              onClick={() => updateButtonDesign('size', size.id)}
-              className="justify-start"
-            >
-              <span className="text-sm">{size.name}</span>
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Spaziatura tra pulsanti */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Spaziatura</h4>
-        <div className="px-2">
-          <Slider
-            value={[currentSpacing]}
-            onValueChange={(value) => updateButtonDesign('spacing', value[0])}
-            max={6}
-            min={1}
-            step={1}
-            className="w-full"
-          />
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
-            <span>1 - Minima</span>
-            <span>6 - Massima</span>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Colore del pulsante */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Colore</h4>
-        <div className="space-y-2">
-          {buttonColors.map((color) => (
-            <Button
-              key={color.id}
-              variant={currentColor === color.id ? "default" : "outline"}
-              size="sm"
-              onClick={() => updateButtonDesign('color', color.id)}
-              className="w-full justify-start"
-            >
-              <div className={`w-4 h-4 rounded mr-2 ${color.class.split(' ')[0]}`}></div>
-              {color.name}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Anteprima */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-700">Anteprima</h4>
-        <div className="p-4 bg-gray-50 rounded-lg">
-          <div className={`space-y-${currentSpacing}`}>
-            {selectedButtonId === "all" ? (
-              // Mostra tutti i pulsanti se "all" è selezionato
-              customButtons.map((button, index) => {
-                const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
-                return (
-                  <div 
-                    key={button.id}
-                    className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
-                      buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl'
-                    } ${
-                      buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
-                    }`}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    {button.text || `Pulsante ${index + 1}`}
-                  </div>
-                );
-              })
-            ) : (
-              // Mostra solo il pulsante selezionato
-              (() => {
-                const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
-                if (!selectedButton) return null;
-                const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-10';
-                return (
-                  <div 
-                    className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
-                      buttonStyles.find(s => s.id === selectedButton.style)?.class || 'rounded-xl'
-                    } ${
-                      buttonColors.find(c => c.id === selectedButton.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
-                    }`}
-                  >
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    {selectedButton.text || 'Pulsante'}
-                  </div>
-                );
-              })()
-            )}
+      {customButtons.length > 0 && (
+        <>
+          {/* Selezione pulsante da modificare */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Personalizza Design</h4>
+            <Select value={selectedButtonId} onValueChange={setSelectedButtonId}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tutti i pulsanti</SelectItem>
+                {customButtons.map((button, index) => (
+                  <SelectItem key={button.id} value={button.id}>
+                    Pulsante {index + 1}: {button.text || 'Senza titolo'}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-        </div>
-      </div>
+
+          {/* Forma del pulsante */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Forma</h4>
+            <div className="grid grid-cols-3 gap-2">
+              {buttonStyles.map((style) => {
+                const IconComponent = style.icon;
+                return (
+                  <Button
+                    key={style.id}
+                    variant={currentStyle === style.id ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => updateButtonDesign('style', style.id)}
+                    className="flex flex-col items-center gap-1 h-auto py-3"
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    <span className="text-xs">{style.name}</span>
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Dimensione del pulsante */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Dimensione</h4>
+            <div className="grid grid-cols-1 gap-2">
+              {buttonSizes.map((size) => (
+                <Button
+                  key={size.id}
+                  variant={currentSize === size.id ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => updateButtonDesign('size', size.id)}
+                  className="justify-start"
+                >
+                  <span className="text-sm">{size.name}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Spaziatura tra pulsanti */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Spaziatura</h4>
+            <div className="px-2">
+              <Slider
+                value={[currentSpacing]}
+                onValueChange={(value) => updateButtonDesign('spacing', value[0])}
+                max={6}
+                min={1}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>1 - Minima</span>
+                <span>6 - Massima</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Colore del pulsante */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Colore</h4>
+            <div className="space-y-2">
+              {buttonColors.map((color) => (
+                <Button
+                  key={color.id}
+                  variant={currentColor === color.id ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => updateButtonDesign('color', color.id)}
+                  className="w-full justify-start"
+                >
+                  <div className={`w-4 h-4 rounded mr-2 ${color.class.split(' ')[0]}`}></div>
+                  {color.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Anteprima */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Anteprima</h4>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <div className={`space-y-${currentSpacing}`}>
+                {selectedButtonId === "all" ? (
+                  // Mostra tutti i pulsanti se "all" è selezionato
+                  customButtons.map((button, index) => {
+                    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
+                    return (
+                      <div 
+                        key={button.id}
+                        className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                          buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl'
+                        } ${
+                          buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                        }`}
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        {button.text || `Pulsante ${index + 1}`}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Mostra solo il pulsante selezionato
+                  (() => {
+                    const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+                    if (!selectedButton) return null;
+                    const sizeClass = buttonSizes.find(s => s.id === selectedButton.size)?.height || 'h-10';
+                    return (
+                      <div 
+                        className={`w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${
+                          buttonStyles.find(s => s.id === selectedButton.style)?.class || 'rounded-xl'
+                        } ${
+                          buttonColors.find(c => c.id === selectedButton.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white'
+                        }`}
+                      >
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        {selectedButton.text || 'Pulsante'}
+                      </div>
+                    );
+                  })()
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

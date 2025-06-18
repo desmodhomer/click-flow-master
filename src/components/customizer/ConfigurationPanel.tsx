@@ -1,9 +1,9 @@
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Settings, Hash, Type, FileText, Plus, ExternalLink, Trash2 } from "lucide-react";
+import { Settings, Hash, Type, FileText } from "lucide-react";
 
 export interface CustomButton {
   id: string;
@@ -129,75 +129,12 @@ const ConfigurationPanel = ({
           />
           <p className="text-xs text-gray-500">Una descrizione coinvolgente aumenta i click</p>
         </div>
-
-        {/* Sezione Pulsanti Personalizzati */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ExternalLink className="h-4 w-4 text-blue-500" />
-              <Label className="text-sm font-semibold text-gray-700">
-                Pulsanti Personalizzati
-              </Label>
-            </div>
-            <Button onClick={addButton} size="sm" variant="outline">
-              <Plus className="h-3 w-3 mr-1" />
-              Aggiungi
-            </Button>
-          </div>
-
-          {customButtons.length === 0 ? (
-            <div className="text-center py-6 text-gray-500 text-sm">
-              Nessun pulsante aggiunto. Clicca "Aggiungi" per iniziare.
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {customButtons.map((button, index) => (
-                <div key={button.id} className="p-4 border border-gray-200 rounded-lg space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">Pulsante {index + 1}</span>
-                    <Button 
-                      onClick={() => removeButton(button.id)} 
-                      size="sm" 
-                      variant="ghost"
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                    </Button>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-xs text-gray-600">Testo del pulsante</Label>
-                      <Input
-                        placeholder="Visita il sito"
-                        value={button.text}
-                        onChange={(e) => updateButton(button.id, 'text', e.target.value)}
-                        className="h-9 text-sm"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-xs text-gray-600">URL di destinazione</Label>
-                      <Input
-                        placeholder="https://esempio.com"
-                        value={button.url}
-                        onChange={(e) => updateButton(button.id, 'url', e.target.value)}
-                        className="h-9 text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          <p className="text-xs text-gray-500">I pulsanti appariranno nella pagina del sottodominio nell'ordine qui mostrato</p>
-        </div>
       </div>
 
       <div className="pt-6 border-t border-gray-100">
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p className="text-blue-800 text-sm font-medium">
-            💡 <strong>Suggerimento:</strong> Aggiungi pulsanti con call-to-action chiare come "Acquista Ora", "Scarica App", "Contattami"!
+            💡 <strong>Suggerimento:</strong> Configura prima i dettagli di base, poi vai nella sezione Pulsanti per aggiungere le tue call-to-action!
           </p>
         </div>
       </div>
