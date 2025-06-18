@@ -72,15 +72,18 @@ const MobileMockup = ({
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[20px] overflow-hidden relative">
             
-            {/* Notch ultra compatto */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[80px] h-[12px] bg-black rounded-b-[6px] z-50 flex items-center justify-center gap-1">
-              <div className="w-[3px] h-[3px] bg-gray-700 rounded-full shadow-inner"></div>
-              <div className="w-[15px] h-[1px] bg-gray-700 rounded-full"></div>
-            </div>
+            {/* Notch moderno sottilissimo - solo una piccola pillola */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60px] h-[6px] bg-black rounded-b-[3px] z-50"></div>
             
-            {/* Status Bar ultra compatta */}
-            <div className="absolute top-[14px] left-0 right-0 px-3 flex items-center justify-between text-white text-[9px] font-medium z-40">
-              <div className="ml-1 font-semibold">12:30</div>
+            {/* Status Bar - fotocamera e sensori alla stessa altezza dell'orario */}
+            <div className="absolute top-[8px] left-0 right-0 px-3 flex items-center justify-between text-white text-[9px] font-medium z-40">
+              <div className="flex items-center gap-1">
+                {/* Fotocamera */}
+                <div className="w-[4px] h-[4px] bg-gray-600 rounded-full"></div>
+                {/* Sensore */}
+                <div className="w-[8px] h-[1px] bg-gray-700 rounded-full"></div>
+                <div className="ml-2 font-semibold">12:30</div>
+              </div>
               <div className="flex items-center gap-1 mr-1">
                 <Signal className="h-1.5 w-1.5" />
                 <Wifi className="h-1.5 w-1.5" />
@@ -89,7 +92,7 @@ const MobileMockup = ({
             </div>
             
             {/* Safari Browser UI ultra compatto */}
-            <div className="absolute top-[28px] left-0 right-0 bg-gray-50 px-2 py-0.5 flex items-center gap-1 border-b border-gray-200 z-30">
+            <div className="absolute top-[24px] left-0 right-0 bg-gray-50 px-2 py-0.5 flex items-center gap-1 border-b border-gray-200 z-30">
               <div className="flex-1 bg-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-700 font-medium">
                 <div className="flex items-center gap-1">
                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex items-center justify-center">
@@ -103,7 +106,7 @@ const MobileMockup = ({
             </div>
             
             {/* Website Content - Area scrollabile ottimizzata */}
-            <ScrollArea className="h-[calc(100%-48px)] mt-[48px]">
+            <ScrollArea className="h-[calc(100%-42px)] mt-[42px]">
               <div 
                 className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
