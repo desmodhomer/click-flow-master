@@ -1,9 +1,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Eye, Monitor } from "lucide-react";
+import { Copy, ExternalLink, Eye, Monitor, Heart, Globe, BarChart3, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { BACKGROUND_THEMES, SocialLink, SOCIAL_PLATFORMS } from "@/types/customLink";
+import { SocialLink } from "@/types/customLink";
 
 interface LinkPreviewProps {
   generatedLink: string;
@@ -53,7 +53,6 @@ const LinkPreview = ({
   };
 
   const openPreview = () => {
-    // Directly open the generated link
     if (generatedLink) {
       window.open(generatedLink, '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
       
@@ -64,7 +63,30 @@ const LinkPreview = ({
     }
   };
 
-  const selectedTheme = BACKGROUND_THEMES.find(theme => theme.id === backgroundTheme) || BACKGROUND_THEMES[0];
+  // Use exact same background logic as SubdomainHandler
+  const getBackgroundStyle = () => {
+    if (customBackgroundUrl) {
+      return {
+        backgroundImage: `url(${customBackgroundUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      };
+    }
+    
+    const themeStyles: Record<string, string> = {
+      'gradient-blue': 'from-blue-400 via-blue-600 to-purple-600',
+      'gradient-purple': 'from-purple-400 via-pink-500 to-red-500',
+      'gradient-green': 'from-green-400 via-teal-500 to-blue-500',
+      'gradient-orange': 'from-yellow-400 via-orange-500 to-red-500',
+      'dark': 'from-gray-800 via-gray-900 to-black',
+      'minimal': 'from-gray-50 via-white to-gray-100'
+    };
+    
+    return { 
+      className: `bg-gradient-to-br ${themeStyles[backgroundTheme] || themeStyles['gradient-blue']}` 
+    };
+  };
 
   if (!generatedLink) {
     return (
@@ -89,33 +111,6 @@ const LinkPreview = ({
       </Card>
     );
   }
-
-  // Fixed background style determination to match exactly what SubdomainHandler uses
-  const getBackgroundStyle = () => {
-    console.log('Current backgroundTheme:', backgroundTheme);
-    console.log('Custom background URL:', customBackgroundUrl);
-    
-    if (customBackgroundUrl) {
-      return {
-        backgroundImage: `url(${customBackgroundUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      };
-    }
-    
-    // Use exact same mapping as SubdomainHandler
-    const themeStyles: Record<string, string> = {
-      'gradient-blue': 'bg-gradient-to-br from-blue-50 to-purple-50',
-      'gradient-purple': 'bg-gradient-to-br from-purple-50 to-pink-50',
-      'gradient-green': 'bg-gradient-to-br from-green-50 to-blue-50',
-      'gradient-orange': 'bg-gradient-to-br from-orange-50 to-red-50',
-      'dark-solid': 'bg-gray-900',
-      'white-solid': 'bg-white'
-    };
-    
-    return { className: themeStyles[backgroundTheme] || themeStyles['gradient-blue'] };
-  };
 
   const backgroundStyle = getBackgroundStyle();
 
@@ -167,131 +162,172 @@ const LinkPreview = ({
         </CardContent>
       </Card>
 
-      {/* Enhanced Live Preview Card */}
+      {/* Enhanced Live Preview Card - Exact replica of SubdomainHandler */}
       <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-white">
-            Anteprima Live - Come apparirà il tuo link
+            Anteprima Live - Esattamente come apparirà
           </CardTitle>
           <p className="text-gray-300 text-sm">
-            Anteprima fedele alla pagina che vedranno i tuoi visitatori
+            Replica fedele del sottodominio che vedranno i visitatori
           </p>
         </CardHeader>
         <CardContent>
           {/* Live Preview Window */}
-          <div className="bg-black/30 rounded-lg p-6 border border-white/10">
+          <div className="bg-black/30 rounded-lg p-2 border border-white/10">
             <div 
-              className={`min-h-[600px] flex items-center justify-center p-4 rounded-lg overflow-hidden relative ${backgroundStyle.className || ''}`} 
+              className={`min-h-[600px] rounded-lg overflow-hidden relative ${backgroundStyle.className || ''}`} 
               style={backgroundStyle}
             >
-              {/* Cover Image Overlay */}
-              {coverImageUrl && (
-                <div 
-                  className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-                  style={{ backgroundImage: `url(${coverImageUrl})` }}
-                />
-              )}
-              
-              <div className="relative z-10 max-w-lg mx-auto w-full">
-                <Card className="shadow-2xl backdrop-blur-sm bg-white/90">
-                  {/* Header Section - Matching SubdomainHandler exactly */}
-                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white rounded-t-lg relative">
-                    {profileImageUrl && (
-                      <div className="flex justify-center mb-4">
+              {/* Hero Section with Cover Image - Exact replica */}
+              <div className="relative">
+                {/* Cover Image Overlay */}
+                {coverImageUrl && (
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${coverImageUrl})` }}
+                  />
+                )}
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-black/30"></div>
+                
+                {/* Hero Content */}
+                <div className="relative z-10 px-6 py-16 text-center text-white">
+                  {/* Profile Image */}
+                  {profileImageUrl && (
+                    <div className="flex justify-center mb-6">
+                      <div className="relative">
                         <img 
                           src={profileImageUrl} 
                           alt="Profile" 
-                          className="w-20 h-20 rounded-full border-4 border-white object-cover"
+                          className="w-32 h-32 rounded-full border-4 border-white/80 object-cover shadow-2xl"
                         />
+                        <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+                          <Heart className="h-5 w-5 text-white" fill="currentColor" />
+                        </div>
                       </div>
-                    )}
-                    
-                    <div className="text-center">
-                      {displayName && (
-                        <h2 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
-                          <ExternalLink className="h-5 w-5" />
-                          {displayName}
-                        </h2>
-                      )}
+                    </div>
+                  )}
+                  
+                  {/* Name and Title */}
+                  {displayName && (
+                    <h1 className="text-4xl sm:text-5xl font-bold mb-4 drop-shadow-lg">
+                      {displayName}
+                    </h1>
+                  )}
+                  
+                  <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-blue-100 drop-shadow">
+                    {title || "Link Personalizzato"}
+                  </h2>
+                  
+                  {/* Bio */}
+                  {bio && (
+                    <p className="text-lg sm:text-xl text-blue-50 max-w-2xl mx-auto leading-relaxed mb-8 drop-shadow">
+                      {bio}
+                    </p>
+                  )}
+                  
+                  {/* Description */}
+                  {description && (
+                    <p className="text-base sm:text-lg text-blue-100 max-w-xl mx-auto leading-relaxed drop-shadow">
+                      {description}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div className="relative z-10 px-6 pb-16">
+                <div className="max-w-2xl mx-auto space-y-8">
+                  
+                  {/* Social Links Section */}
+                  {socialLinks && socialLinks.length > 0 && (
+                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8">
+                      <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center gap-3">
+                        <Globe className="h-6 w-6 text-blue-600" />
+                        I miei social
+                      </h3>
+                      <div className="grid gap-4">
+                        {socialLinks.map((social, index) => (
+                          <div
+                            key={index}
+                            className="h-16 justify-start bg-gradient-to-r from-gray-50 to-blue-50 border-2 border-gray-200/50 transition-all duration-300 rounded-lg p-4"
+                          >
+                            <div className="flex items-center gap-4 w-full">
+                              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white text-lg font-bold shadow-lg">
+                                {social.platform.charAt(0).toUpperCase()}
+                              </div>
+                              <div className="flex-1 text-left">
+                                <div className="font-semibold text-gray-800 text-lg">
+                                  {social.display_text || social.platform}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  Clicca per visitare il mio {social.platform}
+                                </div>
+                              </div>
+                              <ExternalLink className="h-5 w-5 text-gray-400" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Main CTA Section */}
+                  <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8">
+                    <div className="text-center space-y-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
+                        <ExternalLink className="h-8 w-8 text-white" />
+                      </div>
                       
-                      <h1 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2">
-                        <ExternalLink className="h-6 w-6" />
-                        {title || "Link Personalizzato"}
-                      </h1>
+                      <h3 className="text-2xl font-bold text-gray-800">
+                        Scopri di più
+                      </h3>
                       
-                      {description && (
-                        <p className="text-blue-100 leading-relaxed mb-2">
-                          {description}
-                        </p>
-                      )}
+                      <p className="text-gray-600 leading-relaxed">
+                        Clicca il pulsante qui sotto per visitare il link principale
+                      </p>
                       
-                      {bio && (
-                        <p className="text-blue-50 text-sm leading-relaxed">
-                          {bio}
-                        </p>
-                      )}
+                      <div className="w-full h-16 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white text-xl font-bold shadow-xl rounded-2xl flex items-center justify-center">
+                        <ExternalLink className="mr-3 h-6 w-6" />
+                        Visita il Link
+                        <div className="ml-3 w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                      </div>
                     </div>
                   </div>
                   
-                  <CardContent className="p-8">
-                    <div className="space-y-6">
-                      {/* Social Links Preview */}
-                      {socialLinks.length > 0 && (
-                        <div className="space-y-3">
-                          <h3 className="font-semibold text-gray-700 flex items-center gap-2">
-                            <ExternalLink className="h-4 w-4" />
-                            I miei social
-                          </h3>
-                          <div className="grid grid-cols-2 gap-2">
-                            {socialLinks.slice(0, 4).map((social, index) => (
-                              <Button
-                                key={index}
-                                variant="outline"
-                                size="sm"
-                                className="justify-start text-xs"
-                              >
-                                {social.display_text || social.platform}
-                              </Button>
-                            ))}
-                          </div>
-                          {socialLinks.length > 4 && (
-                            <p className="text-gray-500 text-xs text-center">
-                              +{socialLinks.length - 4} altri link social
-                            </p>
-                          )}
+                  {/* Stats and Footer */}
+                  <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
+                          <BarChart3 className="h-5 w-5 text-white" />
                         </div>
-                      )}
-                      
-                      {/* Main CTA Button */}
-                      <Button 
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                        size="lg"
-                        disabled
-                      >
-                        <ExternalLink className="mr-2 h-5 w-5" />
-                        Visita Link
-                      </Button>
-                      
-                      <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                        <span>0 click totali</span>
+                        <div>
+                          <div className="text-2xl font-bold text-gray-800">0</div>
+                          <div className="text-sm text-gray-500">visite totali</div>
+                        </div>
                       </div>
                       
-                      <div className="pt-4 border-t text-center">
-                        <p className="text-xs text-muted-foreground mb-2">
-                          Powered by
-                        </p>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          className="text-blue-600 hover:text-blue-700"
-                          disabled
-                        >
-                          🔗 lnkfire.dev
-                        </Button>
+                      <div className="flex items-center gap-2 text-gray-500">
+                        <Calendar className="h-4 w-4" />
+                        <span className="text-sm">Attivo</span>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="pt-4 border-t border-gray-200 text-center">
+                      <p className="text-xs text-gray-500 mb-3 font-medium">
+                        Powered by
+                      </p>
+                      <div className="text-blue-600 font-bold text-sm flex items-center justify-center gap-2">
+                        <span className="text-xl">🔗</span>
+                        lnkfire.dev
+                        <ExternalLink className="h-3 w-3 opacity-50" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
