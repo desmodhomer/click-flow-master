@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,7 +48,12 @@ const SubdomainHandler = () => {
           if (error || !data) {
             setNotFound(true);
           } else {
-            setLink(data);
+            // Properly type cast the social_links from Json to SocialLink[]
+            const typedData: CustomLink = {
+              ...data,
+              social_links: Array.isArray(data.social_links) ? data.social_links as SocialLink[] : null
+            };
+            setLink(typedData);
           }
         } catch (error) {
           console.error('Error loading link:', error);
