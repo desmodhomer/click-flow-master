@@ -16,6 +16,7 @@ interface ImageUploadProps {
   aspectRatio?: string;
   maxWidth?: number;
   maxHeight?: number;
+  onUploadComplete?: () => void; // Callback per notificare il completamento dell'upload
 }
 
 const ImageUpload = ({
@@ -25,7 +26,8 @@ const ImageUpload = ({
   currentImageUrl,
   aspectRatio = "aspect-square",
   maxWidth = 800,
-  maxHeight = 800
+  maxHeight = 800,
+  onUploadComplete
 }: ImageUploadProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(currentImageUrl);
@@ -130,6 +132,11 @@ const ImageUpload = ({
 
       setPreviewUrl(publicUrl);
       onImageUploaded(publicUrl);
+
+      // Notifica il completamento dell'upload per ricaricare la galleria
+      if (onUploadComplete) {
+        onUploadComplete();
+      }
 
       toast({
         title: "Successo",

@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Image as ImageIcon, Upload, Sparkles } from "lucide-react";
 import ProfileCustomization from "@/components/ProfileCustomization";
+import ImageGallery from "./ImageGallery";
 
 interface ImagesPanelProps {
   profileImageUrl: string;
@@ -33,15 +34,64 @@ const ImagesPanel = ({
         </Badge>
       </div>
 
+      {/* Sezione Upload */}
       <div className="space-y-6">
-        <ProfileCustomization
-          profileImageUrl={profileImageUrl}
-          setProfileImageUrl={setProfileImageUrl}
-          coverImageUrl={coverImageUrl}
-          setCoverImageUrl={setCoverImageUrl}
-          customBackgroundUrl={customBackgroundUrl}
-          setCustomBackgroundUrl={setCustomBackgroundUrl}
-        />
+        <div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Carica Nuove Immagini</h3>
+          <ProfileCustomization
+            profileImageUrl={profileImageUrl}
+            setProfileImageUrl={setProfileImageUrl}
+            coverImageUrl={coverImageUrl}
+            setCoverImageUrl={setCoverImageUrl}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
+          />
+        </div>
+      </div>
+
+      {/* Sezione Galleria */}
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Galleria Immagini</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Seleziona dalle tue immagini caricate precedentemente
+          </p>
+          
+          <div className="space-y-4">
+            {/* Galleria Immagini Profilo */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Immagini Profilo</h4>
+              <ImageGallery
+                bucketName="profile-images"
+                onImageSelect={setProfileImageUrl}
+                selectedImageUrl={profileImageUrl}
+                aspectRatio="aspect-square"
+              />
+            </div>
+
+            {/* Galleria Immagini Copertina */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Immagini Copertina</h4>
+              <ImageGallery
+                bucketName="cover-images"
+                onImageSelect={setCoverImageUrl}
+                selectedImageUrl={coverImageUrl}
+                aspectRatio="aspect-[3/1]"
+              />
+            </div>
+
+            {/* Galleria Sfondi Personalizzati */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Sfondi Personalizzati</h4>
+              <ImageGallery
+                bucketName="custom-backgrounds"
+                onImageSelect={setCustomBackgroundUrl}
+                selectedImageUrl={customBackgroundUrl}
+                aspectRatio="aspect-[9/16]"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="pt-6 border-t border-gray-100">
@@ -57,6 +107,8 @@ const ImagesPanel = ({
                 <li>• La foto profilo dovrebbe essere quadrata (1:1)</li>
                 <li>• La copertina funziona meglio in formato 3:1</li>
                 <li>• Lo sfondo personalizzato dovrebbe essere 9:16 per mobile</li>
+                <li>• Le immagini vengono automaticamente ottimizzate per il web</li>
+                <li>• Puoi eliminare immagini dalla galleria cliccando sull'icona cestino</li>
               </ul>
             </div>
           </div>
