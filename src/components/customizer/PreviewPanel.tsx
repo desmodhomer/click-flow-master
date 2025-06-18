@@ -4,9 +4,11 @@ import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./ConfigurationPanel";
 import LinkActionsCard from "@/components/preview/LinkActionsCard";
 import MobileMockup from "./MobileMockup";
+import DesktopMockup from "./DesktopMockup";
 import EmptyPreviewState from "./EmptyPreviewState";
 import LiveUpdateIndicator from "./LiveUpdateIndicator";
 import PreviewHeader from "./PreviewHeader";
+import { useState } from "react";
 
 interface PreviewPanelProps {
   generatedLink: string;
@@ -37,6 +39,7 @@ const PreviewPanel = ({
   customSlug,
   customButtons = []
 }: PreviewPanelProps) => {
+  const [viewMode, setViewMode] = useState<'mobile' | 'desktop'>('mobile');
   const hasContent = title || displayName || generatedLink || customButtons.length > 0;
 
   return (
@@ -53,25 +56,41 @@ const PreviewPanel = ({
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col">
         <CardHeader className="pb-4 border-b border-gray-100">
           <CardTitle>
-            <PreviewHeader />
+            <PreviewHeader viewMode={viewMode} onViewModeChange={setViewMode} />
           </CardTitle>
         </CardHeader>
         
         <CardContent className="flex-1 p-0">
           {hasContent ? (
-            <MobileMockup
-              title={title}
-              description={description}
-              displayName={displayName}
-              bio={bio}
-              backgroundTheme={backgroundTheme}
-              profileImageUrl={profileImageUrl}
-              coverImageUrl={coverImageUrl}
-              customBackgroundUrl={customBackgroundUrl}
-              socialLinks={socialLinks}
-              customSlug={customSlug}
-              customButtons={customButtons}
-            />
+            viewMode === 'mobile' ? (
+              <MobileMockup
+                title={title}
+                description={description}
+                displayName={displayName}
+                bio={bio}
+                backgroundTheme={backgroundTheme}
+                profileImageUrl={profileImageUrl}
+                coverImageUrl={coverImageUrl}
+                customBackgroundUrl={customBackgroundUrl}
+                socialLinks={socialLinks}
+                customSlug={customSlug}
+                customButtons={customButtons}
+              />
+            ) : (
+              <DesktopMockup
+                title={title}
+                description={description}
+                displayName={displayName}
+                bio={bio}
+                backgroundTheme={backgroundTheme}
+                profileImageUrl={profileImageUrl}
+                coverImageUrl={coverImageUrl}
+                customBackgroundUrl={customBackgroundUrl}
+                socialLinks={socialLinks}
+                customSlug={customSlug}
+                customButtons={customButtons}
+              />
+            )
           ) : (
             <EmptyPreviewState />
           )}
