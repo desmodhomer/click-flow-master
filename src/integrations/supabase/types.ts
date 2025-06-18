@@ -17,6 +17,7 @@ export type Database = {
           cover_image_url: string | null
           created_at: string
           custom_background_url: string | null
+          custom_buttons: Json | null
           description: string | null
           destination_url: string
           display_name: string | null
@@ -35,6 +36,7 @@ export type Database = {
           cover_image_url?: string | null
           created_at?: string
           custom_background_url?: string | null
+          custom_buttons?: Json | null
           description?: string | null
           destination_url: string
           display_name?: string | null
@@ -53,6 +55,7 @@ export type Database = {
           cover_image_url?: string | null
           created_at?: string
           custom_background_url?: string | null
+          custom_buttons?: Json | null
           description?: string | null
           destination_url?: string
           display_name?: string | null
