@@ -1,7 +1,6 @@
 
 import { SocialLink } from "@/types/customLink";
-import LinkActionsCard from "./preview/LinkActionsCard";
-import LivePreviewCard from "./preview/LivePreviewCard";
+import PreviewPanel from "./customizer/PreviewPanel";
 
 interface LinkPreviewProps {
   generatedLink: string;
@@ -31,26 +30,19 @@ const LinkPreview = ({
   customSlug
 }: LinkPreviewProps) => {
   return (
-    <div className="space-y-6">
-      <LinkActionsCard 
-        generatedLink={generatedLink}
-        customSlug={customSlug}
-      />
-
-      {generatedLink && (
-        <LivePreviewCard
-          title={title}
-          description={description}
-          displayName={displayName}
-          bio={bio}
-          backgroundTheme={backgroundTheme}
-          profileImageUrl={profileImageUrl}
-          coverImageUrl={coverImageUrl}
-          customBackgroundUrl={customBackgroundUrl}
-          socialLinks={socialLinks}
-        />
-      )}
-    </div>
+    <PreviewPanel
+      generatedLink={generatedLink}
+      title={title}
+      description={description}
+      displayName={displayName}
+      bio={bio}
+      backgroundTheme={backgroundTheme}
+      profileImageUrl={profileImageUrl}
+      coverImageUrl={coverImageUrl}
+      customBackgroundUrl={customBackgroundUrl}
+      socialLinks={socialLinks}
+      customSlug={customSlug}
+    />
   );
 };
 
