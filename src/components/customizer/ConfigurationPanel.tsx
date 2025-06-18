@@ -41,10 +41,10 @@ const ConfigurationPanel = ({
       id: `btn-${Date.now()}`,
       text: '',
       url: '',
-      style: 'primary',
-      color: 'primary',
-      size: 'md',
-      spacing: 4
+      style: 'rounded',
+      color: 'white',
+      size: 'medium',
+      spacing: 3
     };
     setCustomButtons([...customButtons, newButton]);
   };
