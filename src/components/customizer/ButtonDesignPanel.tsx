@@ -159,7 +159,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
         <p className="text-sm text-gray-500 mt-1">Personalizza l'aspetto dei tuoi pulsanti</p>
       </div>
 
-      {/* Sezione Aggiungi/Gestisci Pulsanti */}
+      {/* Sezione Aggiungi Pulsante - Sempre visibile */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h4 className="text-sm font-medium text-gray-700">I tuoi Pulsanti</h4>
