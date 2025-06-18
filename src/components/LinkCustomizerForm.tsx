@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -35,6 +34,7 @@ interface LinkCustomizerFormProps {
   setCoverImageUrl: (url: string) => void;
   customBackgroundUrl: string;
   setCustomBackgroundUrl: (url: string) => void;
+  onPanelStateChange: (isOpen: boolean) => void;
 }
 
 const LinkCustomizerForm = ({
@@ -60,13 +60,20 @@ const LinkCustomizerForm = ({
   coverImageUrl,
   setCoverImageUrl,
   customBackgroundUrl,
-  setCustomBackgroundUrl
+  setCustomBackgroundUrl,
+  onPanelStateChange
 }: LinkCustomizerFormProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [activeTab, setActiveTab] = useState("basic");
+  const [activeTab, setActiveTab] = useState<string | null>(null);
   
   const { toast } = useToast();
   const { user } = useAuth();
+
+  const handleTabChange = (tab: string) => {
+    const newTab = activeTab === tab ? null : tab;
+    setActiveTab(newTab);
+    onPanelStateChange(newTab !== null);
+  };
 
   const generateSlug = () => {
     return customSlug || `link-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
@@ -228,13 +235,15 @@ const LinkCustomizerForm = ({
         {/* Sidebar */}
         <CustomizerSidebar
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={handleTabChange}
         />
 
-        {/* Content Panel */}
-        <div className="flex-1 p-6 overflow-y-auto bg-white border-r border-gray-200">
-          {renderActivePanel()}
-        </div>
+        {/* Content Panel - Only show when a tab is active */}
+        {activeTab && (
+          <div className="w-80 p-6 overflow-y-auto bg-white border-r border-gray-200">
+            {renderActivePanel()}
+          </div>
+        )}
       </div>
     </div>
   );

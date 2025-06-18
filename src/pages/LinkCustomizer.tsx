@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { SocialLink } from "@/types/customLink";
@@ -17,16 +18,24 @@ const LinkCustomizerPage = () => {
   const [customBackgroundUrl, setCustomBackgroundUrl] = useState("");
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   const [generatedLink, setGeneratedLink] = useState("");
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const handleLinkGenerated = (link: string) => {
     console.log('Link generated:', link);
     setGeneratedLink(link);
   };
 
+  const handlePanelStateChange = (isOpen: boolean) => {
+    setIsPanelOpen(isOpen);
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Form Panel */}
-      <div className="w-2/3 border-r border-gray-300">
+      <div className={cn(
+        "transition-all duration-300",
+        isPanelOpen ? "w-[400px]" : "w-16"
+      )}>
         <LinkCustomizerForm
           onLinkGenerated={handleLinkGenerated}
           originalUrl={originalUrl}
@@ -51,11 +60,15 @@ const LinkCustomizerPage = () => {
           setCoverImageUrl={setCoverImageUrl}
           customBackgroundUrl={customBackgroundUrl}
           setCustomBackgroundUrl={setCustomBackgroundUrl}
+          onPanelStateChange={handlePanelStateChange}
         />
       </div>
 
-      {/* Preview Panel */}
-      <div className="w-1/3 p-6 overflow-y-auto bg-gray-50">
+      {/* Preview Panel - Expands when sidebar is collapsed */}
+      <div className={cn(
+        "p-6 overflow-y-auto bg-gray-50 transition-all duration-300",
+        isPanelOpen ? "flex-1" : "flex-1"
+      )}>
         <PreviewPanel
           generatedLink={generatedLink}
           title={title}

@@ -4,7 +4,7 @@ import { Settings, User, Image as ImageIcon, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CustomizerSidebarProps {
-  activeTab: string;
+  activeTab: string | null;
   setActiveTab: (tab: string) => void;
 }
 
