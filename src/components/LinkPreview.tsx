@@ -1,4 +1,5 @@
 
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Eye, Monitor } from "lucide-react";
@@ -53,14 +54,9 @@ const LinkPreview = ({
   };
 
   const openPreview = () => {
-    // Extract slug from generated link for preview
+    // Directly open the generated link
     if (generatedLink) {
-      const url = new URL(generatedLink);
-      const slug = url.hostname.split('.')[0];
-      
-      // Create a preview URL that simulates the subdomain
-      const previewUrl = `${window.location.origin}?preview=${slug}`;
-      window.open(previewUrl, '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
+      window.open(generatedLink, '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
       
       toast({
         title: "Anteprima aperta!",
@@ -95,7 +91,7 @@ const LinkPreview = ({
     );
   }
 
-  // Determine background style
+  // Determine background style to match SubdomainHandler
   const getBackgroundStyle = () => {
     if (customBackgroundUrl) {
       return {
@@ -105,10 +101,21 @@ const LinkPreview = ({
         backgroundRepeat: 'no-repeat'
       };
     }
-    return {};
+    
+    // Use the actual theme mapping from SubdomainHandler
+    const themeStyles: Record<string, string> = {
+      'gradient-blue': 'bg-gradient-to-br from-blue-50 to-purple-50',
+      'gradient-purple': 'bg-gradient-to-br from-purple-50 to-pink-50',
+      'gradient-green': 'bg-gradient-to-br from-green-50 to-blue-50',
+      'gradient-orange': 'bg-gradient-to-br from-orange-50 to-red-50',
+      'dark-solid': 'bg-gray-900',
+      'white-solid': 'bg-white'
+    };
+    
+    return { className: themeStyles[backgroundTheme] || themeStyles['gradient-blue'] };
   };
 
-  const backgroundClass = customBackgroundUrl ? '' : selectedTheme.class;
+  const backgroundStyle = getBackgroundStyle();
 
   return (
     <div className="space-y-6">
@@ -158,7 +165,7 @@ const LinkPreview = ({
         </CardContent>
       </Card>
 
-      {/* Preview Card */}
+      {/* Preview Card - Styled to match SubdomainHandler */}
       <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-white">
@@ -169,102 +176,113 @@ const LinkPreview = ({
           </p>
         </CardHeader>
         <CardContent>
-          {/* Preview Window */}
+          {/* Preview Window - styled to match the actual subdomain page */}
           <div className="bg-black/20 rounded-lg p-4 border border-white/10">
-            <div className="bg-white rounded-lg overflow-hidden shadow-xl max-w-sm mx-auto">
-              {/* Mobile Preview */}
-              <div 
-                className={`${backgroundClass} relative px-6 py-8 text-center min-h-[500px] flex flex-col justify-center`}
-                style={getBackgroundStyle()}
-              >
-                {/* Cover Image */}
-                {coverImageUrl && (
-                  <div className="absolute top-0 left-0 right-0 h-24 bg-cover bg-center bg-no-repeat" 
-                       style={{ backgroundImage: `url(${coverImageUrl})` }}>
-                    <div className="absolute inset-0 bg-black/30"></div>
-                  </div>
-                )}
-
-                {/* Content with backdrop if cover image exists */}
-                <div className={`relative ${coverImageUrl ? 'mt-16' : ''} ${customBackgroundUrl ? 'backdrop-blur-sm bg-black/30 rounded-lg p-4' : ''}`}>
-                  {/* Profile Image */}
-                  <div className="w-20 h-20 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-4 border-white/30">
-                    {profileImageUrl ? (
-                      <img 
-                        src={profileImageUrl} 
-                        alt="Profile" 
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-white text-2xl font-bold">
-                        {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
-                      </span>
+            <div className={`${backgroundStyle.className || ''} relative min-h-[500px] flex items-center justify-center p-4 rounded-lg overflow-hidden`} style={backgroundStyle}>
+              {/* Cover Image */}
+              {coverImageUrl && (
+                <div 
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+                  style={{ backgroundImage: `url(${coverImageUrl})` }}
+                />
+              )}
+              
+              <div className="relative z-10 max-w-lg mx-auto">
+                <div className="shadow-2xl backdrop-blur-sm bg-white/90 rounded-lg overflow-hidden">
+                  {/* Header with gradient - matching SubdomainHandler */}
+                  <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white rounded-t-lg relative">
+                    {profileImageUrl && (
+                      <div className="flex justify-center mb-4">
+                        <img 
+                          src={profileImageUrl} 
+                          alt="Profile" 
+                          className="w-20 h-20 rounded-full border-4 border-white object-cover"
+                        />
+                      </div>
                     )}
+                    
+                    <div className="text-center">
+                      {displayName && (
+                        <h2 className="text-xl font-bold mb-2 flex items-center justify-center gap-2">
+                          <ExternalLink className="h-5 w-5" />
+                          {displayName}
+                        </h2>
+                      )}
+                      
+                      <h1 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2">
+                        <ExternalLink className="h-6 w-6" />
+                        {title || "Link Personalizzato"}
+                      </h1>
+                      
+                      {description && (
+                        <p className="text-blue-100 leading-relaxed mb-2">
+                          {description}
+                        </p>
+                      )}
+                      
+                      {bio && (
+                        <p className="text-blue-50 text-sm leading-relaxed">
+                          {bio}
+                        </p>
+                      )}
+                    </div>
                   </div>
-
-                  {/* Display Name */}
-                  {displayName && (
-                    <h1 className="text-white text-xl font-bold mb-2 drop-shadow-lg">
-                      {displayName}
-                    </h1>
-                  )}
-
-                  {/* Title */}
-                  {title && (
-                    <h2 className="text-white/90 text-lg font-semibold mb-2 drop-shadow-lg">
-                      {title}
-                    </h2>
-                  )}
-
-                  {/* Bio */}
-                  {bio && (
-                    <p className="text-white/80 text-sm mb-4 max-w-xs mx-auto drop-shadow-lg">
-                      {bio}
-                    </p>
-                  )}
-
-                  {/* Description */}
-                  {description && (
-                    <p className="text-white/70 text-xs mb-6 max-w-xs mx-auto drop-shadow-lg">
-                      {description}
-                    </p>
-                  )}
-
-                  {/* Main Link Button */}
-                  <div className="space-y-3">
-                    <Button 
-                      className="w-full bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30"
-                      size="sm"
-                    >
-                      Vai al Link Principale
-                    </Button>
-
-                    {/* Social Links */}
-                    {socialLinks.length > 0 && (
-                      <div className="space-y-2">
-                        <p className="text-white/60 text-xs font-medium">Social Links</p>
-                        <div className="grid grid-cols-2 gap-2">
-                          {socialLinks.slice(0, 6).map((link, index) => {
-                            const platform = SOCIAL_PLATFORMS.find(p => p.id === link.platform);
-                            return (
+                  
+                  <div className="p-8">
+                    <div className="space-y-6">
+                      {/* Social Links */}
+                      {socialLinks.length > 0 && (
+                        <div className="space-y-3">
+                          <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+                            <ExternalLink className="h-4 w-4" />
+                            I miei social
+                          </h3>
+                          <div className="grid grid-cols-2 gap-2">
+                            {socialLinks.slice(0, 4).map((social, index) => (
                               <Button
                                 key={index}
                                 variant="outline"
                                 size="sm"
-                                className="bg-white/10 border-white/20 text-white hover:bg-white/20 text-xs py-1 h-8"
+                                className="justify-start text-xs"
                               >
-                                {link.display_text || platform?.name || link.platform}
+                                {social.display_text || social.platform}
                               </Button>
-                            );
-                          })}
+                            ))}
+                          </div>
+                          {socialLinks.length > 4 && (
+                            <p className="text-gray-500 text-xs text-center">
+                              +{socialLinks.length - 4} altri
+                            </p>
+                          )}
                         </div>
-                        {socialLinks.length > 6 && (
-                          <p className="text-white/40 text-xs">
-                            +{socialLinks.length - 6} altri
-                          </p>
-                        )}
+                      )}
+                      
+                      {/* Main CTA Button */}
+                      <Button 
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                        size="lg"
+                      >
+                        <ExternalLink className="mr-2 h-5 w-5" />
+                        Visita Link
+                      </Button>
+                      
+                      <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                        <span>0 click totali</span>
                       </div>
-                    )}
+                      
+                      <div className="pt-4 border-t text-center">
+                        <p className="text-xs text-muted-foreground mb-2">
+                          Powered by
+                        </p>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          className="text-blue-600 hover:text-blue-700"
+                        >
+                          🔗 lnkfire.dev
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -272,7 +290,7 @@ const LinkPreview = ({
           </div>
 
           <p className="text-gray-400 text-xs text-center mt-3">
-            * Questa è un'anteprima semplificata. Clicca "Anteprima" per vedere la pagina completa.
+            * Questa è un'anteprima del design. Clicca "Anteprima" per testare la pagina reale.
           </p>
         </CardContent>
       </Card>
@@ -281,3 +299,4 @@ const LinkPreview = ({
 };
 
 export default LinkPreview;
+
