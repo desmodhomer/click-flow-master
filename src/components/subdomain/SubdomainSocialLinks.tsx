@@ -14,21 +14,21 @@ const SubdomainSocialLinks = ({ socialLinks, onSocialClick }: SubdomainSocialLin
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {socialLinks.map((social, index) => (
         <Button
           key={index}
           onClick={() => onSocialClick(social)}
           variant="outline"
-          className="w-full h-12 bg-white/90 backdrop-blur-sm border border-gray-200/50 hover:bg-gray-50 transition-all duration-200 group rounded-xl shadow-sm hover:shadow-md"
+          className="w-full h-16 bg-white/95 backdrop-blur-sm border border-gray-200/50 hover:bg-gray-50 transition-all duration-300 group rounded-2xl shadow-sm hover:shadow-md"
         >
           <div className="flex items-center justify-between w-full px-2">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-sm">
                 {social.platform.charAt(0).toUpperCase()}
               </div>
               <div className="text-left">
-                <div className="font-medium text-gray-800 text-sm">
+                <div className="font-semibold text-gray-800 text-sm">
                   {social.display_text || social.platform}
                 </div>
                 <div className="text-xs text-gray-500">
@@ -36,7 +36,7 @@ const SubdomainSocialLinks = ({ socialLinks, onSocialClick }: SubdomainSocialLin
                 </div>
               </div>
             </div>
-            <ExternalLink className="h-3 w-3 text-gray-400 group-hover:text-blue-600 transition-colors" />
+            <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
           </div>
         </Button>
       ))}

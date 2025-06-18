@@ -76,9 +76,9 @@ const SubdomainHandler = () => {
         {/* Hero Section */}
         <SubdomainHeroSection link={link} />
 
-        {/* Main Content - Mobile Optimized Compact Layout */}
-        <div className="relative z-10 px-4 pb-6 -mt-2">
-          <div className="max-w-xs mx-auto space-y-3">
+        {/* Main Content - Mobile Optimized Layout */}
+        <div className="relative z-10 px-4 pb-8 -mt-4">
+          <div className="max-w-sm mx-auto space-y-4">
             
             {/* Social Links Section */}
             {link.social_links && link.social_links.length > 0 && (
