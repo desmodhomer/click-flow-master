@@ -1,5 +1,5 @@
 
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { SocialLink } from "@/types/customLink";
 
 interface PreviewSocialLinksProps {
@@ -12,38 +12,28 @@ const PreviewSocialLinks = ({ socialLinks }: PreviewSocialLinksProps) => {
   }
 
   return (
-    <div className="px-4 mb-4">
-      {/* Header più compatto senza sfondo */}
-      <h3 className="text-sm font-semibold text-white/90 mb-3 text-center flex items-center justify-center gap-2">
-        <Globe className="h-4 w-4" />
-        Social Links
-      </h3>
-      
-      {/* Links più compatti e moderni */}
+    <div className="px-4 mb-3">
+      {/* Links più minimalisti */}
       <div className="space-y-2">
         {socialLinks.map((social, index) => (
           <div
             key={index}
-            className="bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20 hover:bg-white/20 transition-all duration-200"
           >
             <div className="flex items-center gap-3">
-              {/* Icon più piccola e colorata */}
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-lg">
+              {/* Icon più piccola */}
+              <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-white text-xs font-medium">
                 {social.platform.charAt(0).toUpperCase()}
               </div>
               
-              {/* Testo più pulito */}
+              {/* Testo semplificato */}
               <div className="flex-1">
-                <div className="font-medium text-gray-800 text-sm">
+                <div className="text-white text-sm font-medium">
                   {social.display_text || social.platform}
-                </div>
-                <div className="text-xs text-gray-500 truncate">
-                  Tocca per visitare
                 </div>
               </div>
               
-              {/* Arrow icon più piccola */}
-              <ExternalLink className="h-4 w-4 text-gray-400" />
+              <ExternalLink className="h-3 w-3 text-white/60" />
             </div>
           </div>
         ))}
