@@ -30,11 +30,11 @@ const LinkCustomizerPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Form Panel */}
       <div className={cn(
-        "transition-all duration-300",
-        isPanelOpen ? "w-[400px]" : "w-16"
+        "transition-all duration-500 ease-in-out shadow-xl",
+        isPanelOpen ? "w-[420px]" : "w-16"
       )}>
         <LinkCustomizerForm
           onLinkGenerated={handleLinkGenerated}
@@ -66,8 +66,8 @@ const LinkCustomizerPage = () => {
 
       {/* Preview Panel - Expands when sidebar is collapsed */}
       <div className={cn(
-        "p-6 overflow-y-auto bg-gray-50 transition-all duration-300",
-        isPanelOpen ? "flex-1" : "flex-1"
+        "p-6 overflow-hidden bg-white transition-all duration-500 ease-in-out",
+        "flex-1"
       )}>
         <PreviewPanel
           generatedLink={generatedLink}
