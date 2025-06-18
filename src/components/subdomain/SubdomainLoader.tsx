@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "@/components/customizer/ConfigurationPanel";
 
 interface CustomLink {
   id: string;
@@ -16,6 +17,7 @@ interface CustomLink {
   cover_image_url: string | null;
   custom_background_url: string | null;
   social_links: SocialLink[] | null;
+  custom_buttons: CustomButton[] | null;
   click_count: number;
 }
 
@@ -46,7 +48,8 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
           } else {
             const typedData: CustomLink = {
               ...data,
-              social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null
+              social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null,
+              custom_buttons: Array.isArray(data.custom_buttons) ? (data.custom_buttons as unknown as CustomButton[]) : null
             };
             onLinkLoaded(typedData);
           }
