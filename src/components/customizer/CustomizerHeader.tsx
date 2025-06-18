@@ -26,7 +26,7 @@ const CustomizerHeader = ({ onGenerate, isGenerating, originalUrl }: CustomizerH
       <Button 
         onClick={onGenerate}
         disabled={isGenerating || !originalUrl}
-        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-6 h-10 shadow-lg hover:shadow-xl transition-all duration-200"
+        className="bg-black hover:bg-gray-800 text-white font-semibold px-6 h-10 shadow-lg hover:shadow-xl transition-all duration-200"
       >
         {isGenerating ? (
           <>
