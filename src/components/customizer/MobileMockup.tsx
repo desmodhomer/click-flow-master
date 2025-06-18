@@ -5,6 +5,7 @@ import PreviewSocialLinks from "@/components/preview/PreviewSocialLinks";
 import PreviewMainCTA from "@/components/preview/PreviewMainCTA";
 import PreviewStatsFooter from "@/components/preview/PreviewStatsFooter";
 import { SocialLink } from "@/types/customLink";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface MobileMockupProps {
   title: string;
@@ -103,35 +104,37 @@ const MobileMockup = ({
               </div>
             </div>
             
-            {/* Website Content - Area scrollabile con dimensioni corrette */}
-            <div 
-              className={`h-[calc(100%-96px)] overflow-y-auto ${backgroundStyle.className || ''}`} 
-              style={backgroundStyle}
-            >
-              {/* Hero Section */}
-              <PreviewHeroSection
-                profileImageUrl={profileImageUrl}
-                displayName={displayName}
-                title={title}
-                bio={bio}
-                description={description}
-                coverImageUrl={coverImageUrl}
-              />
+            {/* Website Content - Area scrollabile con ScrollArea di shadcn */}
+            <ScrollArea className="h-[calc(100%-96px)]">
+              <div 
+                className={`min-h-full ${backgroundStyle.className || ''}`} 
+                style={backgroundStyle}
+              >
+                {/* Hero Section */}
+                <PreviewHeroSection
+                  profileImageUrl={profileImageUrl}
+                  displayName={displayName}
+                  title={title}
+                  bio={bio}
+                  description={description}
+                  coverImageUrl={coverImageUrl}
+                />
 
-              {/* Main Content con padding mobile-first */}
-              <div className="relative z-10 px-4 pb-8 space-y-4">
-                <div className="max-w-full mx-auto space-y-4">
-                  {/* Social Links Section */}
-                  <PreviewSocialLinks socialLinks={socialLinks} />
-                  
-                  {/* Main CTA Section */}
-                  <PreviewMainCTA />
-                  
-                  {/* Stats and Footer */}
-                  <PreviewStatsFooter />
+                {/* Main Content con padding mobile-first */}
+                <div className="relative z-10 px-4 pb-8 space-y-4">
+                  <div className="max-w-full mx-auto space-y-4">
+                    {/* Social Links Section */}
+                    <PreviewSocialLinks socialLinks={socialLinks} />
+                    
+                    {/* Main CTA Section */}
+                    <PreviewMainCTA />
+                    
+                    {/* Stats and Footer */}
+                    <PreviewStatsFooter />
+                  </div>
                 </div>
               </div>
-            </div>
+            </ScrollArea>
             
             {/* Home indicator iOS accurato */}
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-90"></div>
