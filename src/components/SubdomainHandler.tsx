@@ -73,12 +73,11 @@ const SubdomainHandler = () => {
       />
       
       <div className={`min-h-screen ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
-        {/* Hero Section */}
         <SubdomainHeroSection link={link} />
 
-        {/* Main Content - Mobile Optimized Layout */}
-        <div className="relative z-10 px-4 pb-8 -mt-4">
-          <div className="max-w-sm mx-auto space-y-4">
+        {/* Main Content */}
+        <div className="relative z-10 px-6 pb-24">
+          <div className="max-w-2xl mx-auto space-y-12">
             
             {/* Social Links Section */}
             {link.social_links && link.social_links.length > 0 && (

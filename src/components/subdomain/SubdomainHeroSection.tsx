@@ -18,21 +18,21 @@ const SubdomainHeroSection = ({ link }: SubdomainHeroSectionProps) => {
       )}
       
       {/* Enhanced Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
       
       {/* Hero Content */}
-      <div className="relative z-10 px-4 py-16 text-center text-white">
+      <div className="relative z-10 px-6 py-24 text-center text-white">
         {/* Profile Image */}
         {link.profile_image_url && (
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-10">
             <div className="relative">
               <img 
                 src={link.profile_image_url} 
                 alt="Profile" 
-                className="w-28 h-28 rounded-full border-3 border-white object-cover shadow-lg"
+                className="w-44 h-44 rounded-full border-4 border-white/90 object-cover shadow-2xl"
               />
-              <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
-                <Heart className="h-4 w-4 text-white" fill="currentColor" />
+              <div className="absolute -bottom-4 -right-4 w-14 h-14 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-xl">
+                <Heart className="h-7 w-7 text-white" fill="currentColor" />
               </div>
             </div>
           </div>
@@ -40,25 +40,25 @@ const SubdomainHeroSection = ({ link }: SubdomainHeroSectionProps) => {
         
         {/* Name and Title */}
         {link.display_name && (
-          <h1 className="text-2xl font-bold mb-2 drop-shadow-lg">
+          <h1 className="text-5xl sm:text-7xl font-bold mb-8 drop-shadow-2xl">
             {link.display_name}
           </h1>
         )}
         
-        <h2 className="text-lg font-medium mb-4 text-gray-200 drop-shadow">
+        <h2 className="text-3xl sm:text-5xl font-semibold mb-10 text-blue-100 drop-shadow-xl">
           {link.title || "Link Personalizzato"}
         </h2>
         
         {/* Bio */}
         {link.bio && (
-          <p className="text-sm text-gray-300 max-w-sm mx-auto leading-relaxed mb-4 drop-shadow">
+          <p className="text-xl sm:text-3xl text-blue-50 max-w-4xl mx-auto leading-relaxed mb-12 drop-shadow-lg font-light">
             {link.bio}
           </p>
         )}
         
         {/* Description */}
         {link.description && (
-          <p className="text-xs text-gray-400 max-w-xs mx-auto leading-relaxed drop-shadow">
+          <p className="text-lg sm:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
             {link.description}
           </p>
         )}
