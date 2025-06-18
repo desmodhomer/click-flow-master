@@ -64,13 +64,13 @@ const MobileMockup = ({
       {/* Mobile Preview Frame - Dimensioni ridotte per adattarsi alla pagina */}
       <div className="relative">
         {/* Ombra del telefono */}
-        <div className="absolute inset-0 bg-black/15 rounded-[24px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
+        <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
         
-        {/* Frame del telefono - Dimensioni ottimizzate per la pagina (240x480) */}
-        <div className="relative w-[240px] h-[480px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[24px] p-[10px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono - Dimensioni ottimizzate con bordi più sottili */}
+        <div className="relative w-[240px] h-[480px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[6px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
-          <div className="w-full h-full bg-black rounded-[20px] overflow-hidden relative">
+          <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
             
             {/* Notch moderno sottilissimo - solo una piccola pillola */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60px] h-[6px] bg-black rounded-b-[3px] z-50"></div>
@@ -143,15 +143,15 @@ const MobileMockup = ({
           </div>
           
           {/* Riflesso sullo schermo */}
-          <div className="absolute inset-[10px] rounded-[20px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-[6px] rounded-[16px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
         </div>
 
-        {/* Volume buttons più piccoli */}
-        <div className="absolute left-[-2px] top-[80px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
-        <div className="absolute left-[-2px] top-[120px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
+        {/* Volume buttons più piccoli e sottili */}
+        <div className="absolute left-[-1px] top-[80px] w-[1px] h-[25px] bg-gray-700 rounded-l-sm"></div>
+        <div className="absolute left-[-1px] top-[115px] w-[1px] h-[25px] bg-gray-700 rounded-l-sm"></div>
         
         {/* Power button */}
-        <div className="absolute right-[-2px] top-[100px] w-[2px] h-[30px] bg-gray-700 rounded-r-sm"></div>
+        <div className="absolute right-[-1px] top-[95px] w-[1px] h-[25px] bg-gray-700 rounded-r-sm"></div>
       </div>
     </div>
   );
