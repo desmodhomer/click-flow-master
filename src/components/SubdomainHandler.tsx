@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -51,7 +52,7 @@ const SubdomainHandler = () => {
             // Properly type cast the social_links from Json to SocialLink[]
             const typedData: CustomLink = {
               ...data,
-              social_links: Array.isArray(data.social_links) ? data.social_links as SocialLink[] : null
+              social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null
             };
             setLink(typedData);
           }
