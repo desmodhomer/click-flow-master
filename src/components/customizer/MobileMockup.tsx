@@ -45,6 +45,14 @@ const MobileMockup = ({
       };
     }
     
+    // Handle custom colors
+    if (backgroundTheme.startsWith('custom-')) {
+      const customColor = backgroundTheme.replace('custom-', '');
+      return {
+        backgroundColor: customColor
+      };
+    }
+    
     const themeStyles: Record<string, string> = {
       'gradient-blue': 'from-blue-400 via-blue-600 to-purple-600',
       'gradient-purple': 'from-purple-400 via-pink-500 to-red-500',

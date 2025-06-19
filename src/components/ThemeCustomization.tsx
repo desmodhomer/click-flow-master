@@ -12,13 +12,23 @@ interface ThemeCustomizationProps {
 }
 
 const ThemeCustomization = ({ backgroundTheme, setBackgroundTheme }: ThemeCustomizationProps) => {
+  const isCustomColor = backgroundTheme.startsWith('custom-');
+  const customColorCode = isCustomColor ? backgroundTheme.replace('custom-', '') : null;
+
+  const getSelectedThemeName = () => {
+    if (isCustomColor) {
+      return `Colore Personalizzato (${customColorCode})`;
+    }
+    return BACKGROUND_THEMES.find(t => t.id === backgroundTheme)?.name || 'Tema Sconosciuto';
+  };
+
   return (
     <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
       <CardHeader className="pb-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-bold text-white flex items-center">
             <Palette className="mr-2 h-5 w-5" />
-            Personalizzazione Tema
+            Personalizzazione Background
           </CardTitle>
           <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-400/30">
             Fase 4
@@ -31,7 +41,7 @@ const ThemeCustomization = ({ backgroundTheme, setBackgroundTheme }: ThemeCustom
       
       <CardContent className="space-y-6">
         <RadioGroup 
-          value={backgroundTheme} 
+          value={isCustomColor ? '' : backgroundTheme} 
           onValueChange={setBackgroundTheme}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
@@ -71,9 +81,25 @@ const ThemeCustomization = ({ backgroundTheme, setBackgroundTheme }: ThemeCustom
           ))}
         </RadioGroup>
 
+        {/* Custom Color Preview */}
+        {isCustomColor && (
+          <div className="p-4 bg-black/20 rounded-lg border border-white/10">
+            <div className="flex items-center gap-3">
+              <div 
+                className="w-12 h-12 rounded-lg border border-white/30 shadow-lg"
+                style={{ backgroundColor: customColorCode }}
+              />
+              <div>
+                <p className="text-white font-medium">Colore Personalizzato Attivo</p>
+                <p className="text-gray-300 text-sm">{customColorCode}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="p-4 bg-black/20 rounded-lg border border-white/10">
           <p className="text-gray-300 text-sm">
-            <strong>Tema selezionato:</strong> {BACKGROUND_THEMES.find(t => t.id === backgroundTheme)?.name}
+            <strong>Tema selezionato:</strong> {getSelectedThemeName()}
           </p>
         </div>
       </CardContent>
