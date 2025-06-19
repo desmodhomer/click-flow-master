@@ -70,9 +70,10 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
   const getButtonStyle = (button: CustomButton, index: number, isLast: boolean) => {
     const spacing = getButtonSpacing(button.spacing || currentSpacing, index, isLast);
     
-    // Handle custom colors
-    if (button.color && button.color.startsWith('custom-')) {
-      const customColorCode = (button as any).customColorCode || '#ffffff';
+    // Gestisce i colori personalizzati
+    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
+      const customColorCode = (button as any).customColorCode;
+      console.log('Applicando colore personalizzato al pulsante:', customColorCode);
       return {
         ...spacing,
         backgroundColor: customColorCode
@@ -88,10 +89,11 @@ const ButtonPreview = ({ customButtons, selectedButtonId, currentSpacing }: Butt
     
     const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass}`;
     
-    // Handle custom colors
-    if (button.color && button.color.startsWith('custom-')) {
-      const customColorCode = (button as any).customColorCode || '#ffffff';
+    // Gestisce i colori personalizzati
+    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
+      const customColorCode = (button as any).customColorCode;
       const textColor = isLightColor(customColorCode) ? 'text-gray-900' : 'text-white';
+      console.log('Applicando classi per colore personalizzato:', { customColorCode, textColor });
       return `${baseClasses} ${textColor} hover:opacity-90`;
     }
     
