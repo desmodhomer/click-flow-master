@@ -72,25 +72,24 @@ const ButtonCustomizationControls = ({
 
   const handleCustomColorSubmit = () => {
     const customColorId = `custom-${Date.now()}`;
+    console.log('Applicando colore personalizzato:', customColorCode, 'con ID:', customColorId);
     
-    // Prima aggiorna il colore tramite la funzione principale
+    // Aggiorna il colore usando la funzione principale
     onButtonDesignUpdate('color', customColorId);
     
-    // Poi salva il codice colore personalizzato sui pulsanti interessati
-    setTimeout(() => {
-      if (selectedButtonId === "all") {
-        customButtons.forEach(button => {
-          (button as any).customColorCode = customColorCode;
-        });
-      } else {
-        const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
-        if (selectedButton) {
-          (selectedButton as any).customColorCode = customColorCode;
-        }
+    // Salva il codice colore personalizzato direttamente sui pulsanti
+    if (selectedButtonId === "all") {
+      customButtons.forEach(button => {
+        (button as any).customColorCode = customColorCode;
+      });
+    } else {
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      if (selectedButton) {
+        (selectedButton as any).customColorCode = customColorCode;
       }
-    }, 0);
+    }
     
-    console.log('Colore personalizzato applicato:', customColorCode);
+    console.log('Colore personalizzato applicato con successo');
   };
 
   const isLightColor = (color: string) => {
