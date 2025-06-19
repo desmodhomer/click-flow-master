@@ -9,23 +9,23 @@ interface AddButtonSectionProps {
 
 const AddButtonSection = ({ onAddButton }: AddButtonSectionProps) => {
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-blue-200 rounded-xl p-8">
+    <div className="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-8 hover:border-blue-300 transition-all duration-300">
       <div className="text-center space-y-6">
-        <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
-          <Plus className="h-10 w-10 text-white" />
+        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto shadow-lg">
+          <Plus className="h-8 w-8 text-white" strokeWidth={2.5} />
         </div>
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h4 className="text-xl font-bold text-gray-900">Crea un nuovo pulsante</h4>
-          <p className="text-gray-600 max-w-sm mx-auto leading-relaxed">
+          <p className="text-gray-500 max-w-xs mx-auto text-sm leading-relaxed">
             Aggiungi pulsanti personalizzati per i tuoi link preferiti e crea la tua pagina unica
           </p>
         </div>
         <Button 
           onClick={onAddButton} 
           size="lg" 
-          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-10 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 border-0"
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold px-8 py-3 text-base shadow-md hover:shadow-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-0 rounded-xl"
         >
-          <Plus className="h-5 w-5 mr-3" />
+          <Plus className="h-5 w-5 mr-2" strokeWidth={2.5} />
           Aggiungi Pulsante
         </Button>
       </div>
