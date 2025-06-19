@@ -13,6 +13,7 @@ interface ButtonCustomizationControlsProps {
   selectedButtonId: string;
   onSelectedButtonChange: (value: string) => void;
   onButtonDesignUpdate: (property: string, value: string | number) => void;
+  onCustomColorUpdate: (customColorCode: string) => void;
   currentStyle: string;
   currentColor: string;
   currentSize: string;
@@ -24,6 +25,7 @@ const ButtonCustomizationControls = ({
   selectedButtonId,
   onSelectedButtonChange,
   onButtonDesignUpdate,
+  onCustomColorUpdate,
   currentStyle,
   currentColor,
   currentSize,
@@ -65,7 +67,7 @@ const ButtonCustomizationControls = ({
       <CustomColorSection
         customButtons={customButtons}
         selectedButtonId={selectedButtonId}
-        onButtonDesignUpdate={onButtonDesignUpdate}
+        onCustomColorUpdate={onCustomColorUpdate}
       />
     </>
   );

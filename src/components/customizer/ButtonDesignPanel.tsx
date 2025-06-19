@@ -61,6 +61,30 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     }
   };
 
+  // Funzione specifica per gestire i colori personalizzati
+  const updateCustomColor = (customColorCode: string) => {
+    const customColorId = `custom-${Date.now()}`;
+    console.log('Applicando colore personalizzato:', customColorCode, 'con ID:', customColorId);
+    
+    if (selectedButtonId === "all") {
+      const updatedButtons = customButtons.map(button => ({
+        ...button,
+        color: customColorId,
+        customColorCode: customColorCode
+      }));
+      console.log('Aggiornamento colore personalizzato per tutti i pulsanti:', updatedButtons);
+      setCustomButtons(updatedButtons);
+    } else {
+      const updatedButtons = customButtons.map(button => 
+        button.id === selectedButtonId 
+          ? { ...button, color: customColorId, customColorCode: customColorCode }
+          : button
+      );
+      console.log('Aggiornamento colore personalizzato per pulsante singolo:', updatedButtons);
+      setCustomButtons(updatedButtons);
+    }
+  };
+
   const getCurrentButtonStyle = () => {
     if (selectedButtonId === "all") {
       const firstButtonStyle = customButtons[0]?.style || 'rounded';
@@ -140,6 +164,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
             selectedButtonId={selectedButtonId}
             onSelectedButtonChange={setSelectedButtonId}
             onButtonDesignUpdate={updateButtonDesign}
+            onCustomColorUpdate={updateCustomColor}
             currentStyle={currentStyle}
             currentColor={currentColor}
             currentSize={currentSize}

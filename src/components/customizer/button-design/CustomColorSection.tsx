@@ -4,35 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Palette } from "lucide-react";
-import { CustomButton } from "../ConfigurationPanel";
 
 interface CustomColorSectionProps {
-  customButtons: CustomButton[];
+  customButtons: any[];
   selectedButtonId: string;
-  onButtonDesignUpdate: (property: string, value: string | number) => void;
+  onCustomColorUpdate: (customColorCode: string) => void;
 }
 
 const CustomColorSection = ({
   customButtons,
   selectedButtonId,
-  onButtonDesignUpdate
+  onCustomColorUpdate
 }: CustomColorSectionProps) => {
   const [showAdvancedColor, setShowAdvancedColor] = useState(false);
   const [customColorCode, setCustomColorCode] = useState('#ffffff');
 
   const handleCustomColorSubmit = () => {
-    const customColorId = `custom-${Date.now()}`;
-    console.log('Applicando colore personalizzato:', customColorCode, 'con ID:', customColorId);
-    
-    // Aggiorna prima il color con l'ID personalizzato
-    onButtonDesignUpdate('color', customColorId);
-    
-    // Poi aggiorna il codice colore personalizzato
-    // Usiamo un timeout per assicurarci che l'aggiornamento del colore sia completato
-    setTimeout(() => {
-      onButtonDesignUpdate('customColorCode', customColorCode);
-      console.log('Colore personalizzato applicato con successo');
-    }, 50);
+    console.log('Applicando colore personalizzato:', customColorCode);
+    onCustomColorUpdate(customColorCode);
   };
 
   return (
