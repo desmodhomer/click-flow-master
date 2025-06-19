@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
@@ -66,19 +65,21 @@ const ButtonCustomizationControls = ({
   ];
 
   const handleCustomColorSubmit = () => {
-    // Aggiorna i pulsanti selezionati con il colore personalizzato
+    const customColorId = `custom-${Date.now()}`;
+    
+    // Applica il colore personalizzato
+    onButtonDesignUpdate('color', customColorId);
+    
+    // Salva il codice colore personalizzato direttamente sui pulsanti
     if (selectedButtonId === "all") {
       // Applica a tutti i pulsanti
       customButtons.forEach(button => {
-        onButtonDesignUpdate('color', `custom-${Date.now()}`);
-        // Salva anche il codice colore come proprietà separata
         (button as any).customColorCode = customColorCode;
       });
     } else {
       // Applica solo al pulsante selezionato
       const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
       if (selectedButton) {
-        onButtonDesignUpdate('color', `custom-${Date.now()}`);
         (selectedButton as any).customColorCode = customColorCode;
       }
     }
