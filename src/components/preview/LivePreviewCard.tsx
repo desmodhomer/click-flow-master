@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SocialLink } from "@/types/customLink";
+import { CustomButton } from "@/components/customizer/ConfigurationPanel";
 import PreviewHeroSection from "./PreviewHeroSection";
 import PreviewSocialLinks from "./PreviewSocialLinks";
 import PreviewMainCTA from "./PreviewMainCTA";
@@ -16,6 +17,7 @@ interface LivePreviewCardProps {
   coverImageUrl?: string;
   customBackgroundUrl?: string;
   socialLinks?: SocialLink[];
+  customButtons?: CustomButton[];
 }
 
 const LivePreviewCard = ({
@@ -27,7 +29,8 @@ const LivePreviewCard = ({
   profileImageUrl,
   coverImageUrl,
   customBackgroundUrl,
-  socialLinks = []
+  socialLinks = [],
+  customButtons = []
 }: LivePreviewCardProps) => {
   // Use exact same background logic as SubdomainHandler
   const getBackgroundStyle = () => {
@@ -90,7 +93,7 @@ const LivePreviewCard = ({
                 <PreviewSocialLinks socialLinks={socialLinks} />
                 
                 {/* Main CTA Section */}
-                <PreviewMainCTA />
+                <PreviewMainCTA customButtons={customButtons} />
                 
                 {/* Stats and Footer */}
                 <PreviewStatsFooter />
