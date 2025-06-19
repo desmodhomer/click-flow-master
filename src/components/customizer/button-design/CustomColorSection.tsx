@@ -24,20 +24,12 @@ const CustomColorSection = ({
     const customColorId = `custom-${Date.now()}`;
     console.log('Applicando colore personalizzato:', customColorCode, 'con ID:', customColorId);
     
-    // Aggiorna il colore usando la funzione principale
+    // First update the color property to the custom ID
     onButtonDesignUpdate('color', customColorId);
     
-    // Salva il codice colore personalizzato direttamente sui pulsanti
-    if (selectedButtonId === "all") {
-      customButtons.forEach(button => {
-        (button as any).customColorCode = customColorCode;
-      });
-    } else {
-      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
-      if (selectedButton) {
-        (selectedButton as any).customColorCode = customColorCode;
-      }
-    }
+    // Then update the custom color code property separately
+    // This ensures both properties are updated through the proper state mechanism
+    onButtonDesignUpdate('customColorCode', customColorCode);
     
     console.log('Colore personalizzato applicato con successo');
   };
