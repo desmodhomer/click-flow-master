@@ -1,7 +1,8 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { SocialLink } from "@/types/customLink";
 import ProfilePanel from "./ProfilePanel";
 import DesignPanel from "./DesignPanel";
@@ -69,8 +70,6 @@ const ConfigurationPanel = ({
   customButtons,
   setCustomButtons
 }: ConfigurationPanelProps) => {
-  const [activeTab, setActiveTab] = useState("profile");
-
   return (
     <Card className="h-full border-0 bg-white/95 backdrop-blur-sm shadow-xl">
       <CardHeader className="pb-4 border-b border-gray-200/50">
@@ -82,55 +81,72 @@ const ConfigurationPanel = ({
         </p>
       </CardHeader>
 
-      <CardContent className="p-0 h-[calc(100%-140px)] overflow-hidden">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-4 m-4 mb-2">
-            <TabsTrigger value="profile" className="text-xs">Profilo</TabsTrigger>
-            <TabsTrigger value="design" className="text-xs">Design</TabsTrigger>
-            <TabsTrigger value="buttons" className="text-xs">Pulsanti</TabsTrigger>
-            <TabsTrigger value="images" className="text-xs">Immagini</TabsTrigger>
-          </TabsList>
-
-          <div className="flex-1 overflow-y-auto px-4 pb-4">
-            <TabsContent value="profile" className="space-y-4 mt-0">
-              <ProfilePanel
-                displayName={displayName}
-                setDisplayName={setDisplayName}
-                bio={bio}
-                setBio={setBio}
-                socialLinks={socialLinks}
-                setSocialLinks={setSocialLinks}
-              />
-            </TabsContent>
-
-            <TabsContent value="design" className="space-y-4 mt-0">
-              <DesignPanel
-                backgroundTheme={backgroundTheme}
-                setBackgroundTheme={setBackgroundTheme}
-                customBackgroundUrl={customBackgroundUrl}
-                setCustomBackgroundUrl={setCustomBackgroundUrl}
-              />
-            </TabsContent>
-
-            <TabsContent value="buttons" className="space-y-4 mt-0">
-              <ButtonDesignPanel 
-                customButtons={customButtons}
-                setCustomButtons={setCustomButtons}
-              />
-            </TabsContent>
-
-            <TabsContent value="images" className="space-y-4 mt-0">
-              <ImagesPanel
-                profileImageUrl={profileImageUrl}
-                setProfileImageUrl={setProfileImageUrl}
-                coverImageUrl={coverImageUrl}
-                setCoverImageUrl={setCoverImageUrl}
-                customBackgroundUrl={customBackgroundUrl}
-                setCustomBackgroundUrl={setCustomBackgroundUrl}
-              />
-            </TabsContent>
+      <CardContent className="p-4 h-[calc(100%-140px)] overflow-y-auto space-y-6">
+        {/* Custom Slug Section */}
+        <div className="space-y-2">
+          <Label htmlFor="customSlug" className="text-sm font-medium text-gray-700">
+            Nome del sottodominio
+          </Label>
+          <div className="flex items-center space-x-2">
+            <Input
+              id="customSlug"
+              value={customSlug}
+              onChange={(e) => setCustomSlug(e.target.value)}
+              placeholder="il-tuo-nome"
+              className="flex-1"
+            />
+            <span className="text-sm text-gray-500">.lnkfire.dev</span>
           </div>
-        </Tabs>
+          <p className="text-xs text-gray-500">
+            Il tuo link sarà: {customSlug || 'il-tuo-nome'}.lnkfire.dev
+          </p>
+        </div>
+
+        {/* Profile Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Profilo</h3>
+          <ProfilePanel
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+            bio={bio}
+            setBio={setBio}
+            socialLinks={socialLinks}
+            setSocialLinks={setSocialLinks}
+          />
+        </div>
+
+        {/* Background Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Background</h3>
+          <DesignPanel
+            backgroundTheme={backgroundTheme}
+            setBackgroundTheme={setBackgroundTheme}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
+          />
+        </div>
+
+        {/* Buttons Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Pulsanti</h3>
+          <ButtonDesignPanel 
+            customButtons={customButtons}
+            setCustomButtons={setCustomButtons}
+          />
+        </div>
+
+        {/* Images Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Immagini</h3>
+          <ImagesPanel
+            profileImageUrl={profileImageUrl}
+            setProfileImageUrl={setProfileImageUrl}
+            coverImageUrl={coverImageUrl}
+            setCoverImageUrl={setCoverImageUrl}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
+          />
+        </div>
       </CardContent>
     </Card>
   );
