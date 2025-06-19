@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -177,6 +178,20 @@ const LinkCustomizerForm = ({
             setTitle={setTitle}
             description={description}
             setDescription={setDescription}
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+            bio={bio}
+            setBio={setBio}
+            backgroundTheme={backgroundTheme}
+            setBackgroundTheme={setBackgroundTheme}
+            socialLinks={socialLinks}
+            setSocialLinks={setSocialLinks}
+            profileImageUrl={profileImageUrl}
+            setProfileImageUrl={setProfileImageUrl}
+            coverImageUrl={coverImageUrl}
+            setCoverImageUrl={setCoverImageUrl}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
             customButtons={customButtons}
             setCustomButtons={setCustomButtons}
           />
@@ -208,6 +223,8 @@ const LinkCustomizerForm = ({
           <DesignPanel
             backgroundTheme={backgroundTheme}
             setBackgroundTheme={setBackgroundTheme}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
           />
         );
       case "buttons":

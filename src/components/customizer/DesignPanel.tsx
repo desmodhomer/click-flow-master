@@ -6,11 +6,15 @@ import ThemeCustomization from "@/components/ThemeCustomization";
 interface DesignPanelProps {
   backgroundTheme: string;
   setBackgroundTheme: (theme: string) => void;
+  customBackgroundUrl: string;
+  setCustomBackgroundUrl: (url: string) => void;
 }
 
 const DesignPanel = ({
   backgroundTheme,
-  setBackgroundTheme
+  setBackgroundTheme,
+  customBackgroundUrl,
+  setCustomBackgroundUrl
 }: DesignPanelProps) => {
   return (
     <div className="space-y-8">

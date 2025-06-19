@@ -94,12 +94,6 @@ const ConfigurationPanel = ({
           <div className="flex-1 overflow-y-auto px-4 pb-4">
             <TabsContent value="profile" className="space-y-4 mt-0">
               <ProfilePanel
-                customSlug={customSlug}
-                setCustomSlug={setCustomSlug}
-                title={title}
-                setTitle={setTitle}
-                description={description}
-                setDescription={setDescription}
                 displayName={displayName}
                 setDisplayName={setDisplayName}
                 bio={bio}
@@ -131,6 +125,8 @@ const ConfigurationPanel = ({
                 setProfileImageUrl={setProfileImageUrl}
                 coverImageUrl={coverImageUrl}
                 setCoverImageUrl={setCoverImageUrl}
+                customBackgroundUrl={customBackgroundUrl}
+                setCustomBackgroundUrl={setCustomBackgroundUrl}
               />
             </TabsContent>
           </div>
