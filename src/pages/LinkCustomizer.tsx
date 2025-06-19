@@ -5,21 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, ExternalLink } from "lucide-react";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
-import { SocialLink } from "@/types/customLink";
-import { CustomButton } from "@/components/customizer/ConfigurationPanel";
+import { useLinkCustomizerState } from "@/hooks/useLinkCustomizerState";
 
 const LinkCustomizerPage = () => {
-  const [customSlug, setCustomSlug] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [bio, setBio] = useState("");
-  const [backgroundTheme, setBackgroundTheme] = useState("gradient-blue");
-  const [profileImageUrl, setProfileImageUrl] = useState("");
-  const [coverImageUrl, setCoverImageUrl] = useState("");
-  const [customBackgroundUrl, setCustomBackgroundUrl] = useState("");
-  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-  const [customButtons, setCustomButtons] = useState<CustomButton[]>([]);
+  const {
+    customSlug,
+    setCustomSlug,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    displayName,
+    setDisplayName,
+    bio,
+    setBio,
+    backgroundTheme,
+    setBackgroundTheme,
+    profileImageUrl,
+    setProfileImageUrl,
+    coverImageUrl,
+    setCoverImageUrl,
+    customBackgroundUrl,
+    setCustomBackgroundUrl,
+    socialLinks,
+    setSocialLinks,
+    customButtons,
+    setCustomButtons,
+    activeTab,
+    setActiveTab,
+  } = useLinkCustomizerState();
+
   const [generatedLink, setGeneratedLink] = useState("");
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -95,6 +110,8 @@ const LinkCustomizerPage = () => {
           onPanelStateChange={handlePanelStateChange}
           isGenerating={isGenerating}
           setIsGenerating={setIsGenerating}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       </div>
 
