@@ -66,12 +66,24 @@ const ButtonCustomizationControls = ({
   ];
 
   const handleCustomColorSubmit = () => {
-    const customColorId = `custom-${Date.now()}`;
-    const customColorClass = `text-white hover:opacity-90`;
+    // Aggiorna i pulsanti selezionati con il colore personalizzato
+    if (selectedButtonId === "all") {
+      // Applica a tutti i pulsanti
+      customButtons.forEach(button => {
+        onButtonDesignUpdate('color', `custom-${Date.now()}`);
+        // Salva anche il codice colore come proprietà separata
+        (button as any).customColorCode = customColorCode;
+      });
+    } else {
+      // Applica solo al pulsante selezionato
+      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
+      if (selectedButton) {
+        onButtonDesignUpdate('color', `custom-${Date.now()}`);
+        (selectedButton as any).customColorCode = customColorCode;
+      }
+    }
     
-    onButtonDesignUpdate('color', customColorId);
-    onButtonDesignUpdate('customColorCode', customColorCode);
-    onButtonDesignUpdate('customColorClass', customColorClass);
+    console.log('Colore personalizzato applicato:', customColorCode);
   };
 
   const isLightColor = (color: string) => {
