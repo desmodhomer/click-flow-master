@@ -1,10 +1,10 @@
+
 import { useState } from "react";
 import { CustomButton } from "./ConfigurationPanel";
 import ButtonDesignHeader from "./button-design/ButtonDesignHeader";
 import AddButtonSection from "./button-design/AddButtonSection";
 import ButtonList from "./button-design/ButtonList";
 import ButtonCustomizationControls from "./button-design/ButtonCustomizationControls";
-import ButtonIconSelection from "./button-design/ButtonIconSelection";
 import ButtonPreview from "./button-design/ButtonPreview";
 
 interface ButtonDesignPanelProps {
@@ -58,25 +58,6 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     }
   };
 
-  const updateButtonIcon = (iconId: string | null) => {
-    if (selectedButtonId === "all") {
-      // Modifica tutti i pulsanti
-      const updatedButtons = customButtons.map(button => ({
-        ...button,
-        icon: iconId
-      }));
-      setCustomButtons(updatedButtons);
-    } else {
-      // Modifica solo il pulsante selezionato
-      const updatedButtons = customButtons.map(button => 
-        button.id === selectedButtonId 
-          ? { ...button, icon: iconId }
-          : button
-      );
-      setCustomButtons(updatedButtons);
-    }
-  };
-
   const getCurrentButtonStyle = () => {
     if (selectedButtonId === "all") {
       const firstButtonStyle = customButtons[0]?.style || 'rounded';
@@ -121,22 +102,10 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
     }
   };
 
-  const getCurrentButtonIcon = () => {
-    if (selectedButtonId === "all") {
-      const firstButtonIcon = customButtons[0]?.icon || null;
-      const allSameIcon = customButtons.every(btn => btn.icon === firstButtonIcon);
-      return allSameIcon ? firstButtonIcon : null;
-    } else {
-      const selectedButton = customButtons.find(btn => btn.id === selectedButtonId);
-      return selectedButton?.icon || null;
-    }
-  };
-
   const currentStyle = getCurrentButtonStyle();
   const currentColor = getCurrentButtonColor();
   const currentSize = getCurrentButtonSize();
   const currentSpacing = getCurrentButtonSpacing();
-  const currentIcon = getCurrentButtonIcon();
 
   if (customButtons.length === 0) {
     return (
@@ -163,13 +132,6 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
       {/* Opzioni di personalizzazione - Solo se ci sono pulsanti */}
       {customButtons.length > 0 && (
         <>
-          <ButtonIconSelection
-            customButtons={customButtons}
-            selectedButtonId={selectedButtonId}
-            onSelectedButtonChange={setSelectedButtonId}
-            onButtonIconUpdate={updateButtonIcon}
-            currentIcon={currentIcon}
-          />
           <ButtonCustomizationControls
             customButtons={customButtons}
             selectedButtonId={selectedButtonId}

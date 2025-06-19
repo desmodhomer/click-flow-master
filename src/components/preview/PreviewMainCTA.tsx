@@ -1,23 +1,5 @@
 
 import { CustomButton } from "@/components/customizer/ConfigurationPanel";
-import {
-  TwitterIcon,
-  FacebookIcon,
-  InstagramIcon,
-  GoogleIcon,
-  WhatsAppIcon,
-  YouTubeIcon,
-  PinterestIcon,
-  LinkedInIcon,
-  SpotifyIcon,
-  VimeoIcon,
-  DribbbleIcon,
-  BehanceIcon,
-  StackOverflowIcon,
-  SkypeIcon,
-  TumblrIcon,
-  SnapchatIcon
-} from "@/components/customizer/button-design/SocialPlatformIcons";
 
 interface PreviewMainCTAProps {
   customButtons?: CustomButton[];
@@ -28,32 +10,6 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
   if (customButtons.length === 0) {
     return null;
   }
-
-  const socialIcons = {
-    twitter: TwitterIcon,
-    facebook: FacebookIcon,
-    instagram: InstagramIcon,
-    google: GoogleIcon,
-    whatsapp: WhatsAppIcon,
-    youtube: YouTubeIcon,
-    pinterest: PinterestIcon,
-    linkedin: LinkedInIcon,
-    spotify: SpotifyIcon,
-    vimeo: VimeoIcon,
-    dribbble: DribbbleIcon,
-    behance: BehanceIcon,
-    stackoverflow: StackOverflowIcon,
-    skype: SkypeIcon,
-    tumblr: TumblrIcon,
-    snapchat: SnapchatIcon
-  };
-
-  const getButtonIcon = (button: CustomButton) => {
-    if (!button.icon || !socialIcons[button.icon as keyof typeof socialIcons]) {
-      return null;
-    }
-    return socialIcons[button.icon as keyof typeof socialIcons];
-  };
 
   const getButtonClasses = (button: CustomButton) => {
     const styleClasses = {
@@ -147,19 +103,15 @@ const PreviewMainCTA = ({ customButtons = [] }: PreviewMainCTAProps) => {
 
   return (
     <div className="px-4 mb-3">
-      {customButtons.map((button, index) => {
-        const IconComponent = getButtonIcon(button);
-        return (
-          <div 
-            key={button.id} 
-            className={getButtonClasses(button)}
-            style={getButtonStyle(button)}
-          >
-            {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
-            {button.text || 'Pulsante'}
-          </div>
-        );
-      })}
+      {customButtons.map((button, index) => (
+        <div 
+          key={button.id} 
+          className={getButtonClasses(button)}
+          style={getButtonStyle(button)}
+        >
+          {button.text || 'Pulsante'}
+        </div>
+      ))}
     </div>
   );
 };
