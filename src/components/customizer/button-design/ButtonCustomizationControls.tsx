@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
@@ -6,24 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Square, Circle, CornerRightUp, Palette } from "lucide-react";
 import { CustomButton } from "../ConfigurationPanel";
 import { useState } from "react";
-import {
-  TwitterIcon,
-  FacebookIcon,
-  InstagramIcon,
-  GoogleIcon,
-  WhatsAppIcon,
-  YouTubeIcon,
-  PinterestIcon,
-  LinkedInIcon,
-  SpotifyIcon,
-  VimeoIcon,
-  DribbbleIcon,
-  BehanceIcon,
-  StackOverflowIcon,
-  SkypeIcon,
-  TumblrIcon,
-  SnapchatIcon
-} from "./SocialPlatformIcons";
 
 interface ButtonCustomizationControlsProps {
   customButtons: CustomButton[];
@@ -72,25 +55,6 @@ const ButtonCustomizationControls = ({
     { id: 'gradient-orange', name: 'Gradiente Arancione-Rosso', class: 'bg-gradient-to-r from-orange-500 to-red-500 text-white hover:from-orange-600 hover:to-red-600', color: 'linear-gradient(to right, #f97316, #ef4444)' },
     { id: 'gradient-green', name: 'Gradiente Verde-Teal', class: 'bg-gradient-to-r from-green-500 to-teal-500 text-white hover:from-green-600 hover:to-teal-600', color: 'linear-gradient(to right, #22c55e, #14b8a6)' },
     { id: 'gradient-pink', name: 'Gradiente Rosa-Viola', class: 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600', color: 'linear-gradient(to right, #ec4899, #a855f7)' }
-  ];
-
-  const socialPlatformColors = [
-    { id: 'twitter', name: 'Twitter', icon: TwitterIcon, color: '#1DA1F2' },
-    { id: 'facebook', name: 'Facebook', icon: FacebookIcon, color: '#3b5998' },
-    { id: 'instagram', name: 'Instagram', icon: InstagramIcon, color: '#E4405F' },
-    { id: 'google', name: 'Google', icon: GoogleIcon, color: '#db4437' },
-    { id: 'whatsapp', name: 'WhatsApp', icon: WhatsAppIcon, color: '#25D366' },
-    { id: 'youtube', name: 'YouTube', icon: YouTubeIcon, color: '#FF0000' },
-    { id: 'pinterest', name: 'Pinterest', icon: PinterestIcon, color: '#BD081C' },
-    { id: 'linkedin', name: 'LinkedIn', icon: LinkedInIcon, color: '#0077B5' },
-    { id: 'spotify', name: 'Spotify', icon: SpotifyIcon, color: '#1DB954' },
-    { id: 'vimeo', name: 'Vimeo', icon: VimeoIcon, color: '#1ab7ea' },
-    { id: 'dribbble', name: 'Dribbble', icon: DribbbleIcon, color: '#ea4c89' },
-    { id: 'behance', name: 'Behance', icon: BehanceIcon, color: '#1769ff' },
-    { id: 'stackoverflow', name: 'Stack Overflow', icon: StackOverflowIcon, color: '#f48024' },
-    { id: 'skype', name: 'Skype', icon: SkypeIcon, color: '#00AFF0' },
-    { id: 'tumblr', name: 'Tumblr', icon: TumblrIcon, color: '#001935' },
-    { id: 'snapchat', name: 'Snapchat', icon: SnapchatIcon, color: '#FFFC00' }
   ];
 
   const buttonSizes = [
