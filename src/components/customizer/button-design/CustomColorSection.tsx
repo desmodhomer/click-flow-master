@@ -24,14 +24,15 @@ const CustomColorSection = ({
     const customColorId = `custom-${Date.now()}`;
     console.log('Applicando colore personalizzato:', customColorCode, 'con ID:', customColorId);
     
-    // First update the color property to the custom ID
+    // Aggiorna prima il color con l'ID personalizzato
     onButtonDesignUpdate('color', customColorId);
     
-    // Then update the custom color code property separately
-    // This ensures both properties are updated through the proper state mechanism
-    onButtonDesignUpdate('customColorCode', customColorCode);
-    
-    console.log('Colore personalizzato applicato con successo');
+    // Poi aggiorna il codice colore personalizzato
+    // Usiamo un timeout per assicurarci che l'aggiornamento del colore sia completato
+    setTimeout(() => {
+      onButtonDesignUpdate('customColorCode', customColorCode);
+      console.log('Colore personalizzato applicato con successo');
+    }, 50);
   };
 
   return (

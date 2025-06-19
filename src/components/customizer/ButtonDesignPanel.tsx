@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { CustomButton } from "./ConfigurationPanel";
 import ButtonDesignHeader from "./button-design/ButtonDesignHeader";
@@ -40,12 +39,15 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
   };
 
   const updateButtonDesign = (property: string, value: string | number) => {
+    console.log('Aggiornamento design pulsante:', property, value);
+    
     if (selectedButtonId === "all") {
       // Modifica tutti i pulsanti
-      const updatedButtons = customButtons.map(button => ({
-        ...button,
-        [property]: value
-      }));
+      const updatedButtons = customButtons.map(button => {
+        const updatedButton = { ...button, [property]: value };
+        console.log('Pulsante aggiornato (tutti):', updatedButton);
+        return updatedButton;
+      });
       setCustomButtons(updatedButtons);
     } else {
       // Modifica solo il pulsante selezionato
@@ -54,6 +56,7 @@ const ButtonDesignPanel = ({ customButtons, setCustomButtons }: ButtonDesignPane
           ? { ...button, [property]: value }
           : button
       );
+      console.log('Pulsanti aggiornati (singolo):', updatedButtons);
       setCustomButtons(updatedButtons);
     }
   };
