@@ -1,3 +1,4 @@
+
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./customizer/ConfigurationPanel";
 import CustomizerSidebar from "./customizer/CustomizerSidebar";
@@ -72,13 +73,18 @@ const LinkCustomizerForm = ({
     onPanelStateChange(newTab !== null);
   };
 
+  const handleTogglePanel = () => {
+    const newActiveTab = activeTab ? null : 'profile';
+    setActiveTab(newActiveTab);
+    onPanelStateChange(newActiveTab !== null);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
       <CustomizerHeader
-        onGenerate={() => {}} // Empty function since we moved generation to parent
-        isGenerating={isGenerating}
-        hasButtons={customButtons.length > 0}
+        isPanelOpen={activeTab !== null}
+        onTogglePanel={handleTogglePanel}
       />
 
       {/* Main Content */}
