@@ -113,6 +113,11 @@ export const useLinkGeneration = ({
         title: "Link generato!",
         description: "Il tuo link personalizzato è pronto",
       });
+
+      // Trigger a page refresh to update the user links section
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error('Error:', error);
       toast({

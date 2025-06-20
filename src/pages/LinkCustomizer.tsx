@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { useLinkCustomizerState } from "@/hooks/useLinkCustomizerState";
 import { useLinkGeneration } from "@/components/customizer/LinkGenerationHandler";
+import UserLinksSection from "@/components/UserLinksSection";
 
 const LinkCustomizerPage = () => {
   const {
@@ -66,7 +66,7 @@ const LinkCustomizerPage = () => {
   });
 
   return (
-    <div className="relative flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       {/* Pulsante Generate Link in alto a destra */}
       <div className="absolute top-4 right-4 z-50">
         <Button 
@@ -90,62 +90,69 @@ const LinkCustomizerPage = () => {
         </Button>
       </div>
 
-      {/* Form Panel */}
-      <div className={cn(
-        "transition-all duration-500 ease-in-out shadow-xl",
-        isPanelOpen ? "w-[420px]" : "w-16"
-      )}>
-        <LinkCustomizerForm
-          onLinkGenerated={handleLinkGenerated}
-          customSlug={customSlug}
-          setCustomSlug={setCustomSlug}
-          title={title}
-          setTitle={setTitle}
-          description={description}
-          setDescription={setDescription}
-          displayName={displayName}
-          setDisplayName={setDisplayName}
-          bio={bio}
-          setBio={setBio}
-          backgroundTheme={backgroundTheme}
-          setBackgroundTheme={setBackgroundTheme}
-          socialLinks={socialLinks}
-          setSocialLinks={setSocialLinks}
-          profileImageUrl={profileImageUrl}
-          setProfileImageUrl={setProfileImageUrl}
-          coverImageUrl={coverImageUrl}
-          setCoverImageUrl={setCoverImageUrl}
-          customBackgroundUrl={customBackgroundUrl}
-          setCustomBackgroundUrl={setCustomBackgroundUrl}
-          customButtons={customButtons}
-          setCustomButtons={setCustomButtons}
-          onPanelStateChange={handlePanelStateChange}
-          isGenerating={isGenerating}
-          setIsGenerating={setIsGenerating}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-      </div>
+      <div className="flex h-screen">
+        {/* Form Panel */}
+        <div className={cn(
+          "transition-all duration-500 ease-in-out shadow-xl",
+          isPanelOpen ? "w-[420px]" : "w-16"
+        )}>
+          <LinkCustomizerForm
+            onLinkGenerated={handleLinkGenerated}
+            customSlug={customSlug}
+            setCustomSlug={setCustomSlug}
+            title={title}
+            setTitle={setTitle}
+            description={description}
+            setDescription={setDescription}
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+            bio={bio}
+            setBio={setBio}
+            backgroundTheme={backgroundTheme}
+            setBackgroundTheme={setBackgroundTheme}
+            socialLinks={socialLinks}
+            setSocialLinks={setSocialLinks}
+            profileImageUrl={profileImageUrl}
+            setProfileImageUrl={setProfileImageUrl}
+            coverImageUrl={coverImageUrl}
+            setCoverImageUrl={setCoverImageUrl}
+            customBackgroundUrl={customBackgroundUrl}
+            setCustomBackgroundUrl={setCustomBackgroundUrl}
+            customButtons={customButtons}
+            setCustomButtons={setCustomButtons}
+            onPanelStateChange={handlePanelStateChange}
+            isGenerating={isGenerating}
+            setIsGenerating={setIsGenerating}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        </div>
 
-      {/* Preview Panel - Expands when sidebar is collapsed */}
-      <div className={cn(
-        "p-6 overflow-hidden bg-white transition-all duration-500 ease-in-out",
-        "flex-1"
-      )}>
-        <PreviewPanel
-          generatedLink={generatedLink}
-          title={title}
-          description={description}
-          displayName={displayName}
-          bio={bio}
-          backgroundTheme={backgroundTheme}
-          profileImageUrl={profileImageUrl}
-          coverImageUrl={coverImageUrl}
-          customBackgroundUrl={customBackgroundUrl}
-          socialLinks={socialLinks}
-          customSlug={customSlug}
-          customButtons={customButtons}
-        />
+        {/* Preview Panel and User Links */}
+        <div className="flex-1 flex flex-col">
+          {/* Preview Panel */}
+          <div className="flex-1 p-6 overflow-hidden bg-white">
+            <PreviewPanel
+              generatedLink={generatedLink}
+              title={title}
+              description={description}
+              displayName={displayName}
+              bio={bio}
+              backgroundTheme={backgroundTheme}
+              profileImageUrl={profileImageUrl}
+              coverImageUrl={coverImageUrl}
+              customBackgroundUrl={customBackgroundUrl}
+              socialLinks={socialLinks}
+              customSlug={customSlug}
+              customButtons={customButtons}
+            />
+          </div>
+
+          {/* User Links Section */}
+          <div className="p-6 bg-gray-50 border-t">
+            <UserLinksSection />
+          </div>
+        </div>
       </div>
     </div>
   );
