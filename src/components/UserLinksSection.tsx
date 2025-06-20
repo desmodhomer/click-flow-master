@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,13 +22,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { useAuth } from "@/hooks/useAuth";
-import { Trash2, ExternalLink, Copy, BarChart3, Eye, Monitor } from "lucide-react";
+import { Trash2, ExternalLink, Copy, BarChart3, Eye, Monitor, Code } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const UserLinksSection = () => {
   const { links, loading, deleteLink } = useUserLinks();
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleCopyLink = (slug: string) => {
@@ -56,6 +57,14 @@ const UserLinksSection = () => {
     toast({
       title: "Popup aperto",
       description: "Il link si è aperto in una finestra popup",
+    });
+  };
+
+  const handleDevPreview = (slug: string) => {
+    navigate(`/preview/${slug}`);
+    toast({
+      title: "Dev Preview aperto",
+      description: "Anteprima di sviluppo aperta",
     });
   };
 
@@ -197,6 +206,15 @@ const UserLinksSection = () => {
                       className="text-purple-600 hover:text-purple-700"
                     >
                       <Monitor className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDevPreview(link.slug)}
+                      title="Dev Preview"
+                      className="text-orange-600 hover:text-orange-700"
+                    >
+                      <Code className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
