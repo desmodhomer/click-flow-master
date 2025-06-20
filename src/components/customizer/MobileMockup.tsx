@@ -86,58 +86,58 @@ const MobileMockup = ({
   const backgroundStyle = getBackgroundStyle();
 
   return (
-    <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-4">
-      {/* Mobile Preview Frame */}
+    <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-2">
+      {/* Mobile Preview Frame - Dimensioni ridotte */}
       <div className="relative">
         {/* Ombra del telefono */}
-        <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
+        <div className="absolute inset-0 bg-black/15 rounded-[16px] transform translate-y-1 translate-x-0.5 blur-md scale-105"></div>
         
-        {/* Frame del telefono */}
-        <div className="relative w-[280px] h-[580px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono - Ridotto da 280x580 a 240x480 */}
+        <div className="relative w-[240px] h-[480px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[16px] p-[6px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
-          <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
+          <div className="w-full h-full bg-black rounded-[12px] overflow-hidden relative">
             
             {/* Notch moderno */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[80px] h-[8px] bg-black rounded-b-[4px] z-50"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60px] h-[6px] bg-black rounded-b-[3px] z-50"></div>
             
             {/* Status Bar */}
-            <div className="absolute top-[12px] left-0 right-0 px-4 flex items-center justify-between text-white text-[10px] font-medium z-40">
-              <div className="flex items-center gap-2">
-                <div className="w-[5px] h-[5px] bg-gray-600 rounded-full"></div>
-                <div className="w-[10px] h-[1px] bg-gray-700 rounded-full"></div>
-                <div className="ml-2 font-semibold">12:30</div>
+            <div className="absolute top-[8px] left-0 right-0 px-3 flex items-center justify-between text-white text-[8px] font-medium z-40">
+              <div className="flex items-center gap-1">
+                <div className="w-[4px] h-[4px] bg-gray-600 rounded-full"></div>
+                <div className="w-[8px] h-[1px] bg-gray-700 rounded-full"></div>
+                <div className="ml-1 font-semibold">12:30</div>
               </div>
               <div className="flex items-center gap-1">
-                <Signal className="h-2 w-2" />
-                <Wifi className="h-2 w-2" />
-                <Battery className="h-2 w-2" />
+                <Signal className="h-1.5 w-1.5" />
+                <Wifi className="h-1.5 w-1.5" />
+                <Battery className="h-1.5 w-1.5" />
               </div>
             </div>
             
             {/* Safari Browser UI */}
-            <div className="absolute top-[32px] left-0 right-0 bg-gray-50 px-3 py-1 flex items-center gap-2 border-b border-gray-200 z-30">
-              <div className="flex-1 bg-gray-200 rounded-full px-3 py-1 text-xs text-gray-700 font-medium">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="absolute top-[24px] left-0 right-0 bg-gray-50 px-2 py-0.5 flex items-center gap-1 border-b border-gray-200 z-30">
+              <div className="flex-1 bg-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-700 font-medium">
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex items-center justify-center">
                     <div className="w-0.5 h-0.5 bg-white rounded-full"></div>
                   </div>
-                  <span className="text-[9px] truncate">
+                  <span className="text-[7px] truncate">
                     {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
                   </span>
                 </div>
               </div>
             </div>
             
-            {/* Website Content - con altezza limitata */}
-            <div className="absolute top-[56px] left-0 right-0 bottom-[24px] overflow-hidden">
+            {/* Website Content - Altezza ridotta */}
+            <div className="absolute top-[42px] left-0 right-0 bottom-[20px] overflow-hidden">
               <ScrollArea className="h-full">
                 <div 
                   className={`min-h-full ${backgroundStyle.className || ''}`} 
                   style={backgroundStyle}
                 >
                   {/* Hero Section compatta */}
-                  <div className="py-4 px-3">
+                  <div className="py-2 px-2">
                     <PreviewHeroSection
                       profileImageUrl={profileImageUrl}
                       displayName={displayName}
@@ -151,7 +151,7 @@ const MobileMockup = ({
                   </div>
 
                   {/* Social Links Section compatta */}
-                  <div className="px-3 mb-3">
+                  <div className="px-2 mb-2">
                     <PreviewSocialLinks 
                       socialLinks={socialLinks} 
                       backgroundTheme={backgroundTheme}
@@ -159,7 +159,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Main CTA Section compatta */}
-                  <div className="px-3 mb-3">
+                  <div className="px-2 mb-2">
                     <PreviewMainCTA 
                       customButtons={customButtons}
                       backgroundTheme={backgroundTheme}
@@ -167,7 +167,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Footer compatto */}
-                  <div className="px-3 pb-4">
+                  <div className="px-2 pb-2">
                     <PreviewStatsFooter />
                   </div>
                 </div>
@@ -175,19 +175,19 @@ const MobileMockup = ({
             </div>
             
             {/* Home indicator iOS */}
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[100px] h-[4px] bg-white rounded-full opacity-80"></div>
+            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[80px] h-[3px] bg-white rounded-full opacity-80"></div>
           </div>
           
           {/* Riflesso sullo schermo */}
-          <div className="absolute inset-[8px] rounded-[16px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-[6px] rounded-[12px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
         </div>
 
-        {/* Volume buttons */}
-        <div className="absolute left-[-2px] top-[100px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
-        <div className="absolute left-[-2px] top-[140px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
+        {/* Volume buttons - Ridimensionati */}
+        <div className="absolute left-[-1px] top-[80px] w-[1px] h-[20px] bg-gray-700 rounded-l-sm"></div>
+        <div className="absolute left-[-1px] top-[110px] w-[1px] h-[20px] bg-gray-700 rounded-l-sm"></div>
         
-        {/* Power button */}
-        <div className="absolute right-[-2px] top-[120px] w-[2px] h-[30px] bg-gray-700 rounded-r-sm"></div>
+        {/* Power button - Ridimensionato */}
+        <div className="absolute right-[-1px] top-[95px] w-[1px] h-[20px] bg-gray-700 rounded-r-sm"></div>
       </div>
     </div>
   );
