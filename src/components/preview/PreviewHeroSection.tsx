@@ -31,12 +31,12 @@ const PreviewHeroSection = ({
   const bioColorClass = isLightBackground ? 'text-gray-500' : 'text-white/70';
 
   return (
-    <div className={`relative text-center max-w-sm mx-auto ${collapsed ? 'py-2' : 'py-4'}`}>
+    <div className={`relative text-center max-w-sm mx-auto ${collapsed ? 'py-2' : 'py-8'}`}>
       
-      {/* Profile Image - Dimensioni realistiche */}
+      {/* Profile Image più compatta se collapsed */}
       {profileImageUrl && (
         <div className={`flex justify-center ${collapsed ? 'mb-3' : 'mb-6'}`}>
-          <div className={`${collapsed ? 'w-16 h-16' : 'w-24 h-24'} rounded-full border-2 ${isLightBackground ? 'border-gray-200' : 'border-white/30'} overflow-hidden`}>
+          <div className={`${collapsed ? 'w-16 h-16' : 'w-20 h-20'} rounded-full border-2 ${isLightBackground ? 'border-gray-200' : 'border-white/30'} overflow-hidden`}>
             <img 
               src={profileImageUrl} 
               alt="Profile" 
@@ -46,21 +46,21 @@ const PreviewHeroSection = ({
         </div>
       )}
       
-      {/* Display Name - Dimensioni realistiche */}
+      {/* Display Name */}
       {displayName && (
-        <h1 className={`${collapsed ? 'text-lg' : 'text-2xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-3'} ${textColorClass}`}>
+        <h1 className={`${collapsed ? 'text-lg' : 'text-xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-2'} ${textColorClass}`}>
           {displayName}
         </h1>
       )}
       
-      {/* Title - Dimensioni realistiche */}
-      <h2 className={`${collapsed ? 'text-xs' : 'text-base'} font-medium ${collapsed ? 'mb-2' : 'mb-4'} ${subtitleColorClass}`}>
+      {/* Title più compatto se collapsed */}
+      <h2 className={`${collapsed ? 'text-xs' : 'text-sm'} font-medium ${collapsed ? 'mb-2' : 'mb-3'} ${subtitleColorClass}`}>
         {title || "Link Personalizzato"}
       </h2>
       
-      {/* Bio - Dimensioni realistiche */}
+      {/* Bio compatta */}
       {bio && (
-        <p className={`${collapsed ? 'text-xs' : 'text-sm'} ${bioColorClass} max-w-xs mx-auto ${collapsed ? 'mb-1' : 'mb-3'}`}>
+        <p className={`${collapsed ? 'text-xs' : 'text-xs'} ${bioColorClass} max-w-xs mx-auto ${collapsed ? 'mb-1' : 'mb-2'}`}>
           {bio}
         </p>
       )}
