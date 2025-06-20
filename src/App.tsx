@@ -30,20 +30,20 @@ const isSubdomainEnvironment = () => {
   console.log('🚀 CHECKING SUBDOMAIN - hostname:', hostname);
   console.log('📁 CHECKING SUBDOMAIN - pathname:', pathname);
   
-  // Test specifico per qualsiasi sottodominio lnkfire.dev
-  if (hostname.endsWith('.lnkfire.dev') && hostname !== 'www.lnkfire.dev') {
+  // Test specifico per QUALSIASI sottodominio .lnkfire.dev (dinamico)
+  if (hostname.endsWith('.lnkfire.dev') && hostname !== 'www.lnkfire.dev' && hostname !== 'lnkfire.dev') {
     console.log('✅ MATCHED .lnkfire.dev subdomain:', hostname);
     return true;
   }
   
-  // Logica per altri ambienti (Lovable)
+  // Logica per altri ambienti (Lovable) - solo se NON siamo su route dell'app
   const parts = hostname.split('.');
   if (parts.length >= 2) {
     const subdomain = parts[0];
-    const domain = parts.slice(1).join('.');
     
     if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
       if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+        // Se siamo su route dell'app, NON è un sottodominio
         const isAppRoute = pathname.startsWith('/quest') || 
                           pathname.startsWith('/link-customizer') || 
                           pathname.startsWith('/preview/') ||
@@ -53,6 +53,8 @@ const isSubdomainEnvironment = () => {
         if (!isAppRoute) {
           console.log('✅ MATCHED lovable subdomain (not app route):', hostname);
           return true;
+        } else {
+          console.log('❌ LOVABLE BUT IS APP ROUTE - pathname:', pathname);
         }
       }
     }
