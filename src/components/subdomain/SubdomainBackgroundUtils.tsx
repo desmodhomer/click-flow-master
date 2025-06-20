@@ -13,11 +13,14 @@ export const getBackgroundStyle = (link: CustomLink | null) => {
     };
   }
   
-  // Handle custom colors
-  if (link.background_theme.startsWith('custom-')) {
+  // Handle custom colors - fixed the logic
+  if (link.background_theme && link.background_theme.startsWith('custom-')) {
     const customColor = link.background_theme.replace('custom-', '');
+    console.log('Applicando colore di sfondo personalizzato:', customColor);
     return {
-      backgroundColor: customColor
+      style: {
+        backgroundColor: customColor
+      }
     };
   }
   
@@ -27,8 +30,23 @@ export const getBackgroundStyle = (link: CustomLink | null) => {
     'gradient-green': 'from-green-400 via-teal-500 to-blue-500',
     'gradient-orange': 'from-yellow-400 via-orange-500 to-red-500',
     'dark': 'from-gray-800 via-gray-900 to-black',
+    'dark-solid': 'bg-gray-900',
+    'white-solid': 'bg-white',
     'minimal': 'from-gray-50 via-white to-gray-100'
   };
+  
+  // Handle solid colors
+  if (link.background_theme === 'dark-solid') {
+    return { 
+      className: 'bg-gray-900' 
+    };
+  }
+  
+  if (link.background_theme === 'white-solid') {
+    return { 
+      className: 'bg-white' 
+    };
+  }
   
   return { 
     className: `bg-gradient-to-br ${themeStyles[link.background_theme] || themeStyles['gradient-blue']}` 

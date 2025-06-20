@@ -21,7 +21,8 @@ const SubdomainHandler = () => {
     loading,
     notFound,
     error,
-    hostname: window.location.hostname
+    hostname: window.location.hostname,
+    backgroundTheme: linkData?.background_theme
   });
 
   const handleLinkLoaded = (link: CustomLink | null) => {
@@ -60,6 +61,28 @@ const SubdomainHandler = () => {
   };
 
   const backgroundStyle = getBackgroundStyle(linkData);
+  console.log('🎨 Background style calculated:', backgroundStyle);
+
+  // Se è un colore personalizzato, applica lo style inline
+  if (backgroundStyle.style) {
+    return (
+      <div className="min-h-screen" style={backgroundStyle.style}>
+        <SubdomainPageContent 
+          loading={loading}
+          notFound={notFound}
+          linkData={linkData}
+          error={error}
+          onSocialClick={handleSocialClick}
+          onButtonClick={handleButtonClick}
+        />
+        <SubdomainLoader
+          onLinkLoaded={handleLinkLoaded}
+          onNotFound={handleNotFound}
+          onLoading={handleLoading}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" style={backgroundStyle.backgroundImage ? backgroundStyle : undefined}>
