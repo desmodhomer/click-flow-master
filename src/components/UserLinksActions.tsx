@@ -57,20 +57,17 @@ const UserLinksActions = ({ slug, title, onDelete, isDeleting }: UserLinksAction
     const currentHostname = window.location.hostname;
     let devUrl;
     
-    if (currentHostname.includes('lovable.app')) {
+    if (currentHostname.includes('lovable.app') || currentHostname.includes('lovableproject.com')) {
+      // Usa HTTP per gli ambienti Lovable per evitare problemi SSL
       devUrl = `http://${slug}.${currentHostname}`;
-    } else if (currentHostname.includes('lovableproject.com')) {
-      devUrl = `http://${slug}.${currentHostname}`;
+      window.open(devUrl, '_blank');
+      toast({
+        title: "Dev Preview aperto",
+        description: `Sottodominio di sviluppo: ${slug}.${currentHostname}`,
+      });
     } else {
       navigate(`/preview/${slug}`);
-      return;
     }
-    
-    window.open(devUrl, '_blank');
-    toast({
-      title: "Dev Preview aperto",
-      description: `Sottodominio di sviluppo: ${slug}.${currentHostname}`,
-    });
   };
 
   return (
