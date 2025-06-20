@@ -9,12 +9,9 @@ import UserLinksTable from "./UserLinksTable";
 const UserLinksSection = () => {
   const { links, loading, deleteLink } = useUserLinks();
   const { user } = useAuth();
-  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const handleDelete = async (linkId: string) => {
-    setDeletingId(linkId);
-    const success = await deleteLink(linkId);
-    setDeletingId(null);
+  const handleDeleteLink = async (linkId: string) => {
+    return await deleteLink(linkId);
   };
 
   // Handle non-authenticated users or loading states
@@ -38,8 +35,7 @@ const UserLinksSection = () => {
       <CardContent>
         <UserLinksTable
           links={links}
-          deletingId={deletingId}
-          onDelete={handleDelete}
+          onDeleteLink={handleDeleteLink}
         />
       </CardContent>
     </Card>

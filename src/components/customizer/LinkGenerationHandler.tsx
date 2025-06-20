@@ -19,7 +19,7 @@ interface LinkGenerationParams {
   customButtons: CustomButton[];
   onLinkGenerated: (link: string) => void;
   setIsGenerating: (generating: boolean) => void;
-  editLinkId?: string | null; // Aggiungo il parametro per l'editing
+  editLinkId?: string | null;
 }
 
 export const useLinkGeneration = ({
@@ -74,8 +74,8 @@ export const useLinkGeneration = ({
         profile_image_url: profileImageUrl || null,
         cover_image_url: coverImageUrl || null,
         custom_background_url: customBackgroundUrl || null,
-        social_links: socialLinks,
-        custom_buttons: customButtons,
+        social_links: socialLinks as any, // Cast to Json type
+        custom_buttons: customButtons as any, // Cast to Json type
         user_id: user?.id || null,
       };
 
@@ -90,14 +90,14 @@ export const useLinkGeneration = ({
             updated_at: new Date().toISOString()
           })
           .eq('id', editLinkId)
-          .eq('user_id', user?.id) // Sicurezza: solo il proprietario può aggiornare
+          .eq('user_id', user?.id)
           .select()
           .single();
       } else {
         // Crea un nuovo link
         result = await supabase
           .from('custom_links')
-          .insert([linkData])
+          .insert(linkData)
           .select()
           .single();
       }
