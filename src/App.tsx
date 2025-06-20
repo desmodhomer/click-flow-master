@@ -33,22 +33,6 @@ const App = () => {
     console.log('App: Checking hostname:', hostname);
     console.log('App: Checking pathname:', pathname);
     
-    // Controlla se siamo su una route specifica dell'app principale
-    const isAppRoute = pathname.startsWith('/quest') || 
-                      pathname.startsWith('/link-customizer') || 
-                      pathname.startsWith('/preview/') ||
-                      pathname.startsWith('/user-links') ||
-                      pathname === '/';
-    
-    console.log('App: Is app route?', isAppRoute);
-    
-    // Se siamo su una route dell'app, non è un sottodominio
-    if (isAppRoute && hostname.includes('lovable')) {
-      console.log('App: On app route with lovable domain, not a subdomain');
-      setIsSubdomain(false);
-      return;
-    }
-    
     // Logica migliorata per riconoscere i sottodomini
     const parts = hostname.split('.');
     console.log('App: Hostname parts:', parts);
@@ -65,13 +49,21 @@ const App = () => {
       
       // Verifica se abbiamo un sottodominio valido
       if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
-        // Per domini lovable
-        if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+        // Per domini personalizzati come lnkfire.dev
+        if (domain === 'lnkfire.dev') {
           isRealSubdomain = true;
         }
-        // Per domini personalizzati come lnkfire.dev
-        else if (domain === 'lnkfire.dev' || hostname.includes('.lnkfire.dev')) {
-          isRealSubdomain = true;
+        // Per domini lovable solo se NON siamo su route dell'app
+        else if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+          const isAppRoute = pathname.startsWith('/quest') || 
+                            pathname.startsWith('/link-customizer') || 
+                            pathname.startsWith('/preview/') ||
+                            pathname.startsWith('/user-links') ||
+                            pathname === '/';
+          
+          if (!isAppRoute) {
+            isRealSubdomain = true;
+          }
         }
       }
     }
