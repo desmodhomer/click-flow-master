@@ -1,10 +1,8 @@
-
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./customizer/ConfigurationPanel";
 import CustomizerSidebar from "./customizer/CustomizerSidebar";
 import CustomizerHeader from "./customizer/CustomizerHeader";
 import ActivePanelRenderer from "./customizer/ActivePanelRenderer";
-import { useLinkGeneration } from "./customizer/LinkGenerationHandler";
 
 interface LinkCustomizerFormProps {
   onLinkGenerated: (link: string) => void;
@@ -67,21 +65,6 @@ const LinkCustomizerForm = ({
   activeTab,
   setActiveTab
 }: LinkCustomizerFormProps) => {
-  const { handleGenerate } = useLinkGeneration({
-    customSlug,
-    title,
-    description,
-    displayName,
-    bio,
-    backgroundTheme,
-    profileImageUrl,
-    coverImageUrl,
-    customBackgroundUrl,
-    socialLinks,
-    customButtons,
-    onLinkGenerated,
-    setIsGenerating,
-  });
 
   const handleTabChange = (tab: string) => {
     const newTab = activeTab === tab ? null : tab;
@@ -93,7 +76,7 @@ const LinkCustomizerForm = ({
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
       <CustomizerHeader
-        onGenerate={handleGenerate}
+        onGenerate={() => {}} // Empty function since we moved generation to parent
         isGenerating={isGenerating}
         hasButtons={customButtons.length > 0}
       />

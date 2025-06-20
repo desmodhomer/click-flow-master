@@ -6,6 +6,7 @@ import { Loader2, Sparkles, ExternalLink } from "lucide-react";
 import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { useLinkCustomizerState } from "@/hooks/useLinkCustomizerState";
+import { useLinkGeneration } from "@/components/customizer/LinkGenerationHandler";
 
 const LinkCustomizerPage = () => {
   const {
@@ -48,10 +49,21 @@ const LinkCustomizerPage = () => {
     setIsPanelOpen(isOpen);
   };
 
-  const handleGenerate = async () => {
-    setIsGenerating(true);
-    setIsGenerating(false);
-  };
+  const { handleGenerate } = useLinkGeneration({
+    customSlug,
+    title,
+    description,
+    displayName,
+    bio,
+    backgroundTheme,
+    profileImageUrl,
+    coverImageUrl,
+    customBackgroundUrl,
+    socialLinks,
+    customButtons,
+    onLinkGenerated: handleLinkGenerated,
+    setIsGenerating,
+  });
 
   return (
     <div className="relative flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
