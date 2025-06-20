@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./ConfigurationPanel";
@@ -8,7 +7,6 @@ import DesktopMockup from "./DesktopMockup";
 import EmptyPreviewState from "./EmptyPreviewState";
 import PreviewHeader from "./PreviewHeader";
 import { useState } from "react";
-
 interface PreviewPanelProps {
   generatedLink: string;
   title: string;
@@ -23,10 +21,9 @@ interface PreviewPanelProps {
   customSlug?: string;
   customButtons?: CustomButton[];
 }
-
-const PreviewPanel = ({ 
-  generatedLink, 
-  title, 
+const PreviewPanel = ({
+  generatedLink,
+  title,
   description,
   displayName,
   bio,
@@ -40,62 +37,19 @@ const PreviewPanel = ({
 }: PreviewPanelProps) => {
   const [viewMode, setViewMode] = useState<'mobile' | 'desktop'>('mobile');
   const hasContent = title || displayName || generatedLink || customButtons.length > 0;
-
-  return (
-    <div className="space-y-6 h-full flex flex-col">
+  return <div className="space-y-6 h-full flex flex-col">
       {/* Actions Card */}
-      {generatedLink && (
-        <LinkActionsCard 
-          generatedLink={generatedLink}
-          customSlug={customSlug}
-        />
-      )}
+      {generatedLink && <LinkActionsCard generatedLink={generatedLink} customSlug={customSlug} />}
 
       {/* Preview */}
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col">
         {/* Toggle Controls - Fixed at top */}
-        <div className="p-4 border-b border-gray-100">
-          <PreviewHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-        </div>
+        
         
         <CardContent className="flex-1 p-0">
-          {hasContent ? (
-            viewMode === 'mobile' ? (
-              <MobileMockup
-                title={title}
-                description={description}
-                displayName={displayName}
-                bio={bio}
-                backgroundTheme={backgroundTheme}
-                profileImageUrl={profileImageUrl}
-                coverImageUrl={coverImageUrl}
-                customBackgroundUrl={customBackgroundUrl}
-                socialLinks={socialLinks}
-                customSlug={customSlug}
-                customButtons={customButtons}
-              />
-            ) : (
-              <DesktopMockup
-                title={title}
-                description={description}
-                displayName={displayName}
-                bio={bio}
-                backgroundTheme={backgroundTheme}
-                profileImageUrl={profileImageUrl}
-                coverImageUrl={coverImageUrl}
-                customBackgroundUrl={customBackgroundUrl}
-                socialLinks={socialLinks}
-                customSlug={customSlug}
-                customButtons={customButtons}
-              />
-            )
-          ) : (
-            <EmptyPreviewState />
-          )}
+          {hasContent ? viewMode === 'mobile' ? <MobileMockup title={title} description={description} displayName={displayName} bio={bio} backgroundTheme={backgroundTheme} profileImageUrl={profileImageUrl} coverImageUrl={coverImageUrl} customBackgroundUrl={customBackgroundUrl} socialLinks={socialLinks} customSlug={customSlug} customButtons={customButtons} /> : <DesktopMockup title={title} description={description} displayName={displayName} bio={bio} backgroundTheme={backgroundTheme} profileImageUrl={profileImageUrl} coverImageUrl={coverImageUrl} customBackgroundUrl={customBackgroundUrl} socialLinks={socialLinks} customSlug={customSlug} customButtons={customButtons} /> : <EmptyPreviewState />}
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default PreviewPanel;
