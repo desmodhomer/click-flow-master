@@ -30,13 +30,19 @@ const isSubdomainEnvironment = () => {
   console.log('🚀 CHECKING SUBDOMAIN - hostname:', hostname);
   console.log('📁 CHECKING SUBDOMAIN - pathname:', pathname);
   
-  // Test specifico per QUALSIASI sottodominio .lnkfire.dev (dinamico)
+  // PRIORITÀ 1: Test per sottodomini .lnkfire.dev - SEMPRE vince su tutto
   if (hostname.endsWith('.lnkfire.dev') && hostname !== 'www.lnkfire.dev' && hostname !== 'lnkfire.dev') {
-    console.log('✅ MATCHED .lnkfire.dev subdomain:', hostname);
+    console.log('✅ MATCHED .lnkfire.dev subdomain - FORCED SUBDOMAIN MODE:', hostname);
     return true;
   }
   
-  // Logica per altri ambienti (Lovable) - solo se NON siamo su route dell'app
+  // PRIORITÀ 2: Se siamo sul dominio principale lnkfire.dev (senza sottodominio), NON è sottodominio
+  if (hostname === 'lnkfire.dev' || hostname === 'www.lnkfire.dev') {
+    console.log('❌ MAIN DOMAIN - NOT SUBDOMAIN:', hostname);
+    return false;
+  }
+  
+  // PRIORITÀ 3: Logica per altri ambienti (Lovable) - solo se NON siamo su route dell'app
   const parts = hostname.split('.');
   if (parts.length >= 2) {
     const subdomain = parts[0];
