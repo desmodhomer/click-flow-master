@@ -54,7 +54,7 @@ const PreviewPanel = ({
 
       {/* Live Preview */}
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col">
-        <CardHeader className="pb-4 border-b border-gray-100">
+        <CardHeader className="pb-2 border-b border-gray-100">
           <CardTitle>
             <PreviewHeader viewMode={viewMode} onViewModeChange={setViewMode} />
           </CardTitle>
