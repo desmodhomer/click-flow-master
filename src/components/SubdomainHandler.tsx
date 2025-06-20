@@ -5,7 +5,7 @@ import SubdomainHeroSection from "./subdomain/SubdomainHeroSection";
 import SubdomainLoadingState from "./subdomain/SubdomainLoadingState";
 import SubdomainNotFound from "./subdomain/SubdomainNotFound";
 import SubdomainSocialLinks from "./subdomain/SubdomainSocialLinks";
-import SubdomainMainCTA from "./subdomain/SubdomainMainCTA";
+import SubdomainCustomButtons from "./subdomain/SubdomainCustomButtons";
 import SubdomainStatsFooter from "./subdomain/SubdomainStatsFooter";
 import { getBackgroundStyle } from "./subdomain/SubdomainBackgroundUtils";
 import { CustomLink } from "./subdomain/SubdomainLoader";
@@ -52,10 +52,10 @@ const SubdomainHandler = () => {
     window.open(social.url, '_blank');
   };
 
-  const handleMainCTAClick = () => {
-    if (linkData?.destination_url) {
-      console.log('🎯 Main CTA clicked, redirecting to:', linkData.destination_url);
-      window.open(linkData.destination_url, '_blank');
+  const handleButtonClick = (button: any) => {
+    if (button.url) {
+      console.log('🎯 Button clicked, redirecting to:', button.url);
+      window.open(button.url, '_blank');
     }
   };
 
@@ -72,7 +72,7 @@ const SubdomainHandler = () => {
             linkData={linkData}
             error={error}
             onSocialClick={handleSocialClick}
-            onMainCTAClick={handleMainCTAClick}
+            onButtonClick={handleButtonClick}
           />
         </div>
       )}
@@ -85,7 +85,7 @@ const SubdomainHandler = () => {
           linkData={linkData}
           error={error}
           onSocialClick={handleSocialClick}
-          onMainCTAClick={handleMainCTAClick}
+          onButtonClick={handleButtonClick}
         />
       )}
 
@@ -105,7 +105,7 @@ interface SubdomainPageContentProps {
   linkData: CustomLink | null;
   error: string | null;
   onSocialClick: (social: any) => void;
-  onMainCTAClick: () => void;
+  onButtonClick: (button: any) => void;
 }
 
 const SubdomainPageContent = ({ 
@@ -114,7 +114,7 @@ const SubdomainPageContent = ({
   linkData, 
   error, 
   onSocialClick, 
-  onMainCTAClick 
+  onButtonClick 
 }: SubdomainPageContentProps) => {
   if (loading) {
     console.log('⏳ SubdomainHandler: Rendering loading state');
@@ -139,10 +139,12 @@ const SubdomainPageContent = ({
           />
         )}
         
-        <SubdomainMainCTA 
-          link={linkData}
-          onClick={onMainCTAClick}
-        />
+        {linkData.custom_buttons && linkData.custom_buttons.length > 0 && (
+          <SubdomainCustomButtons 
+            customButtons={linkData.custom_buttons}
+            onButtonClick={onButtonClick}
+          />
+        )}
         
         <SubdomainStatsFooter 
           clickCount={linkData.click_count}
