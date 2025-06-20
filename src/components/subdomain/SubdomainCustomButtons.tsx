@@ -1,4 +1,5 @@
 
+import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
 interface SubdomainCustomButtonsProps {
@@ -7,10 +8,6 @@ interface SubdomainCustomButtonsProps {
 }
 
 const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCustomButtonsProps) => {
-  if (!customButtons || customButtons.length === 0) {
-    return null;
-  }
-
   const buttonStyles = [
     { id: 'rounded', name: 'Arrotondato', class: 'rounded-xl' },
     { id: 'square', name: 'Quadrato', class: 'rounded-none' },
@@ -18,7 +15,7 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
   ];
 
   const buttonColors = [
-    { id: 'white', name: 'Bianco', class: 'bg-white/90 text-gray-900 hover:bg-white' },
+    { id: 'white', name: 'Bianco', class: 'bg-white text-gray-900 hover:bg-gray-50' },
     { id: 'black', name: 'Nero', class: 'bg-gray-900 text-white hover:bg-gray-800' },
     { id: 'gray', name: 'Grigio', class: 'bg-gray-600 text-white hover:bg-gray-700' },
     { id: 'red', name: 'Rosso', class: 'bg-red-600 text-white hover:bg-red-700' },
@@ -37,11 +34,11 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
   ];
 
   const buttonSizes = [
-    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
-    { id: 'small', name: '2 - Piccolo', height: 'h-8' },
-    { id: 'medium', name: '3 - Medio', height: 'h-10' },
-    { id: 'large', name: '4 - Grande', height: 'h-12' },
-    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
+    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-8' },
+    { id: 'small', name: '2 - Piccolo', height: 'h-10' },
+    { id: 'medium', name: '3 - Medio', height: 'h-14' },
+    { id: 'large', name: '4 - Grande', height: 'h-16' },
+    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-20' }
   ];
 
   const isLightColor = (color: string) => {
@@ -53,27 +50,24 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
     return brightness > 128;
   };
 
-  // Usa la spaziatura del primo pulsante per tutti (o default)
-  const globalSpacing = customButtons[0]?.spacing || 3;
-
   const getSpacingClass = (spacingValue: number) => {
     const spacingClasses = {
-      1: 'mb-1',
-      2: 'mb-2', 
-      3: 'mb-3',
-      4: 'mb-4',
-      5: 'mb-5',
-      6: 'mb-6'
+      1: 'mb-2',
+      2: 'mb-3', 
+      3: 'mb-4',
+      4: 'mb-5',
+      5: 'mb-6',
+      6: 'mb-8'
     };
     
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-3';
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-4';
   };
 
   const getButtonClasses = (button: CustomButton) => {
-    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
+    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-14';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
     
-    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass}`;
+    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-medium shadow-lg ${styleClass} border border-white/20`;
     
     if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
       const customColorCode = (button as any).customColorCode;
@@ -81,7 +75,7 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
       return `${baseClasses} ${textColor} hover:opacity-90`;
     }
     
-    const colorClass = buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white';
+    const colorClass = buttonColors.find(c => c.id === button.color)?.class || 'bg-white text-gray-900 hover:bg-gray-50';
     return `${baseClasses} ${colorClass}`;
   };
 
@@ -95,6 +89,13 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
     
     return {};
   };
+
+  if (!customButtons || customButtons.length === 0) {
+    return null;
+  }
+
+  // Usa la spaziatura del primo pulsante per tutti (o default)
+  const globalSpacing = customButtons[0]?.spacing || 3;
 
   return (
     <div className="px-4 mb-6">
