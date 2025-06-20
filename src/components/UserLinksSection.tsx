@@ -61,10 +61,26 @@ const UserLinksSection = () => {
   };
 
   const handleDevPreview = (slug: string) => {
-    navigate(`/preview/${slug}`);
+    // Genera l'URL del sottodominio di sviluppo Lovable
+    const currentHostname = window.location.hostname;
+    let devUrl;
+    
+    if (currentHostname.includes('lovable.app')) {
+      // Se siamo su *.lovable.app, usa lo stesso pattern
+      devUrl = `https://${slug}.${currentHostname}`;
+    } else if (currentHostname.includes('lovableproject.com')) {
+      // Se siamo su *.lovableproject.com, usa lo stesso pattern
+      devUrl = `https://${slug}.${currentHostname}`;
+    } else {
+      // Fallback alla preview interna se non siamo su Lovable
+      navigate(`/preview/${slug}`);
+      return;
+    }
+    
+    window.open(devUrl, '_blank');
     toast({
       title: "Dev Preview aperto",
-      description: "Anteprima di sviluppo aperta",
+      description: `Sottodominio di sviluppo: ${slug}.${currentHostname}`,
     });
   };
 
@@ -211,7 +227,7 @@ const UserLinksSection = () => {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDevPreview(link.slug)}
-                      title="Dev Preview"
+                      title="Dev Preview (Sottodominio sviluppo)"
                       className="text-orange-600 hover:text-orange-700"
                     >
                       <Code className="h-4 w-4" />
