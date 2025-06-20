@@ -28,13 +28,25 @@ interface SubdomainLoaderProps {
 }
 
 const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoaderProps) => {
+  const [hasLoaded, setHasLoaded] = useState(false);
+
   useEffect(() => {
+    // Evita chiamate multiple
+    if (hasLoaded) return;
+
     const loadLinkData = async () => {
+      console.log('SubdomainLoader: Starting to load link data');
+      onLoading(true);
+      
       const hostname = window.location.hostname;
       const parts = hostname.split('.');
       
+      console.log('SubdomainLoader: Hostname parts:', parts);
+      
+      // Verifica se è un sottodominio valido
       if (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev') {
         const slug = parts[0];
+        console.log('SubdomainLoader: Loading slug:', slug);
         
         try {
           const { data, error } = await supabase
@@ -43,9 +55,14 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
             .eq('slug', slug)
             .single();
 
-          if (error || !data) {
+          if (error) {
+            console.error('SubdomainLoader: Database error:', error);
+            onNotFound();
+          } else if (!data) {
+            console.log('SubdomainLoader: No data found for slug:', slug);
             onNotFound();
           } else {
+            console.log('SubdomainLoader: Link data loaded successfully:', data);
             const typedData: CustomLink = {
               ...data,
               social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null,
@@ -54,18 +71,20 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
             onLinkLoaded(typedData);
           }
         } catch (error) {
-          console.error('Error loading link:', error);
+          console.error('SubdomainLoader: Error loading link:', error);
           onNotFound();
         }
       } else {
+        console.log('SubdomainLoader: Invalid subdomain format');
         onNotFound();
       }
       
       onLoading(false);
+      setHasLoaded(true);
     };
 
     loadLinkData();
-  }, [onLinkLoaded, onNotFound, onLoading]);
+  }, [onLinkLoaded, onNotFound, onLoading, hasLoaded]);
 
   return null;
 };
