@@ -16,24 +16,35 @@ const SubdomainHandler = () => {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const { toast } = useToast();
-  const initialized = useRef(false);
+  const callbacksExecuted = useRef({
+    linkLoaded: false,
+    notFound: false
+  });
 
   const handleLinkLoaded = useCallback((loadedLink: CustomLink | null) => {
-    if (initialized.current) return;
+    if (callbacksExecuted.current.linkLoaded) {
+      console.log('SubdomainHandler: Link loaded callback already executed, ignoring');
+      return;
+    }
     
     console.log('SubdomainHandler: Link loaded callback:', loadedLink);
+    callbacksExecuted.current.linkLoaded = true;
     setLink(loadedLink);
     setNotFound(false);
-    initialized.current = true;
+    setLoading(false);
   }, []);
 
   const handleNotFound = useCallback(() => {
-    if (initialized.current) return;
+    if (callbacksExecuted.current.notFound) {
+      console.log('SubdomainHandler: Not found callback already executed, ignoring');
+      return;
+    }
     
     console.log('SubdomainHandler: Not found callback');
+    callbacksExecuted.current.notFound = true;
     setNotFound(true);
     setLink(null);
-    initialized.current = true;
+    setLoading(false);
   }, []);
 
   const handleLoading = useCallback((isLoading: boolean) => {
@@ -63,7 +74,8 @@ const SubdomainHandler = () => {
 
   console.log('SubdomainHandler: Current state - loading:', loading, 'notFound:', notFound, 'link:', !!link);
 
-  if (loading) {
+  // Mostra sempre il loader mentre carica, ma solo se non abbiamo già i dati
+  if (loading && !link && !notFound) {
     return (
       <>
         <SubdomainLoader 

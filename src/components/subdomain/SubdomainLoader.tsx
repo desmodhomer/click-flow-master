@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "@/components/customizer/ConfigurationPanel";
@@ -28,14 +28,20 @@ interface SubdomainLoaderProps {
 }
 
 const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoaderProps) => {
-  const [hasExecuted, setHasExecuted] = useState(false);
+  const hasExecuted = useRef(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    if (hasExecuted) return;
+    // Previeni esecuzioni multiple
+    if (hasExecuted.current || isProcessing) {
+      console.log('SubdomainLoader: Preventing duplicate execution');
+      return;
+    }
     
     const loadLinkData = async () => {
       console.log('SubdomainLoader: Starting to load link data');
-      setHasExecuted(true);
+      hasExecuted.current = true;
+      setIsProcessing(true);
       onLoading(true);
       
       try {
@@ -58,7 +64,6 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         if (!slug) {
           console.log('SubdomainLoader: No valid slug found');
           onNotFound();
-          onLoading(false);
           return;
         }
         
@@ -73,14 +78,12 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         if (error) {
           console.error('SubdomainLoader: Database error:', error);
           onNotFound();
-          onLoading(false);
           return;
         }
 
         if (!data) {
           console.log('SubdomainLoader: No data found for slug:', slug);
           onNotFound();
-          onLoading(false);
           return;
         }
 
@@ -97,11 +100,12 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         onNotFound();
       } finally {
         onLoading(false);
+        setIsProcessing(false);
       }
     };
 
     loadLinkData();
-  }, [onLinkLoaded, onNotFound, onLoading, hasExecuted]);
+  }, []); // Dipendenze vuote per eseguire solo una volta
 
   return null;
 };
