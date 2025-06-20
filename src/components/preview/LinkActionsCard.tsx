@@ -105,7 +105,7 @@ const LinkActionsCard = ({ generatedLink, customSlug }: LinkActionsCardProps) =>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white" align="end">
+            <DropdownMenuContent className="bg-white z-[1000]" align="end">
               <DropdownMenuItem onClick={copyToClipboard} className="cursor-pointer">
                 <Copy className="mr-2 h-4 w-4" />
                 Copia
