@@ -12,7 +12,6 @@ import PreviewPage from "./pages/PreviewPage";
 import UserLinksPage from "./pages/UserLinks";
 import NotFound from "./pages/NotFound";
 import SubdomainHandler from "./components/SubdomainHandler";
-import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,66 +22,50 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
-  const [isSubdomain, setIsSubdomain] = useState(false);
-
-  useEffect(() => {
-    console.log('🚀 APP USEEFFECT STARTED');
+// Funzione per determinare se siamo su un sottodominio
+const isSubdomainEnvironment = () => {
+  const hostname = window.location.hostname;
+  const pathname = window.location.pathname;
+  
+  console.log('🚀 CHECKING SUBDOMAIN - hostname:', hostname);
+  console.log('📁 CHECKING SUBDOMAIN - pathname:', pathname);
+  
+  // Test specifico per qualsiasi sottodominio lnkfire.dev
+  if (hostname.endsWith('.lnkfire.dev') && hostname !== 'www.lnkfire.dev') {
+    console.log('✅ MATCHED .lnkfire.dev subdomain:', hostname);
+    return true;
+  }
+  
+  // Logica per altri ambienti (Lovable)
+  const parts = hostname.split('.');
+  if (parts.length >= 2) {
+    const subdomain = parts[0];
+    const domain = parts.slice(1).join('.');
     
-    const hostname = window.location.hostname;
-    const pathname = window.location.pathname;
-    const href = window.location.href;
-    
-    console.log('🌐 HOSTNAME:', hostname);
-    console.log('📁 PATHNAME:', pathname);
-    console.log('🔗 FULL URL:', href);
-    
-    // Test specifico per edes.lnkfire.dev
-    if (hostname === 'edes.lnkfire.dev') {
-      console.log('✅ MATCHED edes.lnkfire.dev - SETTING AS SUBDOMAIN');
-      setIsSubdomain(true);
-      return;
-    }
-    
-    // Logica generale per altri casi
-    const parts = hostname.split('.');
-    console.log('🔧 HOSTNAME PARTS:', parts);
-    
-    let shouldBeSubdomain = false;
-    
-    if (parts.length >= 2) {
-      const subdomain = parts[0];
-      const domain = parts.slice(1).join('.');
-      
-      console.log('🏷️ SUBDOMAIN:', subdomain);
-      console.log('🌍 DOMAIN:', domain);
-      
-      if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
-        if (domain === 'lnkfire.dev') {
-          console.log('✅ VALID LNKFIRE.DEV SUBDOMAIN');
-          shouldBeSubdomain = true;
-        } else if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
-          const isAppRoute = pathname.startsWith('/quest') || 
-                            pathname.startsWith('/link-customizer') || 
-                            pathname.startsWith('/preview/') ||
-                            pathname.startsWith('/user-links') ||
-                            pathname === '/';
-          
-          if (!isAppRoute) {
-            console.log('✅ VALID LOVABLE SUBDOMAIN (NOT APP ROUTE)');
-            shouldBeSubdomain = true;
-          } else {
-            console.log('❌ LOVABLE BUT IS APP ROUTE');
-          }
+    if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
+      if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+        const isAppRoute = pathname.startsWith('/quest') || 
+                          pathname.startsWith('/link-customizer') || 
+                          pathname.startsWith('/preview/') ||
+                          pathname.startsWith('/user-links') ||
+                          pathname === '/';
+        
+        if (!isAppRoute) {
+          console.log('✅ MATCHED lovable subdomain (not app route):', hostname);
+          return true;
         }
       }
     }
-    
-    console.log('🎯 FINAL DECISION - IS SUBDOMAIN:', shouldBeSubdomain);
-    setIsSubdomain(shouldBeSubdomain);
-  }, []);
+  }
+  
+  console.log('❌ NOT A SUBDOMAIN:', hostname);
+  return false;
+};
 
-  console.log('🎨 RENDERING - isSubdomain state:', isSubdomain);
+const App = () => {
+  const isSubdomain = isSubdomainEnvironment();
+  
+  console.log('🎯 FINAL DECISION - isSubdomain:', isSubdomain);
 
   // Se siamo su un sottodominio, mostra il SubdomainHandler
   if (isSubdomain) {
