@@ -1,27 +1,41 @@
 
-import { Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PanelLeft, BarChart3 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface CustomizerHeaderProps {
-  onGenerate: () => void;
-  isGenerating: boolean;
-  originalUrl?: string;
-  hasButtons: boolean;
+  isPanelOpen: boolean;
+  onTogglePanel: () => void;
 }
 
-const CustomizerHeader = ({ onGenerate, isGenerating, originalUrl, hasButtons }: CustomizerHeaderProps) => {
+const CustomizerHeader = ({ isPanelOpen, onTogglePanel }: CustomizerHeaderProps) => {
   return (
-    <div className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">L</span>
-          </div>
-          <div>
-            <h1 className="text-lg font-bold text-gray-900">LinkMaster</h1>
-            <p className="text-xs text-gray-500">Personalizza il tuo link</p>
-          </div>
-        </div>
+    <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onTogglePanel}
+          className="text-gray-600 hover:text-gray-900"
+        >
+          <PanelLeft className="h-4 w-4" />
+        </Button>
+        
+        {isPanelOpen && (
+          <h1 className="text-lg font-semibold text-gray-900">
+            Link Customizer
+          </h1>
+        )}
       </div>
+
+      {isPanelOpen && (
+        <Button variant="outline" size="sm" asChild>
+          <Link to="/user-links">
+            <BarChart3 className="h-4 w-4 mr-2" />
+            Le tue pagine
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Quest from "./pages/Quest";
 import LinkCustomizerPage from "./pages/LinkCustomizer";
 import PreviewPage from "./pages/PreviewPage";
+import UserLinksPage from "./pages/UserLinks";
 import NotFound from "./pages/NotFound";
 import SubdomainHandler from "./components/SubdomainHandler";
 import { useEffect, useState } from "react";
@@ -26,30 +27,43 @@ const App = () => {
   const [isSubdomain, setIsSubdomain] = useState(false);
 
   useEffect(() => {
-    // Check if we're on a subdomain or custom domain
     const hostname = window.location.hostname;
-    const parts = hostname.split('.');
+    const pathname = window.location.pathname;
     
     console.log('App: Checking hostname:', hostname);
-    console.log('App: Hostname parts:', parts);
+    console.log('App: Checking pathname:', pathname);
     
-    // Check multiple subdomain patterns
-    const isLnkfireDev = parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev';
-    const isLovableApp = hostname.includes('.lovable.app') && parts.length >= 3;
-    const isLovableProject = hostname.includes('.lovableproject.com') && parts.length >= 3;
+    // Solo considera sottodominio se NON siamo su route specifiche dell'app
+    const isAppRoute = pathname.startsWith('/quest') || 
+                      pathname.startsWith('/link-customizer') || 
+                      pathname.startsWith('/preview/') ||
+                      pathname.startsWith('/user-links') ||
+                      pathname === '/';
     
-    // Also check if we have a path-based slug (fallback for some deployments)
-    const hasPathSlug = window.location.pathname !== '/' && window.location.pathname.split('/').length >= 2;
+    if (isAppRoute) {
+      console.log('App: On app route, not checking for subdomain');
+      setIsSubdomain(false);
+      return;
+    }
     
-    if (isLnkfireDev || isLovableApp || isLovableProject || hasPathSlug) {
-      console.log('App: Detected subdomain environment');
+    // Controlla se siamo su un vero sottodominio
+    const parts = hostname.split('.');
+    const isRealSubdomain = (
+      (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev' && parts[0] !== 'www') ||
+      (hostname.includes('.lovable.app') && parts.length >= 3 && !hostname.startsWith('lovable.')) ||
+      (hostname.includes('.lovableproject.com') && parts.length >= 3)
+    );
+    
+    if (isRealSubdomain) {
+      console.log('App: Detected real subdomain environment');
       setIsSubdomain(true);
     } else {
       console.log('App: Not a subdomain environment');
+      setIsSubdomain(false);
     }
   }, []);
 
-  // If we're on a subdomain, show the SubdomainHandler
+  // Se siamo su un sottodominio reale, mostra il SubdomainHandler
   if (isSubdomain) {
     return (
       <QueryClientProvider client={queryClient}>
@@ -64,7 +78,7 @@ const App = () => {
     );
   }
 
-  // Otherwise, show the normal app routing
+  // Altrimenti, mostra il normale routing dell'app
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -76,8 +90,8 @@ const App = () => {
               <Route path="/" element={<Index />} />
               <Route path="/quest" element={<Quest />} />
               <Route path="/link-customizer" element={<LinkCustomizerPage />} />
+              <Route path="/user-links" element={<UserLinksPage />} />
               <Route path="/preview/:slug" element={<PreviewPage />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

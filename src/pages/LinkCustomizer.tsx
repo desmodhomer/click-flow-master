@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,6 @@ import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { useLinkCustomizerState } from "@/hooks/useLinkCustomizerState";
 import { useLinkGeneration } from "@/components/customizer/LinkGenerationHandler";
-import UserLinksSection from "@/components/UserLinksSection";
 
 const LinkCustomizerPage = () => {
   const {
@@ -128,30 +128,22 @@ const LinkCustomizerPage = () => {
           />
         </div>
 
-        {/* Preview Panel and User Links */}
-        <div className="flex-1 flex flex-col">
-          {/* Preview Panel */}
-          <div className="flex-1 p-6 overflow-hidden bg-white">
-            <PreviewPanel
-              generatedLink={generatedLink}
-              title={title}
-              description={description}
-              displayName={displayName}
-              bio={bio}
-              backgroundTheme={backgroundTheme}
-              profileImageUrl={profileImageUrl}
-              coverImageUrl={coverImageUrl}
-              customBackgroundUrl={customBackgroundUrl}
-              socialLinks={socialLinks}
-              customSlug={customSlug}
-              customButtons={customButtons}
-            />
-          </div>
-
-          {/* User Links Section */}
-          <div className="p-6 bg-gray-50 border-t">
-            <UserLinksSection />
-          </div>
+        {/* Preview Panel - Ora occupa tutto lo spazio rimanente */}
+        <div className="flex-1 p-6 overflow-hidden bg-white">
+          <PreviewPanel
+            generatedLink={generatedLink}
+            title={title}
+            description={description}
+            displayName={displayName}
+            bio={bio}
+            backgroundTheme={backgroundTheme}
+            profileImageUrl={profileImageUrl}
+            coverImageUrl={coverImageUrl}
+            customBackgroundUrl={customBackgroundUrl}
+            socialLinks={socialLinks}
+            customSlug={customSlug}
+            customButtons={customButtons}
+          />
         </div>
       </div>
     </div>
