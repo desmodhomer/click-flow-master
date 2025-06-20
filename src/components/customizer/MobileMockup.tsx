@@ -93,7 +93,7 @@ const MobileMockup = ({
         <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
         
         {/* Frame del telefono */}
-        <div className="relative w-[280px] h-[600px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
+        <div className="relative w-[280px] h-[580px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
@@ -129,32 +129,43 @@ const MobileMockup = ({
               </div>
             </div>
             
-            {/* Website Content - esatto come il sottodominio */}
-            <ScrollArea className="h-[calc(100%-56px)] mt-[56px]">
-              <div 
-                className={`min-h-full ${backgroundStyle.className || ''}`} 
-                style={backgroundStyle}
-              >
-                {/* Hero Section */}
-                <PreviewHeroSection
-                  profileImageUrl={profileImageUrl}
-                  displayName={displayName}
-                  title={title}
-                  bio={bio}
-                  description={description}
-                  coverImageUrl={coverImageUrl}
-                />
+            {/* Website Content - con altezza limitata */}
+            <div className="absolute top-[56px] left-0 right-0 bottom-[24px] overflow-hidden">
+              <ScrollArea className="h-full">
+                <div 
+                  className={`${backgroundStyle.className || ''}`} 
+                  style={backgroundStyle}
+                >
+                  {/* Hero Section compatta */}
+                  <div className="py-4 px-3">
+                    <PreviewHeroSection
+                      profileImageUrl={profileImageUrl}
+                      displayName={displayName}
+                      title={title}
+                      bio={bio}
+                      description={description}
+                      coverImageUrl={coverImageUrl}
+                      collapsed={true}
+                    />
+                  </div>
 
-                {/* Social Links Section */}
-                <PreviewSocialLinks socialLinks={socialLinks} />
-                
-                {/* Main CTA Section con custom buttons */}
-                <PreviewMainCTA customButtons={customButtons} />
-                
-                {/* Stats and Footer */}
-                <PreviewStatsFooter />
-              </div>
-            </ScrollArea>
+                  {/* Social Links Section compatta */}
+                  <div className="px-3 mb-3">
+                    <PreviewSocialLinks socialLinks={socialLinks} />
+                  </div>
+                  
+                  {/* Main CTA Section compatta */}
+                  <div className="px-3 mb-3">
+                    <PreviewMainCTA customButtons={customButtons} />
+                  </div>
+                  
+                  {/* Footer compatto */}
+                  <div className="px-3 pb-4">
+                    <PreviewStatsFooter />
+                  </div>
+                </div>
+              </ScrollArea>
+            </div>
             
             {/* Home indicator iOS */}
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[100px] h-[4px] bg-white rounded-full opacity-80"></div>

@@ -87,7 +87,7 @@ const DesktopMockup = ({
   return (
     <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-4">
       {/* Desktop Browser Frame */}
-      <div className="relative w-full max-w-5xl">
+      <div className="relative w-full max-w-4xl">
         {/* Browser Shadow */}
         <div className="absolute inset-0 bg-black/10 rounded-lg transform translate-y-2 translate-x-1 blur-lg"></div>
         
@@ -122,31 +122,41 @@ const DesktopMockup = ({
             </div>
           </div>
           
-          {/* Website Content - esatto come il sottodominio */}
-          <div className="h-[600px] overflow-hidden">
+          {/* Website Content - con altezza limitata */}
+          <div className="h-[480px] overflow-hidden">
             <ScrollArea className="h-full">
               <div 
-                className={`min-h-full ${backgroundStyle.className || ''}`} 
+                className={`${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
               >
-                {/* Hero Section */}
-                <PreviewHeroSection
-                  profileImageUrl={profileImageUrl}
-                  displayName={displayName}
-                  title={title}
-                  bio={bio}
-                  description={description}
-                  coverImageUrl={coverImageUrl}
-                />
+                {/* Hero Section compatta */}
+                <div className="py-6 px-4">
+                  <PreviewHeroSection
+                    profileImageUrl={profileImageUrl}
+                    displayName={displayName}
+                    title={title}
+                    bio={bio}
+                    description={description}
+                    coverImageUrl={coverImageUrl}
+                    collapsed={true}
+                  />
+                </div>
 
-                {/* Social Links Section */}
-                <PreviewSocialLinks socialLinks={socialLinks} />
-                
-                {/* Main CTA Section con custom buttons */}
-                <PreviewMainCTA customButtons={customButtons} />
-                
-                {/* Stats and Footer */}
-                <PreviewStatsFooter />
+                {/* Contenuto principale in container compatto */}
+                <div className="max-w-md mx-auto px-4 pb-8">
+                  {/* Social Links Section */}
+                  <div className="mb-4">
+                    <PreviewSocialLinks socialLinks={socialLinks} />
+                  </div>
+                  
+                  {/* Main CTA Section */}
+                  <div className="mb-4">
+                    <PreviewMainCTA customButtons={customButtons} />
+                  </div>
+                  
+                  {/* Stats and Footer */}
+                  <PreviewStatsFooter />
+                </div>
               </div>
             </ScrollArea>
           </div>
