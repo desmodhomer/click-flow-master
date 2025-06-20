@@ -5,10 +5,10 @@ import { SocialLink } from "@/types/customLink";
 import SubdomainLoader, { CustomLink } from "./subdomain/SubdomainLoader";
 import SubdomainLoadingState from "./subdomain/SubdomainLoadingState";
 import SubdomainNotFound from "./subdomain/SubdomainNotFound";
-import PreviewHeroSection from "./preview/PreviewHeroSection";
-import PreviewSocialLinks from "./preview/PreviewSocialLinks";
-import PreviewMainCTA from "./preview/PreviewMainCTA";
-import PreviewStatsFooter from "./preview/PreviewStatsFooter";
+import SubdomainHeroSection from "./subdomain/SubdomainHeroSection";
+import SubdomainSocialLinks from "./subdomain/SubdomainSocialLinks";
+import SubdomainMainCTA from "./subdomain/SubdomainMainCTA";
+import SubdomainStatsFooter from "./subdomain/SubdomainStatsFooter";
 import { getBackgroundStyle } from "./subdomain/SubdomainBackgroundUtils";
 
 const SubdomainHandler = () => {
@@ -40,6 +40,10 @@ const SubdomainHandler = () => {
     console.log('SubdomainHandler: Loading state changed:', isLoading);
     setLoading(isLoading);
   }, []);
+
+  const handleSocialClick = async (socialLink: SocialLink) => {
+    window.open(socialLink.url, '_blank');
+  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -81,26 +85,27 @@ const SubdomainHandler = () => {
   return (
     <div className={`min-h-screen ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
       {/* Hero Section */}
-      <PreviewHeroSection
-        profileImageUrl={link.profile_image_url || undefined}
-        displayName={link.display_name || undefined}
-        title={link.title || "Link Personalizzato"}
-        bio={link.bio || undefined}
-        description={link.description || ""}
-        coverImageUrl={link.cover_image_url || undefined}
-      />
+      <SubdomainHeroSection link={link} />
 
       {/* Main Content */}
       <div className="relative z-10 px-6 pb-20">
         <div className="max-w-2xl mx-auto space-y-8">
           {/* Social Links Section */}
-          <PreviewSocialLinks socialLinks={link.social_links || []} />
+          {link.social_links && link.social_links.length > 0 && (
+            <SubdomainSocialLinks 
+              socialLinks={link.social_links}
+              onSocialClick={handleSocialClick}
+            />
+          )}
           
-          {/* Main CTA Section with custom buttons */}
-          <PreviewMainCTA customButtons={link.custom_buttons || []} />
+          {/* Main CTA Section */}
+          <SubdomainMainCTA 
+            customButtons={link.custom_buttons}
+            onShare={handleShare}
+          />
           
           {/* Stats and Footer */}
-          <PreviewStatsFooter />
+          <SubdomainStatsFooter clickCount={link.click_count} />
         </div>
       </div>
     </div>

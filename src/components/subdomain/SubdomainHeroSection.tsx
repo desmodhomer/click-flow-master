@@ -8,58 +8,38 @@ interface SubdomainHeroSectionProps {
 
 const SubdomainHeroSection = ({ link }: SubdomainHeroSectionProps) => {
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* Cover Image Overlay */}
-      {link.cover_image_url && (
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${link.cover_image_url})` }}
-        />
-      )}
-      
-      {/* Enhanced Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
-      
-      {/* Hero Content */}
-      <div className="relative z-10 px-4 sm:px-6 py-24 text-center text-white w-full">
-        {/* Profile Image */}
+    <div className="relative py-8 px-4">
+      {/* Hero Content centrato e minimalista - stesso stile di PreviewHeroSection */}
+      <div className="text-center text-white max-w-sm mx-auto">
+        {/* Profile Image più elegante */}
         {link.profile_image_url && (
-          <div className="flex justify-center mb-10">
-            <div className="relative">
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 rounded-full border-2 border-white/30 overflow-hidden">
               <img 
                 src={link.profile_image_url} 
                 alt="Profile" 
-                className="w-32 h-32 sm:w-44 sm:h-44 rounded-full border-4 border-white/90 object-cover shadow-2xl"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 w-10 h-10 sm:w-14 sm:h-14 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-xl">
-                <Heart className="h-5 w-5 sm:h-7 sm:w-7 text-white" fill="currentColor" />
-              </div>
             </div>
           </div>
         )}
         
-        {/* Name and Title */}
+        {/* Display Name */}
         {link.display_name && (
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold mb-6 sm:mb-8 drop-shadow-2xl break-words">
+          <h1 className="text-xl font-semibold mb-2 text-white">
             {link.display_name}
           </h1>
         )}
         
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-semibold mb-8 sm:mb-10 text-blue-100 drop-shadow-xl break-words">
+        {/* Title più sottile */}
+        <h2 className="text-sm font-medium mb-3 text-white/80">
           {link.title || "Link Personalizzato"}
         </h2>
         
-        {/* Bio */}
+        {/* Bio compatta */}
         {link.bio && (
-          <p className="text-lg sm:text-xl lg:text-3xl text-blue-50 max-w-4xl mx-auto leading-relaxed mb-8 sm:mb-12 drop-shadow-lg font-light break-words">
+          <p className="text-xs text-white/70 max-w-xs mx-auto mb-2">
             {link.bio}
-          </p>
-        )}
-        
-        {/* Description */}
-        {link.description && (
-          <p className="text-base sm:text-lg lg:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed drop-shadow-lg break-words">
-            {link.description}
           </p>
         )}
       </div>
