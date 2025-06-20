@@ -1,3 +1,4 @@
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PreviewHeroSection from "@/components/preview/PreviewHeroSection";
 import PreviewSocialLinks from "@/components/preview/PreviewSocialLinks";
@@ -121,15 +122,15 @@ const DesktopMockup = ({
             </div>
           </div>
           
-          {/* Website Content - altezza ridotta e contenuto più compatto */}
-          <div className="h-[400px] overflow-hidden">
+          {/* Website Content - con altezza limitata */}
+          <div className="h-[480px] overflow-hidden">
             <ScrollArea className="h-full">
               <div 
                 className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
               >
-                {/* Hero Section ultra compatta */}
-                <div className="py-3 px-4">
+                {/* Hero Section compatta */}
+                <div className="py-6 px-4">
                   <PreviewHeroSection
                     profileImageUrl={profileImageUrl}
                     displayName={displayName}
@@ -142,10 +143,10 @@ const DesktopMockup = ({
                   />
                 </div>
 
-                {/* Contenuto principale in container ultra compatto */}
-                <div className="max-w-md mx-auto px-4 pb-4">
+                {/* Contenuto principale in container compatto */}
+                <div className="max-w-md mx-auto px-4 pb-8">
                   {/* Social Links Section */}
-                  <div className="mb-2">
+                  <div className="mb-4">
                     <PreviewSocialLinks 
                       socialLinks={socialLinks} 
                       backgroundTheme={backgroundTheme}
@@ -153,7 +154,7 @@ const DesktopMockup = ({
                   </div>
                   
                   {/* Main CTA Section */}
-                  <div className="mb-2">
+                  <div className="mb-4">
                     <PreviewMainCTA 
                       customButtons={customButtons}
                       backgroundTheme={backgroundTheme}

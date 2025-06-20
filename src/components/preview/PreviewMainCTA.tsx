@@ -1,3 +1,4 @@
+
 import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
@@ -53,17 +54,17 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
     const spacingClasses = {
       1: 'mb-1',
       2: 'mb-2', 
-      3: 'mb-2', // Ridotto da mb-3
-      4: 'mb-3', // Ridotto da mb-4
-      5: 'mb-4', // Ridotto da mb-5
-      6: 'mb-5'  // Ridotto da mb-6
+      3: 'mb-3',
+      4: 'mb-4',
+      5: 'mb-5',
+      6: 'mb-6'
     };
     
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-2';
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-3';
   };
 
   const getButtonClasses = (button: CustomButton) => {
-    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-8'; // Ridotto default da h-10
+    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
     
     const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass} border`;
@@ -97,14 +98,14 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
   const globalSpacing = customButtons[0]?.spacing || 3;
 
   return (
-    <div className="px-4 mb-4">
+    <div className="px-4 mb-6">
       {customButtons.map((button, index) => (
         <div key={button.id} className={index < customButtons.length - 1 ? getSpacingClass(globalSpacing) : ''}>
           <button
             className={getButtonClasses(button)}
             style={getButtonStyle(button)}
           >
-            <div className="font-semibold text-xs"> {/* Ridotto font size */}
+            <div className="font-semibold">
               {button.text || `Pulsante ${index + 1}`}
             </div>
           </button>
