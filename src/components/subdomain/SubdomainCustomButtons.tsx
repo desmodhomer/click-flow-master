@@ -1,5 +1,4 @@
 
-import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
 interface SubdomainCustomButtonsProps {
@@ -110,13 +109,8 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
             className={getButtonClasses(button)}
             style={getButtonStyle(button, index, index === customButtons.length - 1)}
           >
-            <div className="flex items-center justify-center gap-3">
-              <div className="flex-1 text-center">
-                <div className="font-semibold">
-                  {button.text || `Pulsante ${index + 1}`}
-                </div>
-              </div>
-              <ExternalLink className="h-4 w-4 opacity-60" />
+            <div className="font-semibold">
+              {button.text || `Pulsante ${index + 1}`}
             </div>
           </button>
         ))}
