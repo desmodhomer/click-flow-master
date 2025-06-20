@@ -1,3 +1,4 @@
+
 import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
@@ -51,15 +52,15 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
 
   const getSpacingClass = (spacingValue: number) => {
     const spacingClasses = {
-      1: 'mb-2',
-      2: 'mb-2.5', 
-      3: 'mb-3',
-      4: 'mb-3.5',
-      5: 'mb-4',
-      6: 'mb-5'
+      1: 'mb-1.5',
+      2: 'mb-2', 
+      3: 'mb-2.5',
+      4: 'mb-3',
+      5: 'mb-3.5',
+      6: 'mb-4'
     };
     
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-3';
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-2.5';
   };
 
   const getButtonClasses = (button: CustomButton) => {
@@ -97,7 +98,7 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
   const globalSpacing = customButtons[0]?.spacing || 3;
 
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       {customButtons.map((button, index) => (
         <div key={button.id} className={index < customButtons.length - 1 ? getSpacingClass(globalSpacing) : ''}>
           <button

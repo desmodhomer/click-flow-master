@@ -87,57 +87,57 @@ const MobileMockup = ({
 
   return (
     <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-1">
-      {/* Mobile Preview Frame - Ingrandito per migliori proporzioni */}
+      {/* Mobile Preview Frame - Dimensioni ridotte */}
       <div className="relative">
         {/* Ombra del telefono */}
-        <div className="absolute inset-0 bg-black/15 rounded-[24px] transform translate-y-1 translate-x-0.5 blur-sm scale-105"></div>
+        <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-1 translate-x-0.5 blur-sm scale-105"></div>
         
-        {/* Frame del telefono - Dimensioni più realistiche */}
-        <div className="relative w-[300px] h-[600px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[24px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono - Dimensioni più compatte */}
+        <div className="relative w-[260px] h-[520px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[6px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
-          <div className="w-full h-full bg-black rounded-[18px] overflow-hidden relative">
+          <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
             
             {/* Notch moderno */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[80px] h-[8px] bg-black rounded-b-[4px] z-50"></div>
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[70px] h-[6px] bg-black rounded-b-[3px] z-50"></div>
             
             {/* Status Bar */}
-            <div className="absolute top-[12px] left-0 right-0 px-4 flex items-center justify-between text-white text-[11px] font-medium z-40">
+            <div className="absolute top-[10px] left-0 right-0 px-3 flex items-center justify-between text-white text-[10px] font-medium z-40">
               <div className="flex items-center gap-1">
-                <div className="w-[5px] h-[5px] bg-gray-600 rounded-full"></div>
-                <div className="w-[10px] h-[1px] bg-gray-700 rounded-full"></div>
+                <div className="w-[4px] h-[4px] bg-gray-600 rounded-full"></div>
+                <div className="w-[8px] h-[1px] bg-gray-700 rounded-full"></div>
                 <div className="ml-1 font-semibold">12:30</div>
               </div>
               <div className="flex items-center gap-1">
-                <Signal className="h-2 w-2" />
-                <Wifi className="h-2 w-2" />
-                <Battery className="h-2 w-2" />
+                <Signal className="h-1.5 w-1.5" />
+                <Wifi className="h-1.5 w-1.5" />
+                <Battery className="h-1.5 w-1.5" />
               </div>
             </div>
             
             {/* Safari Browser UI */}
-            <div className="absolute top-[32px] left-0 right-0 bg-gray-50 px-3 py-1 flex items-center gap-1 border-b border-gray-200 z-30">
-              <div className="flex-1 bg-gray-200 rounded-full px-3 py-1 text-xs text-gray-700 font-medium">
+            <div className="absolute top-[28px] left-0 right-0 bg-gray-50 px-2.5 py-1 flex items-center gap-1 border-b border-gray-200 z-30">
+              <div className="flex-1 bg-gray-200 rounded-full px-2.5 py-0.5 text-xs text-gray-700 font-medium">
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex items-center justify-center">
                     <div className="w-0.5 h-0.5 bg-white rounded-full"></div>
                   </div>
-                  <span className="text-[8px] truncate">
+                  <span className="text-[7px] truncate">
                     {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
                   </span>
                 </div>
               </div>
             </div>
             
-            {/* Website Content - Proporzioni più realistiche */}
-            <div className="absolute top-[55px] left-0 right-0 bottom-[25px] overflow-hidden">
+            {/* Website Content - Proporzioni adattate */}
+            <div className="absolute top-[48px] left-0 right-0 bottom-[20px] overflow-hidden">
               <ScrollArea className="h-full">
                 <div 
                   className={`min-h-full ${backgroundStyle.className || ''}`} 
                   style={backgroundStyle}
                 >
-                  {/* Hero Section con dimensioni più realistiche */}
-                  <div className="py-4 px-4">
+                  {/* Hero Section con spaziature ridotte */}
+                  <div className="py-3 px-3">
                     <PreviewHeroSection
                       profileImageUrl={profileImageUrl}
                       displayName={displayName}
@@ -151,7 +151,7 @@ const MobileMockup = ({
                   </div>
 
                   {/* Social Links Section */}
-                  <div className="px-4 mb-4">
+                  <div className="px-3 mb-3">
                     <PreviewSocialLinks 
                       socialLinks={socialLinks} 
                       backgroundTheme={backgroundTheme}
@@ -159,7 +159,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Main CTA Section */}
-                  <div className="px-4 mb-4">
+                  <div className="px-3 mb-3">
                     <PreviewMainCTA 
                       customButtons={customButtons}
                       backgroundTheme={backgroundTheme}
@@ -167,7 +167,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Footer */}
-                  <div className="px-4 pb-4">
+                  <div className="px-3 pb-3">
                     <PreviewStatsFooter />
                   </div>
                 </div>
@@ -175,19 +175,19 @@ const MobileMockup = ({
             </div>
             
             {/* Home indicator iOS */}
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[100px] h-[4px] bg-white rounded-full opacity-80"></div>
+            <div className="absolute bottom-1.5 left-1/2 transform -translate-x-1/2 w-[80px] h-[3px] bg-white rounded-full opacity-80"></div>
           </div>
           
           {/* Riflesso sullo schermo */}
-          <div className="absolute inset-[8px] rounded-[18px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-[6px] rounded-[16px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
         </div>
 
         {/* Volume buttons */}
-        <div className="absolute left-[-2px] top-[100px] w-[2px] h-[25px] bg-gray-700 rounded-l-sm"></div>
-        <div className="absolute left-[-2px] top-[135px] w-[2px] h-[25px] bg-gray-700 rounded-l-sm"></div>
+        <div className="absolute left-[-2px] top-[85px] w-[2px] h-[20px] bg-gray-700 rounded-l-sm"></div>
+        <div className="absolute left-[-2px] top-[115px] w-[2px] h-[20px] bg-gray-700 rounded-l-sm"></div>
         
         {/* Power button */}
-        <div className="absolute right-[-2px] top-[120px] w-[2px] h-[25px] bg-gray-700 rounded-r-sm"></div>
+        <div className="absolute right-[-2px] top-[100px] w-[2px] h-[20px] bg-gray-700 rounded-r-sm"></div>
       </div>
     </div>
   );
