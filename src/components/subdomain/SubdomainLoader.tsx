@@ -48,8 +48,9 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         const hostname = window.location.hostname;
         const parts = hostname.split('.');
         
-        console.log('SubdomainLoader: Hostname:', hostname);
+        console.log('SubdomainLoader: Full hostname:', hostname);
         console.log('SubdomainLoader: Hostname parts:', parts);
+        console.log('SubdomainLoader: Parts length:', parts.length);
         
         let slug: string | null = null;
         
@@ -57,6 +58,7 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         if (parts.length >= 2) {
           // Se siamo su un sottodominio, prendi sempre la prima parte
           const potentialSlug = parts[0];
+          console.log('SubdomainLoader: Potential slug:', potentialSlug);
           
           // Verifica che non sia www o altri prefissi comuni
           if (potentialSlug !== 'www' && potentialSlug !== 'api' && potentialSlug !== 'admin') {
@@ -64,21 +66,25 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
           }
         }
         
-        console.log('SubdomainLoader: Extracted slug:', slug);
+        console.log('SubdomainLoader: Final extracted slug:', slug);
         
         if (!slug) {
-          console.log('SubdomainLoader: No valid slug found');
+          console.log('SubdomainLoader: No valid slug found, calling onNotFound');
           onNotFound();
           return;
         }
         
-        console.log('SubdomainLoader: Loading slug:', slug);
+        console.log('SubdomainLoader: About to query database for slug:', slug);
         
         const { data, error } = await supabase
           .from('custom_links')
           .select('*')
           .eq('slug', slug)
           .maybeSingle();
+
+        console.log('SubdomainLoader: Database query completed');
+        console.log('SubdomainLoader: Query result - data:', data);
+        console.log('SubdomainLoader: Query result - error:', error);
 
         if (error) {
           console.error('SubdomainLoader: Database error:', error);
@@ -87,7 +93,7 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         }
 
         if (!data) {
-          console.log('SubdomainLoader: No data found for slug:', slug);
+          console.log('SubdomainLoader: No data found for slug:', slug, '- calling onNotFound');
           onNotFound();
           return;
         }
@@ -99,11 +105,13 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
           custom_buttons: Array.isArray(data.custom_buttons) ? (data.custom_buttons as unknown as CustomButton[]) : null
         };
         
+        console.log('SubdomainLoader: About to call onLinkLoaded with:', typedData);
         onLinkLoaded(typedData);
       } catch (error) {
         console.error('SubdomainLoader: Error loading link:', error);
         onNotFound();
       } finally {
+        console.log('SubdomainLoader: Cleaning up - setting loading to false');
         onLoading(false);
         setIsProcessing(false);
       }
