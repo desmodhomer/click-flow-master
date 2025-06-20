@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./ConfigurationPanel";
@@ -50,26 +49,24 @@ const PreviewPanel = ({
       {/* Preview */}
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col relative">
         
-        {/* Toggle Controls - Positioned absolutely in top right */}
-        <div className="absolute top-4 right-4 z-10">
-          <div className="flex bg-gray-100 rounded-lg p-1 shadow-sm">
+        {/* Toggle Controls - Più piccolo e più a destra */}
+        <div className="absolute top-2 right-2 z-10">
+          <div className="flex bg-gray-100 rounded-md p-0.5">
             <Button 
               size="sm" 
               variant={viewMode === 'mobile' ? 'default' : 'ghost'} 
               onClick={() => setViewMode('mobile')} 
-              className="h-8 px-3 text-xs"
+              className="h-6 px-2 text-xs"
             >
-              <Smartphone className="h-3 w-3 mr-1" />
-              Mobile
+              <Smartphone className="h-3 w-3" />
             </Button>
             <Button 
               size="sm" 
               variant={viewMode === 'desktop' ? 'default' : 'ghost'} 
               onClick={() => setViewMode('desktop')} 
-              className="h-8 px-3 text-xs"
+              className="h-6 px-2 text-xs"
             >
-              <Monitor className="h-3 w-3 mr-1" />
-              Desktop
+              <Monitor className="h-3 w-3" />
             </Button>
           </div>
         </div>
