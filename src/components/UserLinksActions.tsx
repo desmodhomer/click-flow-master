@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Trash2, ExternalLink, Copy, Eye, Monitor, Code } from "lucide-react";
+import { Trash2, ExternalLink, Copy, Eye, Monitor, Code, PenLine } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -70,8 +70,26 @@ const UserLinksActions = ({ slug, title, onDelete, isDeleting }: UserLinksAction
     }
   };
 
+  const handleEdit = () => {
+    // Naviga all'editor del link customizer
+    navigate('/link-customizer');
+    toast({
+      title: "Editor aperto",
+      description: "Puoi ora modificare il tuo link personalizzato",
+    });
+  };
+
   return (
     <div className="flex items-center justify-center gap-1">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={handleEdit}
+        title="Modifica link"
+        className="text-indigo-600 hover:text-indigo-700"
+      >
+        <PenLine className="h-4 w-4" />
+      </Button>
       <Button
         variant="ghost"
         size="sm"
