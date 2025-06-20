@@ -42,17 +42,7 @@ const SubdomainHandler = () => {
     setLoading(isLoading);
   };
 
-  if (loading) {
-    console.log('⏳ SubdomainHandler: Rendering loading state');
-    return <SubdomainLoadingState />;
-  }
-
-  if (notFound || !linkData) {
-    console.log('🚫 SubdomainHandler: Rendering not found state');
-    return <SubdomainNotFound error={error} />;
-  }
-
-  console.log('✅ SubdomainHandler: Rendering hero section for:', linkData.slug);
+  // Renderizza sempre il SubdomainLoader per caricare i dati
   return (
     <>
       <SubdomainLoader
@@ -60,7 +50,27 @@ const SubdomainHandler = () => {
         onNotFound={handleNotFound}
         onLoading={handleLoading}
       />
-      <SubdomainHeroSection link={linkData} />
+      
+      {loading && (
+        <>
+          {console.log('⏳ SubdomainHandler: Rendering loading state')}
+          <SubdomainLoadingState />
+        </>
+      )}
+
+      {notFound && !loading && (
+        <>
+          {console.log('🚫 SubdomainHandler: Rendering not found state')}
+          <SubdomainNotFound error={error} />
+        </>
+      )}
+
+      {linkData && !loading && !notFound && (
+        <>
+          {console.log('✅ SubdomainHandler: Rendering hero section for:', linkData.slug)}
+          <SubdomainHeroSection link={linkData} />
+        </>
+      )}
     </>
   );
 };
