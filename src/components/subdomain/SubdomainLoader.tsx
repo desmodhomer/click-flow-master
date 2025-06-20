@@ -158,7 +158,7 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
 
     // Esegui immediatamente
     loadLinkData();
-  }, [onLinkLoaded, onNotFound, onLoading]); // Aggiunte le dipendenze
+  }, []); // Rimosse le dipendenze per evitare problemi
 
   // Aggiungi un log per verificare che il componente si monti
   useEffect(() => {
