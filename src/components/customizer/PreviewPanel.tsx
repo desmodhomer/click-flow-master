@@ -1,5 +1,5 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./ConfigurationPanel";
 import LinkActionsCard from "@/components/preview/LinkActionsCard";
@@ -42,7 +42,7 @@ const PreviewPanel = ({
   const hasContent = title || displayName || generatedLink || customButtons.length > 0;
 
   return (
-    <div className="space-y-6 h-full">
+    <div className="space-y-6 h-full flex flex-col">
       {/* Actions Card */}
       {generatedLink && (
         <LinkActionsCard 
@@ -53,11 +53,10 @@ const PreviewPanel = ({
 
       {/* Preview */}
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col">
-        <CardHeader className="p-4">
-          <CardTitle>
-            <PreviewHeader viewMode={viewMode} onViewModeChange={setViewMode} />
-          </CardTitle>
-        </CardHeader>
+        {/* Toggle Controls - Fixed at top */}
+        <div className="p-4 border-b border-gray-100">
+          <PreviewHeader viewMode={viewMode} onViewModeChange={setViewMode} />
+        </div>
         
         <CardContent className="flex-1 p-0">
           {hasContent ? (
