@@ -1,11 +1,11 @@
 
-import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLink } from "@/types/customLink";
 import { CustomButton } from "./ConfigurationPanel";
 
-interface LinkGenerationHandlerProps {
+interface LinkGenerationParams {
   customSlug: string;
   title: string;
   description: string;
@@ -19,6 +19,7 @@ interface LinkGenerationHandlerProps {
   customButtons: CustomButton[];
   onLinkGenerated: (link: string) => void;
   setIsGenerating: (generating: boolean) => void;
+  editLinkId?: string | null; // Aggiungo il parametro per l'editing
 }
 
 export const useLinkGeneration = ({
@@ -35,19 +36,25 @@ export const useLinkGeneration = ({
   customButtons,
   onLinkGenerated,
   setIsGenerating,
-}: LinkGenerationHandlerProps) => {
+  editLinkId
+}: LinkGenerationParams) => {
   const { toast } = useToast();
   const { user } = useAuth();
 
-  const generateSlug = () => {
-    return customSlug || `link-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-  };
-
   const handleGenerate = async () => {
-    if (customButtons.length === 0) {
+    if (!customSlug.trim()) {
       toast({
         title: "Errore",
-        description: "Aggiungi almeno un pulsante prima di generare il link",
+        description: "Il nome del sottodominio è obbligatorio",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (customButtons.length === 0) {
+      toast({
+        title: "Errore", 
+        description: "Aggiungi almeno un pulsante per generare il link",
         variant: "destructive",
       });
       return;
@@ -56,70 +63,82 @@ export const useLinkGeneration = ({
     setIsGenerating(true);
 
     try {
-      const slug = generateSlug();
-      
-      // Check if slug already exists
-      const { data: existingLink } = await supabase
-        .from('custom_links')
-        .select('id')
-        .eq('slug', slug)
-        .single();
+      const linkData = {
+        slug: customSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+        destination_url: customButtons[0]?.url || '',
+        title: title || null,
+        description: description || null,
+        display_name: displayName || null,
+        bio: bio || null,
+        background_theme: backgroundTheme,
+        profile_image_url: profileImageUrl || null,
+        cover_image_url: coverImageUrl || null,
+        custom_background_url: customBackgroundUrl || null,
+        social_links: socialLinks,
+        custom_buttons: customButtons,
+        user_id: user?.id || null,
+      };
 
-      if (existingLink) {
-        toast({
-          title: "Errore",
-          description: "Questo slug è già in uso. Prova con un nome diverso.",
-          variant: "destructive",
-        });
-        setIsGenerating(false);
-        return;
+      let result;
+
+      if (editLinkId) {
+        // Aggiorna il link esistente
+        result = await supabase
+          .from('custom_links')
+          .update({
+            ...linkData,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', editLinkId)
+          .eq('user_id', user?.id) // Sicurezza: solo il proprietario può aggiornare
+          .select()
+          .single();
+      } else {
+        // Crea un nuovo link
+        result = await supabase
+          .from('custom_links')
+          .insert([linkData])
+          .select()
+          .single();
       }
 
-      // Insert new custom link with custom buttons
-      const { data, error } = await supabase
-        .from('custom_links')
-        .insert({
-          slug,
-          destination_url: customButtons[0]?.url || '', // Keep for compatibility
-          title: title || "Link Personalizzato",
-          description: description || null,
-          display_name: displayName || null,
-          bio: bio || null,
-          background_theme: backgroundTheme,
-          profile_image_url: profileImageUrl || null,
-          cover_image_url: coverImageUrl || null,
-          custom_background_url: customBackgroundUrl || null,
-          social_links: socialLinks as any,
-          custom_buttons: customButtons as any,
-          user_id: user?.id || null
-        })
-        .select()
-        .single();
+      const { data, error } = result;
 
       if (error) {
-        console.error('Error creating link:', error);
-        toast({
-          title: "Errore",
-          description: "Errore durante la creazione del link",
-          variant: "destructive",
-        });
+        console.error('Database error:', error);
+        
+        if (error.code === '23505') {
+          toast({
+            title: "Errore",
+            description: "Questo nome sottodominio è già in uso. Prova con un nome diverso.",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Errore",
+            description: editLinkId ? "Errore nell'aggiornamento del link" : "Errore nella creazione del link",
+            variant: "destructive",
+          });
+        }
         return;
       }
 
-      const generated = `https://${slug}.lnkfire.dev`;
-      onLinkGenerated(generated);
-      
-      toast({
-        title: "Link generato!",
-        description: "Il tuo link personalizzato è pronto",
-      });
-
-      // Removed the automatic page reload that was causing the infinite loading loop
+      if (data) {
+        const generatedUrl = `https://${data.slug}.lnkfire.dev`;
+        onLinkGenerated(generatedUrl);
+        
+        toast({
+          title: editLinkId ? "Link aggiornato!" : "Link generato!",
+          description: editLinkId 
+            ? "Il tuo link personalizzato è stato aggiornato con successo"
+            : `Il tuo link è ora disponibile su: ${data.slug}.lnkfire.dev`,
+        });
+      }
     } catch (error) {
       console.error('Error:', error);
       toast({
         title: "Errore",
-        description: "Errore durante la creazione del link",
+        description: editLinkId ? "Errore nell'aggiornamento del link" : "Errore nella generazione del link",
         variant: "destructive",
       });
     } finally {

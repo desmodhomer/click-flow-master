@@ -1,16 +1,17 @@
 
-import { Button } from "@/components/ui/button";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { Copy } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 import UserLinksActions from "./UserLinksActions";
+import { formatDistanceToNow } from "date-fns";
+import { it } from "date-fns/locale";
 
 interface UserLink {
   id: string;
@@ -23,85 +24,91 @@ interface UserLink {
 
 interface UserLinksTableProps {
   links: UserLink[];
-  deletingId: string | null;
-  onDelete: (linkId: string) => void;
+  onDeleteLink: (linkId: string) => Promise<boolean>;
 }
 
-const UserLinksTable = ({ links, deletingId, onDelete }: UserLinksTableProps) => {
-  const { toast } = useToast();
+const UserLinksTable = ({ links, onDeleteLink }: UserLinksTableProps) => {
+  const [deletingLinks, setDeletingLinks] = useState<Set<string>>(new Set());
 
-  const handleCopyLink = (slug: string) => {
-    const url = `https://${slug}.lnkfire.dev`;
-    navigator.clipboard.writeText(url);
-    toast({
-      title: "Link copiato",
-      description: "Il link è stato copiato negli appunti",
-    });
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('it-IT', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+  const handleDelete = async (linkId: string) => {
+    setDeletingLinks(prev => new Set(prev).add(linkId));
+    
+    try {
+      const success = await onDeleteLink(linkId);
+      if (!success) {
+        // Se l'eliminazione fallisce, rimuovi l'ID dal set
+        setDeletingLinks(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(linkId);
+          return newSet;
+        });
+      }
+    } catch (error) {
+      setDeletingLinks(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(linkId);
+        return newSet;
+      });
+    }
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Titolo</TableHead>
-          <TableHead>Link</TableHead>
-          <TableHead className="text-center">Visualizzazioni</TableHead>
-          <TableHead className="text-center">Data creazione</TableHead>
-          <TableHead className="text-center">Azioni</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {links.map((link) => (
-          <TableRow key={link.id}>
-            <TableCell className="font-medium">
-              {link.title || 'Senza titolo'}
-              {link.description && (
-                <p className="text-sm text-muted-foreground mt-1 truncate max-w-xs">
-                  {link.description}
-                </p>
-              )}
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <code className="text-sm bg-muted px-2 py-1 rounded">
-                  {link.slug}.lnkfire.dev
-                </code>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleCopyLink(link.slug)}
-                  title="Copia link"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </TableCell>
-            <TableCell className="text-center">
-              <span className="font-medium">{link.click_count}</span>
-            </TableCell>
-            <TableCell className="text-center text-sm text-muted-foreground">
-              {formatDate(link.created_at)}
-            </TableCell>
-            <TableCell className="text-center">
-              <UserLinksActions
-                slug={link.slug}
-                title={link.title}
-                onDelete={() => onDelete(link.id)}
-                isDeleting={deletingId === link.id}
-              />
-            </TableCell>
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-gray-50">
+            <TableHead className="font-semibold text-gray-900">Link</TableHead>
+            <TableHead className="font-semibold text-gray-900">Titolo</TableHead>
+            <TableHead className="font-semibold text-gray-900">Click</TableHead>
+            <TableHead className="font-semibold text-gray-900">Creato</TableHead>
+            <TableHead className="font-semibold text-gray-900 text-center">Azioni</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {links.map((link) => (
+            <TableRow key={link.id} className="hover:bg-gray-50">
+              <TableCell>
+                <div className="flex flex-col">
+                  <span className="font-medium text-blue-600">
+                    {link.slug}.lnkfire.dev
+                  </span>
+                  {link.description && (
+                    <span className="text-sm text-gray-500 mt-1">
+                      {link.description}
+                    </span>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <span className="font-medium">
+                  {link.title || 'Senza titolo'}
+                </span>
+              </TableCell>
+              <TableCell>
+                <Badge variant="secondary" className="bg-green-100 text-green-800">
+                  {link.click_count}
+                </Badge>
+              </TableCell>
+              <TableCell className="text-gray-600">
+                {formatDistanceToNow(new Date(link.created_at), {
+                  addSuffix: true,
+                  locale: it
+                })}
+              </TableCell>
+              <TableCell>
+                <UserLinksActions
+                  slug={link.slug}
+                  title={link.title}
+                  linkId={link.id} // Passo l'ID del link
+                  onDelete={() => handleDelete(link.id)}
+                  isDeleting={deletingLinks.has(link.id)}
+                />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

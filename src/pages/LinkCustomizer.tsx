@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, ExternalLink } from "lucide-react";
@@ -7,8 +8,12 @@ import LinkCustomizerForm from "@/components/LinkCustomizerForm";
 import PreviewPanel from "@/components/customizer/PreviewPanel";
 import { useLinkCustomizerState } from "@/hooks/useLinkCustomizerState";
 import { useLinkGeneration } from "@/components/customizer/LinkGenerationHandler";
+import { useLinkLoader } from "@/hooks/useLinkLoader";
 
 const LinkCustomizerPage = () => {
+  const [searchParams] = useSearchParams();
+  const editLinkId = searchParams.get('edit');
+
   const {
     customSlug,
     setCustomSlug,
@@ -40,6 +45,30 @@ const LinkCustomizerPage = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  const { linkData, loading: loadingLink } = useLinkLoader(editLinkId);
+
+  // Carica i dati del link esistente quando disponibili
+  useEffect(() => {
+    if (linkData) {
+      setCustomSlug(linkData.customSlug);
+      setTitle(linkData.title);
+      setDescription(linkData.description);
+      setDisplayName(linkData.displayName);
+      setBio(linkData.bio);
+      setBackgroundTheme(linkData.backgroundTheme);
+      setProfileImageUrl(linkData.profileImageUrl);
+      setCoverImageUrl(linkData.coverImageUrl);
+      setCustomBackgroundUrl(linkData.customBackgroundUrl);
+      setSocialLinks(linkData.socialLinks);
+      setCustomButtons(linkData.customButtons);
+      
+      // Imposta il link generato se stiamo modificando
+      if (linkData.customSlug) {
+        setGeneratedLink(`https://${linkData.customSlug}.lnkfire.dev`);
+      }
+    }
+  }, [linkData]);
+
   const handleLinkGenerated = (link: string) => {
     console.log('Link generated:', link);
     setGeneratedLink(link);
@@ -63,7 +92,19 @@ const LinkCustomizerPage = () => {
     customButtons,
     onLinkGenerated: handleLinkGenerated,
     setIsGenerating,
+    editLinkId, // Passo l'ID del link da modificare
   });
+
+  if (loadingLink) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Caricamento link...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
@@ -78,12 +119,12 @@ const LinkCustomizerPage = () => {
           {isGenerating ? (
             <>
               <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-              Generazione...
+              {editLinkId ? 'Aggiornamento...' : 'Generazione...'}
             </>
           ) : (
             <>
               <Sparkles className="mr-1 h-3 w-3" />
-              Genera
+              {editLinkId ? 'Aggiorna' : 'Genera'}
               <ExternalLink className="ml-1 h-3 w-3" />
             </>
           )}

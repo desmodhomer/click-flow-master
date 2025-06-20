@@ -20,9 +20,10 @@ interface UserLinksActionsProps {
   title: string;
   onDelete: () => void;
   isDeleting: boolean;
+  linkId?: string; // Aggiungo l'ID del link
 }
 
-const UserLinksActions = ({ slug, title, onDelete, isDeleting }: UserLinksActionsProps) => {
+const UserLinksActions = ({ slug, title, onDelete, isDeleting, linkId }: UserLinksActionsProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -71,11 +72,15 @@ const UserLinksActions = ({ slug, title, onDelete, isDeleting }: UserLinksAction
   };
 
   const handleEdit = () => {
-    // Naviga all'editor del link customizer
-    navigate('/link-customizer');
+    // Naviga all'editor con l'ID del link per caricarlo
+    if (linkId) {
+      navigate(`/link-customizer?edit=${linkId}`);
+    } else {
+      navigate('/link-customizer');
+    }
     toast({
       title: "Editor aperto",
-      description: "Puoi ora modificare il tuo link personalizzato",
+      description: "Caricamento del link per la modifica...",
     });
   };
 
