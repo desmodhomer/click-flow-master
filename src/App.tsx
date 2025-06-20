@@ -33,38 +33,58 @@ const App = () => {
     console.log('App: Checking hostname:', hostname);
     console.log('App: Checking pathname:', pathname);
     
-    // Solo considera sottodominio se NON siamo su route specifiche dell'app
+    // Controlla se siamo su una route specifica dell'app principale
     const isAppRoute = pathname.startsWith('/quest') || 
                       pathname.startsWith('/link-customizer') || 
                       pathname.startsWith('/preview/') ||
                       pathname.startsWith('/user-links') ||
                       pathname === '/';
     
-    if (isAppRoute) {
-      console.log('App: On app route, not checking for subdomain');
+    console.log('App: Is app route?', isAppRoute);
+    
+    // Se siamo su una route dell'app, non è un sottodominio
+    if (isAppRoute && hostname.includes('lovable')) {
+      console.log('App: On app route with lovable domain, not a subdomain');
       setIsSubdomain(false);
       return;
     }
     
-    // Controlla se siamo su un vero sottodominio
+    // Logica migliorata per riconoscere i sottodomini
     const parts = hostname.split('.');
-    const isRealSubdomain = (
-      (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev' && parts[0] !== 'www') ||
-      (hostname.includes('.lovable.app') && parts.length >= 3 && !hostname.startsWith('lovable.')) ||
-      (hostname.includes('.lovableproject.com') && parts.length >= 3)
-    );
+    console.log('App: Hostname parts:', parts);
     
-    if (isRealSubdomain) {
-      console.log('App: Detected real subdomain environment');
-      setIsSubdomain(true);
-    } else {
-      console.log('App: Not a subdomain environment');
-      setIsSubdomain(false);
+    let isRealSubdomain = false;
+    
+    // Controlla diversi scenari di sottodominio
+    if (parts.length >= 3) {
+      const subdomain = parts[0];
+      const domain = parts.slice(1).join('.');
+      
+      console.log('App: Potential subdomain:', subdomain);
+      console.log('App: Domain:', domain);
+      
+      // Verifica se abbiamo un sottodominio valido
+      if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
+        // Per domini lovable
+        if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+          isRealSubdomain = true;
+        }
+        // Per domini personalizzati come lnkfire.dev
+        else if (domain === 'lnkfire.dev' || hostname.includes('.lnkfire.dev')) {
+          isRealSubdomain = true;
+        }
+      }
     }
+    
+    console.log('App: Is real subdomain?', isRealSubdomain);
+    setIsSubdomain(isRealSubdomain);
   }, []);
 
-  // Se siamo su un sottodominio reale, mostra il SubdomainHandler
+  console.log('App: Current state - isSubdomain:', isSubdomain);
+
+  // Se siamo su un sottodominio, mostra il SubdomainHandler
   if (isSubdomain) {
+    console.log('App: Rendering SubdomainHandler');
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
@@ -78,6 +98,7 @@ const App = () => {
     );
   }
 
+  console.log('App: Rendering normal app routing');
   // Altrimenti, mostra il normale routing dell'app
   return (
     <QueryClientProvider client={queryClient}>
