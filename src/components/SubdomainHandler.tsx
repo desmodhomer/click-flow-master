@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { SocialLink } from "@/types/customLink";
 import SubdomainLoader, { CustomLink } from "./subdomain/SubdomainLoader";
@@ -16,17 +16,24 @@ const SubdomainHandler = () => {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const { toast } = useToast();
+  const initialized = useRef(false);
 
   const handleLinkLoaded = useCallback((loadedLink: CustomLink | null) => {
+    if (initialized.current) return; // Previene aggiornamenti multipli
+    
     console.log('SubdomainHandler: Link loaded callback:', loadedLink);
     setLink(loadedLink);
     setNotFound(false);
+    initialized.current = true;
   }, []);
 
   const handleNotFound = useCallback(() => {
+    if (initialized.current) return; // Previene aggiornamenti multipli
+    
     console.log('SubdomainHandler: Not found callback');
     setNotFound(true);
     setLink(null);
+    initialized.current = true;
   }, []);
 
   const handleLoading = useCallback((isLoading: boolean) => {

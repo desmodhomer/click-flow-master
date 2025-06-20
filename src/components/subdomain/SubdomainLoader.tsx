@@ -28,63 +28,70 @@ interface SubdomainLoaderProps {
 }
 
 const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoaderProps) => {
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const [hasExecuted, setHasExecuted] = useState(false);
 
   useEffect(() => {
-    // Evita chiamate multiple
-    if (hasLoaded) return;
-
+    // Previene esecuzioni multiple
+    if (hasExecuted) return;
+    
     const loadLinkData = async () => {
       console.log('SubdomainLoader: Starting to load link data');
+      setHasExecuted(true);
       onLoading(true);
       
-      const hostname = window.location.hostname;
-      const parts = hostname.split('.');
-      
-      console.log('SubdomainLoader: Hostname parts:', parts);
-      
-      // Verifica se è un sottodominio valido
-      if (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev') {
-        const slug = parts[0];
-        console.log('SubdomainLoader: Loading slug:', slug);
+      try {
+        const hostname = window.location.hostname;
+        const parts = hostname.split('.');
         
-        try {
+        console.log('SubdomainLoader: Hostname parts:', parts);
+        
+        // Verifica se è un sottodominio valido
+        if (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev') {
+          const slug = parts[0];
+          console.log('SubdomainLoader: Loading slug:', slug);
+          
           const { data, error } = await supabase
             .from('custom_links')
             .select('*')
             .eq('slug', slug)
-            .single();
+            .maybeSingle(); // Usa maybeSingle invece di single per evitare errori
 
           if (error) {
             console.error('SubdomainLoader: Database error:', error);
             onNotFound();
-          } else if (!data) {
+            onLoading(false);
+            return;
+          }
+
+          if (!data) {
             console.log('SubdomainLoader: No data found for slug:', slug);
             onNotFound();
-          } else {
-            console.log('SubdomainLoader: Link data loaded successfully:', data);
-            const typedData: CustomLink = {
-              ...data,
-              social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null,
-              custom_buttons: Array.isArray(data.custom_buttons) ? (data.custom_buttons as unknown as CustomButton[]) : null
-            };
-            onLinkLoaded(typedData);
+            onLoading(false);
+            return;
           }
-        } catch (error) {
-          console.error('SubdomainLoader: Error loading link:', error);
+
+          console.log('SubdomainLoader: Link data loaded successfully:', data);
+          const typedData: CustomLink = {
+            ...data,
+            social_links: Array.isArray(data.social_links) ? (data.social_links as unknown as SocialLink[]) : null,
+            custom_buttons: Array.isArray(data.custom_buttons) ? (data.custom_buttons as unknown as CustomButton[]) : null
+          };
+          
+          onLinkLoaded(typedData);
+        } else {
+          console.log('SubdomainLoader: Invalid subdomain format');
           onNotFound();
         }
-      } else {
-        console.log('SubdomainLoader: Invalid subdomain format');
+      } catch (error) {
+        console.error('SubdomainLoader: Error loading link:', error);
         onNotFound();
+      } finally {
+        onLoading(false);
       }
-      
-      onLoading(false);
-      setHasLoaded(true);
     };
 
     loadLinkData();
-  }, [onLinkLoaded, onNotFound, onLoading, hasLoaded]);
+  }, [onLinkLoaded, onNotFound, onLoading, hasExecuted]);
 
   return null;
 };
