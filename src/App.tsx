@@ -26,13 +26,26 @@ const App = () => {
   const [isSubdomain, setIsSubdomain] = useState(false);
 
   useEffect(() => {
-    // Check if we're on a subdomain of lnkfire.dev
+    // Check if we're on a subdomain or custom domain
     const hostname = window.location.hostname;
     const parts = hostname.split('.');
     
-    // Check if it's a subdomain (3 parts) and matches lnkfire.dev pattern
-    if (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev') {
+    console.log('App: Checking hostname:', hostname);
+    console.log('App: Hostname parts:', parts);
+    
+    // Check multiple subdomain patterns
+    const isLnkfireDev = parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev';
+    const isLovableApp = hostname.includes('.lovable.app') && parts.length >= 3;
+    const isLovableProject = hostname.includes('.lovableproject.com') && parts.length >= 3;
+    
+    // Also check if we have a path-based slug (fallback for some deployments)
+    const hasPathSlug = window.location.pathname !== '/' && window.location.pathname.split('/').length >= 2;
+    
+    if (isLnkfireDev || isLovableApp || isLovableProject || hasPathSlug) {
+      console.log('App: Detected subdomain environment');
       setIsSubdomain(true);
+    } else {
+      console.log('App: Not a subdomain environment');
     }
   }, []);
 
