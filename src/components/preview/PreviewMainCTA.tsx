@@ -1,4 +1,3 @@
-
 import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
@@ -33,12 +32,13 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
     { id: 'gradient-pink', name: 'Gradiente Rosa-Viola', class: 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600' }
   ];
 
+  // Altezze ridotte per i pulsanti
   const buttonSizes = [
-    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-8' },
-    { id: 'small', name: '2 - Piccolo', height: 'h-10' },
-    { id: 'medium', name: '3 - Medio', height: 'h-12' },
-    { id: 'large', name: '4 - Grande', height: 'h-14' },
-    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-16' }
+    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
+    { id: 'small', name: '2 - Piccolo', height: 'h-7' },
+    { id: 'medium', name: '3 - Medio', height: 'h-8' },
+    { id: 'large', name: '4 - Grande', height: 'h-9' },
+    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-10' }
   ];
 
   const isLightColor = (color: string) => {
@@ -64,10 +64,11 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
   };
 
   const getButtonClasses = (button: CustomButton) => {
-    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-12';
+    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-8';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
     
-    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass} border`;
+    // Testo più piccolo nei pulsanti
+    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-xs font-medium shadow-lg ${styleClass} border`;
     
     if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
       const customColorCode = (button as any).customColorCode;
@@ -105,7 +106,7 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
             className={getButtonClasses(button)}
             style={getButtonStyle(button)}
           >
-            <div className="font-semibold text-sm">
+            <div className="font-semibold text-xs">
               {button.text || `Pulsante ${index + 1}`}
             </div>
           </button>
