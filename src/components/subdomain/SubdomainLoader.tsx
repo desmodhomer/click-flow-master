@@ -75,7 +75,7 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         }
         
         console.log('🔍 SubdomainLoader: About to query database for slug:', slug);
-        console.log('🔗 SubdomainLoader: Using Supabase client with URL:', supabase.supabaseUrl);
+        console.log('🔗 SubdomainLoader: Using Supabase client');
         
         // Test connessione a Supabase prima
         console.log('🧪 SubdomainLoader: Testing Supabase connection...');

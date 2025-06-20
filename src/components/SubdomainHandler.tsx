@@ -60,7 +60,7 @@ const SubdomainHandler = () => {
         onNotFound={handleNotFound}
         onLoading={handleLoading}
       />
-      <SubdomainHeroSection linkData={linkData} />
+      <SubdomainHeroSection link={linkData} />
     </>
   );
 };
