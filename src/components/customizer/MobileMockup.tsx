@@ -86,14 +86,14 @@ const MobileMockup = ({
   const backgroundStyle = getBackgroundStyle();
 
   return (
-    <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-4">
-      {/* Mobile Preview Frame - Aumentato per corrispondere al telefono reale */}
+    <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-2">
+      {/* Mobile Preview Frame */}
       <div className="relative">
         {/* Ombra del telefono */}
         <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-md scale-105"></div>
         
-        {/* Frame del telefono - Aumentato da 240x480 a 320x640 */}
-        <div className="relative w-[320px] h-[640px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono - Ridotto per evitare overflow */}
+        <div className="relative w-[280px] h-[560px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
@@ -129,7 +129,7 @@ const MobileMockup = ({
               </div>
             </div>
             
-            {/* Website Content - Altezza aumentata */}
+            {/* Website Content - Ridotto padding */}
             <div className="absolute top-[56px] left-0 right-0 bottom-[24px] overflow-hidden">
               <ScrollArea className="h-full">
                 <div 
@@ -137,7 +137,7 @@ const MobileMockup = ({
                   style={backgroundStyle}
                 >
                   {/* Hero Section */}
-                  <div className="py-6 px-4">
+                  <div className="py-3 px-3">
                     <PreviewHeroSection
                       profileImageUrl={profileImageUrl}
                       displayName={displayName}
@@ -151,7 +151,7 @@ const MobileMockup = ({
                   </div>
 
                   {/* Social Links Section */}
-                  <div className="px-4 mb-4">
+                  <div className="px-3 mb-3">
                     <PreviewSocialLinks 
                       socialLinks={socialLinks} 
                       backgroundTheme={backgroundTheme}
@@ -159,7 +159,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Main CTA Section */}
-                  <div className="px-4 mb-4">
+                  <div className="px-3 mb-3">
                     <PreviewMainCTA 
                       customButtons={customButtons}
                       backgroundTheme={backgroundTheme}
@@ -167,7 +167,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Footer */}
-                  <div className="px-4 pb-4">
+                  <div className="px-3 pb-3">
                     <PreviewStatsFooter />
                   </div>
                 </div>
