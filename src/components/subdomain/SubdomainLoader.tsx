@@ -32,6 +32,10 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    console.log('🚀 SubdomainLoader: useEffect triggered');
+    console.log('🔄 SubdomainLoader: hasExecuted.current:', hasExecuted.current);
+    console.log('🔄 SubdomainLoader: isProcessing:', isProcessing);
+    
     // Previeni esecuzioni multiple
     if (hasExecuted.current || isProcessing) {
       console.log('🔄 SubdomainLoader: Preventing duplicate execution');
@@ -152,8 +156,17 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
       }
     };
 
+    // Esegui immediatamente
     loadLinkData();
-  }, []); // Dipendenze vuote per eseguire solo una volta
+  }, [onLinkLoaded, onNotFound, onLoading]); // Aggiunte le dipendenze
+
+  // Aggiungi un log per verificare che il componente si monti
+  useEffect(() => {
+    console.log('🎬 SubdomainLoader: Component mounted');
+    return () => {
+      console.log('🎬 SubdomainLoader: Component unmounting');
+    };
+  }, []);
 
   return null;
 };
