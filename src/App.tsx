@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -41,16 +42,24 @@ const isSubdomainEnvironment = () => {
     return false;
   }
   
-  // PRIORITÀ 3: Ambiente di sviluppo - Permetti testing del sottodominio su Lovable
+  // PRIORITÀ 3: Ambiente di sviluppo - Solo per testing intenzionale del sottodominio
   const parts = hostname.split('.');
   if (parts.length >= 2) {
     const subdomain = parts[0];
     
     if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
-      // Per ambiente Lovable - permetti il testing del sottodominio SEMPRE
+      // Per ambiente Lovable - permetti il testing del sottodominio SOLO se:
+      // 1. Siamo su un dominio Lovable
+      // 2. E siamo sulla root path / (non su /link-customizer o altre route)
       if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
-        console.log('✅ DEVELOPMENT SUBDOMAIN MODE - Lovable environment:', hostname);
-        return true;
+        // Se siamo sulla root path, allora è un test di sottodominio
+        if (pathname === '/' || pathname === '') {
+          console.log('✅ DEVELOPMENT SUBDOMAIN MODE - Lovable environment on root:', hostname);
+          return true;
+        } else {
+          console.log('❌ LOVABLE BUT ON APP ROUTE - showing normal app instead of subdomain', pathname);
+          return false;
+        }
       }
     }
   }
