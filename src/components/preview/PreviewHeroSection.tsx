@@ -31,12 +31,12 @@ const PreviewHeroSection = ({
   const bioColorClass = isLightBackground ? 'text-gray-500' : 'text-white/70';
 
   return (
-    <div className={`relative text-center max-w-sm mx-auto ${collapsed ? 'py-2' : 'py-8'}`}>
+    <div className={`relative text-center max-w-sm mx-auto ${collapsed ? 'py-1' : 'py-8'}`}>
       
-      {/* Profile Image più compatta se collapsed */}
+      {/* Profile Image ultra compatta se collapsed */}
       {profileImageUrl && (
-        <div className={`flex justify-center ${collapsed ? 'mb-3' : 'mb-6'}`}>
-          <div className={`${collapsed ? 'w-16 h-16' : 'w-20 h-20'} rounded-full border-2 ${isLightBackground ? 'border-gray-200' : 'border-white/30'} overflow-hidden`}>
+        <div className={`flex justify-center ${collapsed ? 'mb-2' : 'mb-6'}`}>
+          <div className={`${collapsed ? 'w-12 h-12' : 'w-20 h-20'} rounded-full border-2 ${isLightBackground ? 'border-gray-200' : 'border-white/30'} overflow-hidden`}>
             <img 
               src={profileImageUrl} 
               alt="Profile" 
@@ -48,17 +48,17 @@ const PreviewHeroSection = ({
       
       {/* Display Name */}
       {displayName && (
-        <h1 className={`${collapsed ? 'text-lg' : 'text-xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-2'} ${textColorClass}`}>
+        <h1 className={`${collapsed ? 'text-sm' : 'text-xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-2'} ${textColorClass}`}>
           {displayName}
         </h1>
       )}
       
-      {/* Title più compatto se collapsed */}
-      <h2 className={`${collapsed ? 'text-xs' : 'text-sm'} font-medium ${collapsed ? 'mb-2' : 'mb-3'} ${subtitleColorClass}`}>
+      {/* Title ultra compatto se collapsed */}
+      <h2 className={`${collapsed ? 'text-xs' : 'text-sm'} font-medium ${collapsed ? 'mb-1' : 'mb-3'} ${subtitleColorClass}`}>
         {title || "Link Personalizzato"}
       </h2>
       
-      {/* Bio compatta */}
+      {/* Bio ultra compatta */}
       {bio && (
         <p className={`${collapsed ? 'text-xs' : 'text-xs'} ${bioColorClass} max-w-xs mx-auto ${collapsed ? 'mb-1' : 'mb-2'}`}>
           {bio}

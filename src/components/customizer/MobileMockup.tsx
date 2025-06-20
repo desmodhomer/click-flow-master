@@ -92,8 +92,8 @@ const MobileMockup = ({
         {/* Ombra del telefono */}
         <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
         
-        {/* Frame del telefono */}
-        <div className="relative w-[280px] h-[580px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono - ridotto l'altezza */}
+        <div className="relative w-[280px] h-[520px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
@@ -129,15 +129,15 @@ const MobileMockup = ({
               </div>
             </div>
             
-            {/* Website Content - con altezza limitata */}
-            <div className="absolute top-[56px] left-0 right-0 bottom-[24px] overflow-hidden">
+            {/* Website Content - altezza limitata e contenuto più compatto */}
+            <div className="absolute top-[56px] left-0 right-0 bottom-[20px] overflow-hidden">
               <ScrollArea className="h-full">
                 <div 
                   className={`min-h-full ${backgroundStyle.className || ''}`} 
                   style={backgroundStyle}
                 >
-                  {/* Hero Section compatta */}
-                  <div className="py-4 px-3">
+                  {/* Hero Section ultra compatta */}
+                  <div className="py-2 px-3">
                     <PreviewHeroSection
                       profileImageUrl={profileImageUrl}
                       displayName={displayName}
@@ -150,16 +150,16 @@ const MobileMockup = ({
                     />
                   </div>
 
-                  {/* Social Links Section compatta */}
-                  <div className="px-3 mb-3">
+                  {/* Social Links Section ultra compatta */}
+                  <div className="px-3 mb-2">
                     <PreviewSocialLinks 
                       socialLinks={socialLinks} 
                       backgroundTheme={backgroundTheme}
                     />
                   </div>
                   
-                  {/* Main CTA Section compatta */}
-                  <div className="px-3 mb-3">
+                  {/* Main CTA Section ultra compatta */}
+                  <div className="px-3 mb-2">
                     <PreviewMainCTA 
                       customButtons={customButtons}
                       backgroundTheme={backgroundTheme}
@@ -167,7 +167,7 @@ const MobileMockup = ({
                   </div>
                   
                   {/* Footer compatto */}
-                  <div className="px-3 pb-4">
+                  <div className="px-3 pb-2">
                     <PreviewStatsFooter />
                   </div>
                 </div>
