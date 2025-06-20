@@ -1,16 +1,14 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye } from "lucide-react";
-
 interface LinkActionsCardProps {
   generatedLink: string;
   customSlug?: string;
 }
-
-const LinkActionsCard = ({ generatedLink }: LinkActionsCardProps) => {
+const LinkActionsCard = ({
+  generatedLink
+}: LinkActionsCardProps) => {
   if (!generatedLink) {
-    return (
-      <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
+    return <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
         <CardHeader>
           <CardTitle className="text-xl font-bold text-white flex items-center">
             <Eye className="mr-2 h-5 w-5" />
@@ -28,27 +26,11 @@ const LinkActionsCard = ({ generatedLink }: LinkActionsCardProps) => {
             </p>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>;
   }
-
-  return (
-    <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold text-white flex items-center">
-          <Eye className="mr-2 h-5 w-5" />
-          Link Generato
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="p-4 bg-black/20 rounded-lg border border-white/10">
-          <p className="text-white font-mono text-sm break-all">
-            {generatedLink}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
+  return <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
+      
+      
+    </Card>;
 };
-
 export default LinkActionsCard;
