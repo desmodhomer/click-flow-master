@@ -1,3 +1,4 @@
+
 import { Signal, Wifi, Battery } from "lucide-react";
 import PreviewHeroSection from "@/components/preview/PreviewHeroSection";
 import PreviewSocialLinks from "@/components/preview/PreviewSocialLinks";
@@ -34,7 +35,7 @@ const MobileMockup = ({
   customSlug,
   customButtons = []
 }: MobileMockupProps) => {
-  // Get background style logic
+  // Get background style logic - stessa di SubdomainBackgroundUtils
   const getBackgroundStyle = () => {
     if (customBackgroundUrl) {
       return {
@@ -58,9 +59,24 @@ const MobileMockup = ({
       'gradient-purple': 'from-purple-400 via-pink-500 to-red-500',
       'gradient-green': 'from-green-400 via-teal-500 to-blue-500',
       'gradient-orange': 'from-yellow-400 via-orange-500 to-red-500',
-      'dark-solid': 'from-gray-800 via-gray-900 to-black',
-      'white-solid': 'from-gray-50 via-white to-gray-100'
+      'dark': 'from-gray-800 via-gray-900 to-black',
+      'dark-solid': 'bg-gray-900',
+      'white-solid': 'bg-white',
+      'minimal': 'from-gray-50 via-white to-gray-100'
     };
+    
+    // Handle solid colors
+    if (backgroundTheme === 'dark-solid') {
+      return { 
+        className: 'bg-gray-900' 
+      };
+    }
+    
+    if (backgroundTheme === 'white-solid') {
+      return { 
+        className: 'bg-white' 
+      };
+    }
     
     return { 
       className: `bg-gradient-to-br ${themeStyles[backgroundTheme] || themeStyles['gradient-blue']}` 
@@ -71,57 +87,55 @@ const MobileMockup = ({
 
   return (
     <div className="h-full bg-gradient-to-br from-gray-100 via-gray-50 to-blue-50 flex items-center justify-center p-4">
-      {/* Mobile Preview Frame - Dimensioni ridotte per adattarsi alla pagina */}
+      {/* Mobile Preview Frame */}
       <div className="relative">
         {/* Ombra del telefono */}
         <div className="absolute inset-0 bg-black/15 rounded-[20px] transform translate-y-2 translate-x-1 blur-lg scale-105"></div>
         
-        {/* Frame del telefono - Dimensioni ottimizzate con bordi più sottili */}
-        <div className="relative w-[240px] h-[480px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[6px] shadow-xl hover:scale-105 transition-transform duration-300">
+        {/* Frame del telefono */}
+        <div className="relative w-[280px] h-[600px] bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[20px] p-[8px] shadow-xl hover:scale-105 transition-transform duration-300">
           
           {/* Schermo interno */}
           <div className="w-full h-full bg-black rounded-[16px] overflow-hidden relative">
             
-            {/* Notch moderno sottilissimo - solo una piccola pillola */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[60px] h-[6px] bg-black rounded-b-[3px] z-50"></div>
+            {/* Notch moderno */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[80px] h-[8px] bg-black rounded-b-[4px] z-50"></div>
             
-            {/* Status Bar - fotocamera e sensori alla stessa altezza dell'orario */}
-            <div className="absolute top-[8px] left-0 right-0 px-3 flex items-center justify-between text-white text-[9px] font-medium z-40">
-              <div className="flex items-center gap-1">
-                {/* Fotocamera */}
-                <div className="w-[4px] h-[4px] bg-gray-600 rounded-full"></div>
-                {/* Sensore */}
-                <div className="w-[8px] h-[1px] bg-gray-700 rounded-full"></div>
+            {/* Status Bar */}
+            <div className="absolute top-[12px] left-0 right-0 px-4 flex items-center justify-between text-white text-[10px] font-medium z-40">
+              <div className="flex items-center gap-2">
+                <div className="w-[5px] h-[5px] bg-gray-600 rounded-full"></div>
+                <div className="w-[10px] h-[1px] bg-gray-700 rounded-full"></div>
                 <div className="ml-2 font-semibold">12:30</div>
               </div>
-              <div className="flex items-center gap-1 mr-1">
-                <Signal className="h-1.5 w-1.5" />
-                <Wifi className="h-1.5 w-1.5" />
-                <Battery className="h-1.5 w-1.5" />
+              <div className="flex items-center gap-1">
+                <Signal className="h-2 w-2" />
+                <Wifi className="h-2 w-2" />
+                <Battery className="h-2 w-2" />
               </div>
             </div>
             
-            {/* Safari Browser UI ultra compatto */}
-            <div className="absolute top-[24px] left-0 right-0 bg-gray-50 px-2 py-0.5 flex items-center gap-1 border-b border-gray-200 z-30">
-              <div className="flex-1 bg-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-700 font-medium">
-                <div className="flex items-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full flex items-center justify-center">
+            {/* Safari Browser UI */}
+            <div className="absolute top-[32px] left-0 right-0 bg-gray-50 px-3 py-1 flex items-center gap-2 border-b border-gray-200 z-30">
+              <div className="flex-1 bg-gray-200 rounded-full px-3 py-1 text-xs text-gray-700 font-medium">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full flex items-center justify-center">
                     <div className="w-0.5 h-0.5 bg-white rounded-full"></div>
                   </div>
-                  <span className="text-[8px] truncate">
+                  <span className="text-[9px] truncate">
                     {customSlug ? `${customSlug}.lnkfire.dev` : 'tuolink.lnkfire.dev'}
                   </span>
                 </div>
               </div>
             </div>
             
-            {/* Website Content - Area scrollabile ottimizzata */}
-            <ScrollArea className="h-[calc(100%-42px)] mt-[42px]">
+            {/* Website Content - esatto come il sottodominio */}
+            <ScrollArea className="h-[calc(100%-56px)] mt-[56px]">
               <div 
                 className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
               >
-                {/* Hero Section compatta */}
+                {/* Hero Section */}
                 <PreviewHeroSection
                   profileImageUrl={profileImageUrl}
                   displayName={displayName}
@@ -129,39 +143,33 @@ const MobileMockup = ({
                   bio={bio}
                   description={description}
                   coverImageUrl={coverImageUrl}
-                  collapsed={true}
                 />
 
-                {/* Main Content compatto */}
-                <div className="relative z-10 px-2 pb-4 space-y-2">
-                  <div className="max-w-full mx-auto space-y-2">
-                    {/* Social Links Section */}
-                    <PreviewSocialLinks socialLinks={socialLinks} />
-                    
-                    {/* Main CTA Section with custom buttons */}
-                    <PreviewMainCTA customButtons={customButtons} />
-                    
-                    {/* Stats and Footer */}
-                    <PreviewStatsFooter />
-                  </div>
-                </div>
+                {/* Social Links Section */}
+                <PreviewSocialLinks socialLinks={socialLinks} />
+                
+                {/* Main CTA Section con custom buttons */}
+                <PreviewMainCTA customButtons={customButtons} />
+                
+                {/* Stats and Footer */}
+                <PreviewStatsFooter />
               </div>
             </ScrollArea>
             
-            {/* Home indicator iOS più piccolo */}
-            <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[80px] h-[3px] bg-white rounded-full opacity-80"></div>
+            {/* Home indicator iOS */}
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[100px] h-[4px] bg-white rounded-full opacity-80"></div>
           </div>
           
           {/* Riflesso sullo schermo */}
-          <div className="absolute inset-[6px] rounded-[16px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-[8px] rounded-[16px] bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none"></div>
         </div>
 
-        {/* Volume buttons più piccoli e sottili */}
-        <div className="absolute left-[-1px] top-[80px] w-[1px] h-[25px] bg-gray-700 rounded-l-sm"></div>
-        <div className="absolute left-[-1px] top-[115px] w-[1px] h-[25px] bg-gray-700 rounded-l-sm"></div>
+        {/* Volume buttons */}
+        <div className="absolute left-[-2px] top-[100px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
+        <div className="absolute left-[-2px] top-[140px] w-[2px] h-[30px] bg-gray-700 rounded-l-sm"></div>
         
         {/* Power button */}
-        <div className="absolute right-[-1px] top-[95px] w-[1px] h-[25px] bg-gray-700 rounded-r-sm"></div>
+        <div className="absolute right-[-2px] top-[120px] w-[2px] h-[30px] bg-gray-700 rounded-r-sm"></div>
       </div>
     </div>
   );

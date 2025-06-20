@@ -34,7 +34,7 @@ const DesktopMockup = ({
   customSlug,
   customButtons = []
 }: DesktopMockupProps) => {
-  // Get background style logic
+  // Get background style logic - stessa di SubdomainBackgroundUtils
   const getBackgroundStyle = () => {
     if (customBackgroundUrl) {
       return {
@@ -58,9 +58,24 @@ const DesktopMockup = ({
       'gradient-purple': 'from-purple-400 via-pink-500 to-red-500',
       'gradient-green': 'from-green-400 via-teal-500 to-blue-500',
       'gradient-orange': 'from-yellow-400 via-orange-500 to-red-500',
-      'dark-solid': 'from-gray-800 via-gray-900 to-black',
-      'white-solid': 'from-gray-50 via-white to-gray-100'
+      'dark': 'from-gray-800 via-gray-900 to-black',
+      'dark-solid': 'bg-gray-900',
+      'white-solid': 'bg-white',
+      'minimal': 'from-gray-50 via-white to-gray-100'
     };
+    
+    // Handle solid colors
+    if (backgroundTheme === 'dark-solid') {
+      return { 
+        className: 'bg-gray-900' 
+      };
+    }
+    
+    if (backgroundTheme === 'white-solid') {
+      return { 
+        className: 'bg-white' 
+      };
+    }
     
     return { 
       className: `bg-gradient-to-br ${themeStyles[backgroundTheme] || themeStyles['gradient-blue']}` 
@@ -107,7 +122,7 @@ const DesktopMockup = ({
             </div>
           </div>
           
-          {/* Website Content */}
+          {/* Website Content - esatto come il sottodominio */}
           <div className="h-[600px] overflow-hidden">
             <ScrollArea className="h-full">
               <div 
@@ -124,19 +139,14 @@ const DesktopMockup = ({
                   coverImageUrl={coverImageUrl}
                 />
 
-                {/* Main Content */}
-                <div className="relative z-10 px-8 pb-16">
-                  <div className="max-w-2xl mx-auto space-y-8">
-                    {/* Social Links Section */}
-                    <PreviewSocialLinks socialLinks={socialLinks} />
-                    
-                    {/* Main CTA Section with custom buttons */}
-                    <PreviewMainCTA customButtons={customButtons} />
-                    
-                    {/* Stats and Footer */}
-                    <PreviewStatsFooter />
-                  </div>
-                </div>
+                {/* Social Links Section */}
+                <PreviewSocialLinks socialLinks={socialLinks} />
+                
+                {/* Main CTA Section con custom buttons */}
+                <PreviewMainCTA customButtons={customButtons} />
+                
+                {/* Stats and Footer */}
+                <PreviewStatsFooter />
               </div>
             </ScrollArea>
           </div>

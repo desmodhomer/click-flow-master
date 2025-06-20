@@ -22,7 +22,7 @@ const PreviewHeroSection = ({
 }: PreviewHeroSectionProps) => {
   return (
     <div className="relative py-8 px-4">
-      {/* Hero Content centrato e minimalista */}
+      {/* Hero Content centrato e minimalista - stesso stile di SubdomainHeroSection */}
       <div className="text-center text-white max-w-sm mx-auto">
         {/* Profile Image più elegante */}
         {profileImageUrl && (

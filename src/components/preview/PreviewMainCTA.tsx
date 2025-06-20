@@ -33,11 +33,11 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
   ];
 
   const buttonSizes = [
-    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6', padding: 'px-3 py-1', text: 'text-xs' },
-    { id: 'small', name: '2 - Piccolo', height: 'h-8', padding: 'px-4 py-2', text: 'text-sm' },
-    { id: 'medium', name: '3 - Medio', height: 'h-10', padding: 'px-6 py-3', text: 'text-base' },
-    { id: 'large', name: '4 - Grande', height: 'h-12', padding: 'px-8 py-4', text: 'text-lg' },
-    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14', padding: 'px-10 py-5', text: 'text-xl' }
+    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
+    { id: 'small', name: '2 - Piccolo', height: 'h-8' },
+    { id: 'medium', name: '3 - Medio', height: 'h-10' },
+    { id: 'large', name: '4 - Grande', height: 'h-12' },
+    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
   ];
 
   const isLightColor = (color: string) => {
@@ -49,8 +49,8 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
     return brightness > 128;
   };
 
-  const getButtonSpacing = (spacing?: number) => {
-    const spacingValues = {
+  const getSpacingClass = (spacingValue: number) => {
+    const spacingClasses = {
       1: 'mb-1',
       2: 'mb-2', 
       3: 'mb-3',
@@ -59,31 +59,15 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
       6: 'mb-6'
     };
     
-    const spacingValue = spacing || 3;
-    return spacingValues[spacingValue as keyof typeof spacingValues] || 'mb-3';
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-3';
   };
 
-  const getButtonStyle = (button: CustomButton) => {
-    // Gestisce i colori personalizzati
-    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
-      const customColorCode = (button as any).customColorCode;
-      console.log('Applicando colore personalizzato nel preview:', customColorCode);
-      return {
-        backgroundColor: customColorCode
-      };
-    }
-    
-    return {};
-  };
-
-  const getButtonClasses = (button: CustomButton, index: number, isLast: boolean) => {
-    const sizeData = buttonSizes.find(s => s.id === button.size) || buttonSizes[2]; // default medium
+  const getButtonClasses = (button: CustomButton) => {
+    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
-    const spacingClass = !isLast ? getButtonSpacing(button.spacing) : '';
     
-    const baseClasses = `w-full ${sizeData.height} flex items-center justify-center cursor-pointer transition-all duration-200 font-medium shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] ${styleClass} ${spacingClass} ${sizeData.text}`;
+    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass}`;
     
-    // Gestisce i colori personalizzati
     if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
       const customColorCode = (button as any).customColorCode;
       const textColor = isLightColor(customColorCode) ? 'text-gray-900' : 'text-white';
@@ -94,23 +78,36 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
     return `${baseClasses} ${colorClass}`;
   };
 
+  const getButtonStyle = (button: CustomButton) => {
+    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
+      const customColorCode = (button as any).customColorCode;
+      return {
+        backgroundColor: customColorCode
+      };
+    }
+    
+    return {};
+  };
+
   if (!customButtons || customButtons.length === 0) {
     return null;
   }
 
+  // Usa la spaziatura del primo pulsante per tutti (o default)
+  const globalSpacing = customButtons[0]?.spacing || 3;
+
   return (
-    <div className="space-y-2">
+    <div className="px-4 mb-6">
       {customButtons.map((button, index) => (
-        <div
-          key={button.id}
-          className={getButtonClasses(button, index, index === customButtons.length - 1)}
-          style={getButtonStyle(button)}
-          onClick={() => button.url && window.open(button.url, '_blank')}
-        >
-          <span className="flex items-center justify-center gap-2">
-            {button.text || `Button ${index + 1}`}
-            {button.url && <ExternalLink className="h-4 w-4" />}
-          </span>
+        <div key={button.id} className={index < customButtons.length - 1 ? getSpacingClass(globalSpacing) : ''}>
+          <button
+            className={getButtonClasses(button)}
+            style={getButtonStyle(button)}
+          >
+            <div className="font-semibold">
+              {button.text || `Pulsante ${index + 1}`}
+            </div>
+          </button>
         </div>
       ))}
     </div>
