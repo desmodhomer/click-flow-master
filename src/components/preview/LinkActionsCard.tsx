@@ -1,9 +1,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Eye, Monitor, Code } from "lucide-react";
+import { Copy, ExternalLink, Eye, Monitor, Code, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface LinkActionsCardProps {
   generatedLink: string;
@@ -84,54 +90,47 @@ const LinkActionsCard = ({ generatedLink, customSlug }: LinkActionsCardProps) =>
   return (
     <Card className="border-0 bg-white/10 backdrop-blur-sm border border-white/20">
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-white flex items-center">
-          <Eye className="mr-2 h-5 w-5" />
-          Link Generato
+        <CardTitle className="text-xl font-bold text-white flex items-center justify-between">
+          <div className="flex items-center">
+            <Eye className="mr-2 h-5 w-5" />
+            Link Generato
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-white hover:bg-white/20"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white" align="end">
+              <DropdownMenuItem onClick={copyToClipboard} className="cursor-pointer">
+                <Copy className="mr-2 h-4 w-4" />
+                Copia
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openPreview} className="cursor-pointer">
+                <Monitor className="mr-2 h-4 w-4" />
+                Popup
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openDevPreview} className="cursor-pointer">
+                <Code className="mr-2 h-4 w-4" />
+                Dev Preview
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openLink} className="cursor-pointer">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                Apri
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="p-4 bg-black/20 rounded-lg border border-white/10">
-          <p className="text-white font-mono text-sm break-all mb-3">
+          <p className="text-white font-mono text-sm break-all">
             {generatedLink}
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-            <Button
-              onClick={copyToClipboard}
-              variant="outline"
-              size="sm"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-            >
-              <Copy className="mr-2 h-4 w-4" />
-              Copia
-            </Button>
-            <Button
-              onClick={openPreview}
-              variant="outline"
-              size="sm"
-              className="bg-blue-600/20 border-blue-400/30 text-blue-200 hover:bg-blue-600/30"
-            >
-              <Monitor className="mr-2 h-4 w-4" />
-              Popup
-            </Button>
-            <Button
-              onClick={openDevPreview}
-              variant="outline"
-              size="sm"
-              className="bg-purple-600/20 border-purple-400/30 text-purple-200 hover:bg-purple-600/30"
-            >
-              <Code className="mr-2 h-4 w-4" />
-              Dev Preview
-            </Button>
-            <Button
-              onClick={openLink}
-              variant="outline"
-              size="sm"
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              Apri
-            </Button>
-          </div>
         </div>
       </CardContent>
     </Card>
