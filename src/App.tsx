@@ -42,26 +42,16 @@ const isSubdomainEnvironment = () => {
     return false;
   }
   
-  // PRIORITÀ 3: Logica per altri ambienti (Lovable) - solo se NON siamo su route dell'app
+  // PRIORITÀ 3: Ambiente di sviluppo - Riconosci sottodomini anche su Lovable
   const parts = hostname.split('.');
   if (parts.length >= 2) {
     const subdomain = parts[0];
     
     if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
+      // Per ambiente Lovable - permetti il testing del sottodominio su TUTTE le route
       if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
-        // Se siamo su route dell'app, NON è un sottodominio
-        const isAppRoute = pathname.startsWith('/quest') || 
-                          pathname.startsWith('/link-customizer') || 
-                          pathname.startsWith('/preview/') ||
-                          pathname.startsWith('/user-links') ||
-                          pathname === '/';
-        
-        if (!isAppRoute) {
-          console.log('✅ MATCHED lovable subdomain (not app route):', hostname);
-          return true;
-        } else {
-          console.log('❌ LOVABLE BUT IS APP ROUTE - pathname:', pathname);
-        }
+        console.log('✅ DEVELOPMENT SUBDOMAIN MODE - Lovable environment:', hostname);
+        return true;
       }
     }
   }
