@@ -76,12 +76,12 @@ const SubdomainHandler = () => {
   const backgroundStyle = getBackgroundStyle(link);
 
   return (
-    <div className={`min-h-screen ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
+    <div className={`min-h-screen w-full overflow-x-hidden ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
       <SubdomainHeroSection link={link} />
 
       {/* Main Content */}
-      <div className="relative z-10 px-6 pb-24">
-        <div className="max-w-2xl mx-auto space-y-12">
+      <div className="relative z-10 px-4 sm:px-6 pb-24 w-full">
+        <div className="max-w-2xl mx-auto space-y-12 w-full">
           
           {/* Social Links Section */}
           {link.social_links && link.social_links.length > 0 && (
