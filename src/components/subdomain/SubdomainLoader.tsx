@@ -75,7 +75,24 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         }
         
         console.log('🔍 SubdomainLoader: About to query database for slug:', slug);
+        console.log('🔗 SubdomainLoader: Using Supabase client with URL:', supabase.supabaseUrl);
         
+        // Test connessione a Supabase prima
+        console.log('🧪 SubdomainLoader: Testing Supabase connection...');
+        const { data: testData, error: testError } = await supabase
+          .from('custom_links')
+          .select('count')
+          .limit(1);
+        
+        console.log('🧪 SubdomainLoader: Connection test result:', { testData, testError });
+        
+        if (testError) {
+          console.error('💥 SubdomainLoader: Supabase connection test failed:', testError);
+          onNotFound();
+          return;
+        }
+        
+        // Query principale
         const { data, error } = await supabase
           .from('custom_links')
           .select('*')
@@ -88,12 +105,29 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
 
         if (error) {
           console.error('💥 SubdomainLoader: Database error:', error);
+          console.error('💥 SubdomainLoader: Error details:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          });
           onNotFound();
           return;
         }
 
         if (!data) {
           console.log('🚫 SubdomainLoader: No data found for slug:', slug, '- calling onNotFound');
+          
+          // Query per debug: vediamo tutti i record disponibili
+          console.log('🔍 SubdomainLoader: Debugging - checking all available slugs...');
+          const { data: allSlugs, error: debugError } = await supabase
+            .from('custom_links')
+            .select('slug, id, title')
+            .limit(10);
+          
+          console.log('🔍 SubdomainLoader: Available slugs in database:', allSlugs);
+          console.log('🔍 SubdomainLoader: Debug query error (if any):', debugError);
+          
           onNotFound();
           return;
         }
@@ -108,7 +142,8 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         console.log('📤 SubdomainLoader: About to call onLinkLoaded with:', typedData);
         onLinkLoaded(typedData);
       } catch (error) {
-        console.error('💥 SubdomainLoader: Error loading link:', error);
+        console.error('💥 SubdomainLoader: Unexpected error loading link:', error);
+        console.error('💥 SubdomainLoader: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
         onNotFound();
       } finally {
         console.log('🧹 SubdomainLoader: Cleaning up - setting loading to false');
