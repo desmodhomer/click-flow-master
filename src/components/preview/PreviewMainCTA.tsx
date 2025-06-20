@@ -1,4 +1,3 @@
-
 import { ExternalLink } from "lucide-react";
 import { CustomButton } from "../customizer/ConfigurationPanel";
 
@@ -34,11 +33,11 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
   ];
 
   const buttonSizes = [
-    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-8' },
-    { id: 'small', name: '2 - Piccolo', height: 'h-10' },
-    { id: 'medium', name: '3 - Medio', height: 'h-14' },
-    { id: 'large', name: '4 - Grande', height: 'h-16' },
-    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-20' }
+    { id: 'tiny', name: '1 - Piccolissimo', height: 'h-6' },
+    { id: 'small', name: '2 - Piccolo', height: 'h-8' },
+    { id: 'medium', name: '3 - Medio', height: 'h-10' },
+    { id: 'large', name: '4 - Grande', height: 'h-12' },
+    { id: 'xlarge', name: '5 - Grandissimo', height: 'h-14' }
   ];
 
   const isLightColor = (color: string) => {
@@ -52,22 +51,22 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
 
   const getSpacingClass = (spacingValue: number) => {
     const spacingClasses = {
-      1: 'mb-2',
-      2: 'mb-3', 
-      3: 'mb-4',
-      4: 'mb-5',
-      5: 'mb-6',
-      6: 'mb-8'
+      1: 'mb-1',
+      2: 'mb-1.5', 
+      3: 'mb-2',
+      4: 'mb-2.5',
+      5: 'mb-3',
+      6: 'mb-4'
     };
     
-    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-4';
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-2';
   };
 
   const getButtonClasses = (button: CustomButton) => {
-    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-14';
+    const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
     
-    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-base font-medium shadow-lg ${styleClass} border`;
+    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-xs font-medium shadow-lg ${styleClass} border`;
     
     if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
       const customColorCode = (button as any).customColorCode;
@@ -98,14 +97,14 @@ const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: Pr
   const globalSpacing = customButtons[0]?.spacing || 3;
 
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       {customButtons.map((button, index) => (
         <div key={button.id} className={index < customButtons.length - 1 ? getSpacingClass(globalSpacing) : ''}>
           <button
             className={getButtonClasses(button)}
             style={getButtonStyle(button)}
           >
-            <div className="font-semibold">
+            <div className="font-semibold text-xs">
               {button.text || `Pulsante ${index + 1}`}
             </div>
           </button>
