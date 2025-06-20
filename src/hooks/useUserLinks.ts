@@ -79,7 +79,7 @@ export const useUserLinks = () => {
         description: "Il link è stato eliminato con successo",
       });
 
-      // Ricarica la lista
+      // Ricarica la lista senza ricaricare la pagina
       fetchUserLinks();
       return true;
     } catch (error) {
@@ -93,6 +93,11 @@ export const useUserLinks = () => {
     }
   };
 
+  // Funzione pubblica per aggiornare i link manualmente
+  const refreshLinks = () => {
+    fetchUserLinks();
+  };
+
   useEffect(() => {
     fetchUserLinks();
   }, [user]);
@@ -102,5 +107,6 @@ export const useUserLinks = () => {
     loading,
     fetchUserLinks,
     deleteLink,
+    refreshLinks, // Esponiamo questa funzione per l'aggiornamento manuale
   };
 };

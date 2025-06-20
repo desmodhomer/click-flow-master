@@ -114,10 +114,7 @@ export const useLinkGeneration = ({
         description: "Il tuo link personalizzato è pronto",
       });
 
-      // Trigger a page refresh to update the user links section
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // Removed the automatic page reload that was causing the infinite loading loop
     } catch (error) {
       console.error('Error:', error);
       toast({
