@@ -31,9 +31,15 @@ const isSubdomainEnvironment = () => {
   console.log('📁 CHECKING SUBDOMAIN - pathname:', pathname);
   
   // PRIORITÀ 1: Test per sottodomini .lnkfire.dev - SEMPRE vince su tutto
-  if (hostname.endsWith('.lnkfire.dev') && hostname !== 'www.lnkfire.dev' && hostname !== 'lnkfire.dev') {
-    console.log('✅ MATCHED .lnkfire.dev subdomain - FORCED SUBDOMAIN MODE:', hostname);
-    return true;
+  if (hostname.endsWith('.lnkfire.dev')) {
+    const parts = hostname.split('.');
+    const subdomain = parts[0];
+    
+    // Se non è il dominio principale lnkfire.dev, allora è un sottodominio
+    if (hostname !== 'lnkfire.dev' && hostname !== 'www.lnkfire.dev' && subdomain !== 'www') {
+      console.log('✅ MATCHED .lnkfire.dev subdomain - FORCED SUBDOMAIN MODE:', hostname);
+      return true;
+    }
   }
   
   // PRIORITÀ 2: Se siamo sul dominio principale lnkfire.dev (senza sottodominio), NON è sottodominio
