@@ -48,18 +48,23 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         const hostname = window.location.hostname;
         const parts = hostname.split('.');
         
+        console.log('SubdomainLoader: Hostname:', hostname);
         console.log('SubdomainLoader: Hostname parts:', parts);
         
         let slug: string | null = null;
         
-        // Estrai lo slug solo da sottodomini reali
-        if (parts.length === 3 && parts[1] === 'lnkfire' && parts[2] === 'dev') {
-          slug = parts[0];
-        } else if (hostname.includes('.lovable.app') && parts.length >= 3) {
-          slug = parts[0];
-        } else if (hostname.includes('.lovableproject.com') && parts.length >= 3) {
-          slug = parts[0];
+        // Logica migliorata per riconoscere il sottodominio
+        if (parts.length >= 2) {
+          // Se siamo su un sottodominio, prendi sempre la prima parte
+          const potentialSlug = parts[0];
+          
+          // Verifica che non sia www o altri prefissi comuni
+          if (potentialSlug !== 'www' && potentialSlug !== 'api' && potentialSlug !== 'admin') {
+            slug = potentialSlug;
+          }
         }
+        
+        console.log('SubdomainLoader: Extracted slug:', slug);
         
         if (!slug) {
           console.log('SubdomainLoader: No valid slug found');
