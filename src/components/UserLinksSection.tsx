@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -61,16 +62,16 @@ const UserLinksSection = () => {
   };
 
   const handleDevPreview = (slug: string) => {
-    // Genera l'URL del sottodominio di sviluppo Lovable
+    // Genera l'URL del sottodominio di sviluppo Lovable usando HTTP
     const currentHostname = window.location.hostname;
     let devUrl;
     
     if (currentHostname.includes('lovable.app')) {
-      // Se siamo su *.lovable.app, usa lo stesso pattern
-      devUrl = `https://${slug}.${currentHostname}`;
+      // Se siamo su *.lovable.app, usa HTTP per evitare errori SSL
+      devUrl = `http://${slug}.${currentHostname}`;
     } else if (currentHostname.includes('lovableproject.com')) {
-      // Se siamo su *.lovableproject.com, usa lo stesso pattern
-      devUrl = `https://${slug}.${currentHostname}`;
+      // Se siamo su *.lovableproject.com, usa HTTP per evitare errori SSL
+      devUrl = `http://${slug}.${currentHostname}`;
     } else {
       // Fallback alla preview interna se non siamo su Lovable
       navigate(`/preview/${slug}`);
