@@ -55,8 +55,8 @@ export const useLinkLoader = (linkId: string | null) => {
           profileImageUrl: data.profile_image_url || '',
           coverImageUrl: data.cover_image_url || '',
           customBackgroundUrl: data.custom_background_url || '',
-          socialLinks: Array.isArray(data.social_links) ? data.social_links as SocialLink[] : [],
-          customButtons: Array.isArray(data.custom_buttons) ? data.custom_buttons as CustomButton[] : [],
+          socialLinks: Array.isArray(data.social_links) ? data.social_links as unknown as SocialLink[] : [],
+          customButtons: Array.isArray(data.custom_buttons) ? data.custom_buttons as unknown as CustomButton[] : [],
         };
 
         setLinkData(loadedData);
