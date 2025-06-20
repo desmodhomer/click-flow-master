@@ -109,23 +109,23 @@ const LinkCustomizerPage = () => {
   return (
     <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       {/* Pulsante Generate Link in alto a destra */}
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-6 right-6 z-50">
         <Button 
           onClick={handleGenerate}
           disabled={isGenerating || customButtons.length === 0}
-          size="sm"
-          className="bg-black hover:bg-gray-800 text-white font-medium px-4 h-8 text-sm shadow-lg hover:shadow-xl transition-all duration-200"
+          size="lg"
+          className="bg-black hover:bg-gray-800 text-white font-medium px-6 py-2 h-10 text-sm shadow-lg hover:shadow-xl transition-all duration-200"
         >
           {isGenerating ? (
             <>
-              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               {editLinkId ? 'Aggiornamento...' : 'Generazione...'}
             </>
           ) : (
             <>
-              <Sparkles className="mr-1 h-3 w-3" />
-              {editLinkId ? 'Aggiorna' : 'Genera'}
-              <ExternalLink className="ml-1 h-3 w-3" />
+              <Sparkles className="mr-2 h-4 w-4" />
+              {editLinkId ? 'Aggiorna Link' : 'Genera Link'}
+              <ExternalLink className="ml-2 h-4 w-4" />
             </>
           )}
         </Button>
@@ -170,7 +170,7 @@ const LinkCustomizerPage = () => {
         </div>
 
         {/* Preview Panel - Ora occupa tutto lo spazio rimanente */}
-        <div className="flex-1 p-6 overflow-hidden bg-white">
+        <div className="flex-1 p-6 pt-20 overflow-hidden bg-white">
           <PreviewPanel
             generatedLink={generatedLink}
             title={title}

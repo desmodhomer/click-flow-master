@@ -6,7 +6,6 @@ import LinkActionsCard from "@/components/preview/LinkActionsCard";
 import MobileMockup from "./MobileMockup";
 import DesktopMockup from "./DesktopMockup";
 import EmptyPreviewState from "./EmptyPreviewState";
-import LiveUpdateIndicator from "./LiveUpdateIndicator";
 import PreviewHeader from "./PreviewHeader";
 import { useState } from "react";
 
@@ -52,7 +51,7 @@ const PreviewPanel = ({
         />
       )}
 
-      {/* Live Preview */}
+      {/* Preview */}
       <Card className="bg-white shadow-xl border-0 flex-1 flex flex-col">
         <CardHeader className="pb-2 border-b border-gray-100">
           <CardTitle>
@@ -96,9 +95,6 @@ const PreviewPanel = ({
           )}
         </CardContent>
       </Card>
-
-      {/* Live Update Indicator */}
-      {hasContent && <LiveUpdateIndicator />}
     </div>
   );
 };
