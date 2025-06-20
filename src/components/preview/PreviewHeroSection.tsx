@@ -9,6 +9,7 @@ interface PreviewHeroSectionProps {
   description: string;
   coverImageUrl?: string;
   collapsed?: boolean;
+  backgroundTheme?: string;
 }
 
 const PreviewHeroSection = ({
@@ -18,15 +19,24 @@ const PreviewHeroSection = ({
   bio,
   description,
   coverImageUrl,
-  collapsed = false
+  collapsed = false,
+  backgroundTheme = 'gradient-blue'
 }: PreviewHeroSectionProps) => {
+  // Determine if we need light text based on background
+  const isDarkBackground = backgroundTheme === 'dark' || backgroundTheme === 'dark-solid' || backgroundTheme.includes('dark');
+  const isLightBackground = backgroundTheme === 'white-solid' || backgroundTheme === 'minimal';
+  
+  const textColorClass = isLightBackground ? 'text-gray-900' : 'text-white';
+  const subtitleColorClass = isLightBackground ? 'text-gray-600' : 'text-white/80';
+  const bioColorClass = isLightBackground ? 'text-gray-500' : 'text-white/70';
+
   return (
-    <div className={`relative text-center text-white max-w-sm mx-auto ${collapsed ? 'py-2' : 'py-8'}`}>
+    <div className={`relative text-center max-w-sm mx-auto ${collapsed ? 'py-2' : 'py-8'}`}>
       
       {/* Profile Image più compatta se collapsed */}
       {profileImageUrl && (
         <div className={`flex justify-center ${collapsed ? 'mb-3' : 'mb-6'}`}>
-          <div className={`${collapsed ? 'w-16 h-16' : 'w-20 h-20'} rounded-full border-2 border-white/30 overflow-hidden`}>
+          <div className={`${collapsed ? 'w-16 h-16' : 'w-20 h-20'} rounded-full border-2 ${isLightBackground ? 'border-gray-200' : 'border-white/30'} overflow-hidden`}>
             <img 
               src={profileImageUrl} 
               alt="Profile" 
@@ -38,19 +48,19 @@ const PreviewHeroSection = ({
       
       {/* Display Name */}
       {displayName && (
-        <h1 className={`${collapsed ? 'text-lg' : 'text-xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-2'} text-white`}>
+        <h1 className={`${collapsed ? 'text-lg' : 'text-xl'} font-semibold ${collapsed ? 'mb-1' : 'mb-2'} ${textColorClass}`}>
           {displayName}
         </h1>
       )}
       
       {/* Title più compatto se collapsed */}
-      <h2 className={`${collapsed ? 'text-xs' : 'text-sm'} font-medium ${collapsed ? 'mb-2' : 'mb-3'} text-white/80`}>
+      <h2 className={`${collapsed ? 'text-xs' : 'text-sm'} font-medium ${collapsed ? 'mb-2' : 'mb-3'} ${subtitleColorClass}`}>
         {title || "Link Personalizzato"}
       </h2>
       
       {/* Bio compatta */}
       {bio && (
-        <p className={`${collapsed ? 'text-xs' : 'text-xs'} text-white/70 max-w-xs mx-auto ${collapsed ? 'mb-1' : 'mb-2'}`}>
+        <p className={`${collapsed ? 'text-xs' : 'text-xs'} ${bioColorClass} max-w-xs mx-auto ${collapsed ? 'mb-1' : 'mb-2'}`}>
           {bio}
         </p>
       )}

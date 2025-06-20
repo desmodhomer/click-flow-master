@@ -4,41 +4,62 @@ import { SocialLink } from "@/types/customLink";
 
 interface PreviewSocialLinksProps {
   socialLinks: SocialLink[];
+  backgroundTheme?: string;
 }
 
-const PreviewSocialLinks = ({ socialLinks }: PreviewSocialLinksProps) => {
+const PreviewSocialLinks = ({ socialLinks, backgroundTheme = 'gradient-blue' }: PreviewSocialLinksProps) => {
   if (!socialLinks || socialLinks.length === 0) {
     return null;
   }
 
+  const isLightBackground = backgroundTheme === 'white-solid' || backgroundTheme === 'minimal';
+
   return (
     <div className="px-4 mb-6">
-      {/* Links più minimalisti - stesso stile di SubdomainSocialLinks */}
+      {/* Links più minimalisti con migliore contrasto */}
       <div className="space-y-3">
         {socialLinks.map((social, index) => (
           <div
             key={index}
-            className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer"
+            className={`${isLightBackground 
+              ? 'bg-gray-100 border-gray-200' 
+              : 'bg-white/10 backdrop-blur-sm border-white/20'
+            } rounded-xl p-4 border hover:${isLightBackground ? 'bg-gray-200' : 'bg-white/20'} transition-all duration-200 cursor-pointer`}
           >
             <div className="flex items-center gap-3">
               {/* Icon più piccola */}
-              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center text-white text-sm font-medium">
+              <div className={`w-10 h-10 ${isLightBackground 
+                ? 'bg-gray-200' 
+                : 'bg-white/20'
+              } rounded-lg flex items-center justify-center ${isLightBackground 
+                ? 'text-gray-700' 
+                : 'text-white'
+              } text-sm font-medium`}>
                 {social.platform.charAt(0).toUpperCase()}
               </div>
               
               {/* Testo semplificato */}
               <div className="flex-1">
-                <div className="text-white text-base font-medium">
+                <div className={`${isLightBackground 
+                  ? 'text-gray-900' 
+                  : 'text-white'
+                } text-base font-medium`}>
                   {social.display_text || social.platform}
                 </div>
                 {social.url && (
-                  <div className="text-white/60 text-sm truncate">
+                  <div className={`${isLightBackground 
+                    ? 'text-gray-500' 
+                    : 'text-white/60'
+                  } text-sm truncate`}>
                     {social.url}
                   </div>
                 )}
               </div>
               
-              <ExternalLink className="h-4 w-4 text-white/60" />
+              <ExternalLink className={`h-4 w-4 ${isLightBackground 
+                ? 'text-gray-400' 
+                : 'text-white/60'
+              }`} />
             </div>
           </div>
         ))}

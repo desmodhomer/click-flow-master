@@ -133,7 +133,7 @@ const MobileMockup = ({
             <div className="absolute top-[56px] left-0 right-0 bottom-[24px] overflow-hidden">
               <ScrollArea className="h-full">
                 <div 
-                  className={`${backgroundStyle.className || ''}`} 
+                  className={`min-h-full ${backgroundStyle.className || ''}`} 
                   style={backgroundStyle}
                 >
                   {/* Hero Section compatta */}
@@ -146,17 +146,24 @@ const MobileMockup = ({
                       description={description}
                       coverImageUrl={coverImageUrl}
                       collapsed={true}
+                      backgroundTheme={backgroundTheme}
                     />
                   </div>
 
                   {/* Social Links Section compatta */}
                   <div className="px-3 mb-3">
-                    <PreviewSocialLinks socialLinks={socialLinks} />
+                    <PreviewSocialLinks 
+                      socialLinks={socialLinks} 
+                      backgroundTheme={backgroundTheme}
+                    />
                   </div>
                   
                   {/* Main CTA Section compatta */}
                   <div className="px-3 mb-3">
-                    <PreviewMainCTA customButtons={customButtons} />
+                    <PreviewMainCTA 
+                      customButtons={customButtons}
+                      backgroundTheme={backgroundTheme}
+                    />
                   </div>
                   
                   {/* Footer compatto */}

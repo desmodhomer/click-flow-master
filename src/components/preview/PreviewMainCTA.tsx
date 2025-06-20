@@ -4,9 +4,10 @@ import { CustomButton } from "../customizer/ConfigurationPanel";
 
 interface PreviewMainCTAProps {
   customButtons: CustomButton[];
+  backgroundTheme?: string;
 }
 
-const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
+const PreviewMainCTA = ({ customButtons, backgroundTheme = 'gradient-blue' }: PreviewMainCTAProps) => {
   const buttonStyles = [
     { id: 'rounded', name: 'Arrotondato', class: 'rounded-xl' },
     { id: 'square', name: 'Quadrato', class: 'rounded-none' },
@@ -14,7 +15,7 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
   ];
 
   const buttonColors = [
-    { id: 'white', name: 'Bianco', class: 'bg-white/90 text-gray-900 hover:bg-white' },
+    { id: 'white', name: 'Bianco', class: 'bg-white text-gray-900 hover:bg-gray-50' },
     { id: 'black', name: 'Nero', class: 'bg-gray-900 text-white hover:bg-gray-800' },
     { id: 'gray', name: 'Grigio', class: 'bg-gray-600 text-white hover:bg-gray-700' },
     { id: 'red', name: 'Rosso', class: 'bg-red-600 text-white hover:bg-red-700' },
@@ -66,16 +67,16 @@ const PreviewMainCTA = ({ customButtons }: PreviewMainCTAProps) => {
     const sizeClass = buttonSizes.find(s => s.id === button.size)?.height || 'h-10';
     const styleClass = buttonStyles.find(s => s.id === button.style)?.class || 'rounded-xl';
     
-    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass}`;
+    const baseClasses = `w-full ${sizeClass} flex items-center justify-center cursor-pointer transition-all duration-200 text-sm font-medium shadow-lg ${styleClass} border`;
     
     if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
       const customColorCode = (button as any).customColorCode;
       const textColor = isLightColor(customColorCode) ? 'text-gray-900' : 'text-white';
-      return `${baseClasses} ${textColor} hover:opacity-90`;
+      return `${baseClasses} ${textColor} hover:opacity-90 border-gray-200`;
     }
     
-    const colorClass = buttonColors.find(c => c.id === button.color)?.class || 'bg-white/90 text-gray-900 hover:bg-white';
-    return `${baseClasses} ${colorClass}`;
+    const colorClass = buttonColors.find(c => c.id === button.color)?.class || 'bg-white text-gray-900 hover:bg-gray-50';
+    return `${baseClasses} ${colorClass} border-gray-200`;
   };
 
   const getButtonStyle = (button: CustomButton) => {

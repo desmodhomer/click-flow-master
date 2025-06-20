@@ -126,7 +126,7 @@ const DesktopMockup = ({
           <div className="h-[480px] overflow-hidden">
             <ScrollArea className="h-full">
               <div 
-                className={`${backgroundStyle.className || ''}`} 
+                className={`min-h-full ${backgroundStyle.className || ''}`} 
                 style={backgroundStyle}
               >
                 {/* Hero Section compatta */}
@@ -139,6 +139,7 @@ const DesktopMockup = ({
                     description={description}
                     coverImageUrl={coverImageUrl}
                     collapsed={true}
+                    backgroundTheme={backgroundTheme}
                   />
                 </div>
 
@@ -146,12 +147,18 @@ const DesktopMockup = ({
                 <div className="max-w-md mx-auto px-4 pb-8">
                   {/* Social Links Section */}
                   <div className="mb-4">
-                    <PreviewSocialLinks socialLinks={socialLinks} />
+                    <PreviewSocialLinks 
+                      socialLinks={socialLinks} 
+                      backgroundTheme={backgroundTheme}
+                    />
                   </div>
                   
                   {/* Main CTA Section */}
                   <div className="mb-4">
-                    <PreviewMainCTA customButtons={customButtons} />
+                    <PreviewMainCTA 
+                      customButtons={customButtons}
+                      backgroundTheme={backgroundTheme}
+                    />
                   </div>
                   
                   {/* Stats and Footer */}
