@@ -48,29 +48,9 @@ const isSubdomainEnvironment = () => {
     return false;
   }
   
-  // PRIORITÀ 3: Ambiente di sviluppo - Solo per testing intenzionale del sottodominio
-  const parts = hostname.split('.');
-  if (parts.length >= 2) {
-    const subdomain = parts[0];
-    
-    if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
-      // Per ambiente Lovable - permetti il testing del sottodominio SOLO se:
-      // 1. Siamo su un dominio Lovable
-      // 2. E siamo sulla root path / (non su /link-customizer o altre route)
-      if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
-        // Se siamo sulla root path, allora è un test di sottodominio
-        if (pathname === '/' || pathname === '') {
-          console.log('✅ DEVELOPMENT SUBDOMAIN MODE - Lovable environment on root:', hostname);
-          return true;
-        } else {
-          console.log('❌ LOVABLE BUT ON APP ROUTE - showing normal app instead of subdomain', pathname);
-          return false;
-        }
-      }
-    }
-  }
-  
-  console.log('❌ NOT A SUBDOMAIN:', hostname);
+  // PRIORITÀ 3: Ambiente di sviluppo - DISABILITATO per evitare errori
+  // Forza sempre la modalità normale app invece del sottodominio in sviluppo
+  console.log('❌ DEVELOPMENT MODE - FORCING NORMAL APP:', hostname);
   return false;
 };
 
