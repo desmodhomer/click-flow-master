@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { useAuth } from "@/hooks/useAuth";
-import { Trash2, ExternalLink, Copy, BarChart3 } from "lucide-react";
+import { Trash2, ExternalLink, Copy, BarChart3, Eye, Monitor } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const UserLinksSection = () => {
@@ -38,6 +38,24 @@ const UserLinksSection = () => {
     toast({
       title: "Link copiato",
       description: "Il link è stato copiato negli appunti",
+    });
+  };
+
+  const handlePreview = (slug: string) => {
+    const url = `https://${slug}.lnkfire.dev`;
+    window.open(url, '_blank');
+    toast({
+      title: "Anteprima aperta",
+      description: "Il link si è aperto in una nuova scheda",
+    });
+  };
+
+  const handlePopup = (slug: string) => {
+    const url = `https://${slug}.lnkfire.dev`;
+    window.open(url, '_blank', 'width=400,height=700,scrollbars=yes,resizable=yes');
+    toast({
+      title: "Popup aperto",
+      description: "Il link si è aperto in una finestra popup",
     });
   };
 
@@ -152,14 +170,6 @@ const UserLinksSection = () => {
                     >
                       <Copy className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => window.open(`https://${link.slug}.lnkfire.dev`, '_blank')}
-                      title="Apri link"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Button>
                   </div>
                 </TableCell>
                 <TableCell className="text-center">
@@ -169,38 +179,67 @@ const UserLinksSection = () => {
                   {formatDate(link.created_at)}
                 </TableCell>
                 <TableCell className="text-center">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive hover:text-destructive"
-                        disabled={deletingId === link.id}
-                        title="Elimina link"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Sei sicuro di voler eliminare il link "{link.title || link.slug}"? 
-                          Questa azione non può essere annullata e il link non sarà più accessibile.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Annulla</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => handleDelete(link.id)}
-                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  <div className="flex items-center justify-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handlePreview(link.slug)}
+                      title="Anteprima"
+                      className="text-blue-600 hover:text-blue-700"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handlePopup(link.slug)}
+                      title="Apri in popup"
+                      className="text-purple-600 hover:text-purple-700"
+                    >
+                      <Monitor className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => window.open(`https://${link.slug}.lnkfire.dev`, '_blank')}
+                      title="Apri link"
+                      className="text-green-600 hover:text-green-700"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-destructive hover:text-destructive"
                           disabled={deletingId === link.id}
+                          title="Elimina link"
                         >
-                          {deletingId === link.id ? 'Eliminazione...' : 'Elimina'}
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Conferma eliminazione</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Sei sicuro di voler eliminare il link "{link.title || link.slug}"? 
+                            Questa azione non può essere annullata e il link non sarà più accessibile.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Annulla</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDelete(link.id)}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            disabled={deletingId === link.id}
+                          >
+                            {deletingId === link.id ? 'Eliminazione...' : 'Elimina'}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
