@@ -5,10 +5,10 @@ import { SocialLink } from "@/types/customLink";
 import SubdomainLoader, { CustomLink } from "./subdomain/SubdomainLoader";
 import SubdomainLoadingState from "./subdomain/SubdomainLoadingState";
 import SubdomainNotFound from "./subdomain/SubdomainNotFound";
-import SubdomainHeroSection from "./subdomain/SubdomainHeroSection";
-import SubdomainSocialLinks from "./subdomain/SubdomainSocialLinks";
-import SubdomainMainCTA from "./subdomain/SubdomainMainCTA";
-import SubdomainStatsFooter from "./subdomain/SubdomainStatsFooter";
+import PreviewHeroSection from "./preview/PreviewHeroSection";
+import PreviewSocialLinks from "./preview/PreviewSocialLinks";
+import PreviewMainCTA from "./preview/PreviewMainCTA";
+import PreviewStatsFooter from "./preview/PreviewStatsFooter";
 import { getBackgroundStyle } from "./subdomain/SubdomainBackgroundUtils";
 
 const SubdomainHandler = () => {
@@ -19,7 +19,7 @@ const SubdomainHandler = () => {
   const initialized = useRef(false);
 
   const handleLinkLoaded = useCallback((loadedLink: CustomLink | null) => {
-    if (initialized.current) return; // Previene aggiornamenti multipli
+    if (initialized.current) return;
     
     console.log('SubdomainHandler: Link loaded callback:', loadedLink);
     setLink(loadedLink);
@@ -28,7 +28,7 @@ const SubdomainHandler = () => {
   }, []);
 
   const handleNotFound = useCallback(() => {
-    if (initialized.current) return; // Previene aggiornamenti multipli
+    if (initialized.current) return;
     
     console.log('SubdomainHandler: Not found callback');
     setNotFound(true);
@@ -40,10 +40,6 @@ const SubdomainHandler = () => {
     console.log('SubdomainHandler: Loading state changed:', isLoading);
     setLoading(isLoading);
   }, []);
-
-  const handleSocialClick = async (socialLink: SocialLink) => {
-    window.open(socialLink.url, '_blank');
-  };
 
   const handleShare = () => {
     if (navigator.share) {
@@ -83,29 +79,28 @@ const SubdomainHandler = () => {
   const backgroundStyle = getBackgroundStyle(link);
 
   return (
-    <div className={`min-h-screen w-full overflow-x-hidden ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
-      <SubdomainHeroSection link={link} />
+    <div className={`min-h-screen ${backgroundStyle.className || 'bg-gradient-to-br from-blue-400 via-blue-600 to-purple-600'}`} style={backgroundStyle}>
+      {/* Hero Section */}
+      <PreviewHeroSection
+        profileImageUrl={link.profile_image_url || undefined}
+        displayName={link.display_name || undefined}
+        title={link.title || "Link Personalizzato"}
+        bio={link.bio || undefined}
+        description={link.description || ""}
+        coverImageUrl={link.cover_image_url || undefined}
+      />
 
       {/* Main Content */}
-      <div className="relative z-10 px-4 sm:px-6 pb-24 w-full">
-        <div className="max-w-2xl mx-auto space-y-12 w-full">
-          
+      <div className="relative z-10 px-6 pb-20">
+        <div className="max-w-2xl mx-auto space-y-8">
           {/* Social Links Section */}
-          {link.social_links && link.social_links.length > 0 && (
-            <SubdomainSocialLinks 
-              socialLinks={link.social_links}
-              onSocialClick={handleSocialClick}
-            />
-          )}
+          <PreviewSocialLinks socialLinks={link.social_links || []} />
           
-          {/* Main CTA Section */}
-          <SubdomainMainCTA 
-            customButtons={link.custom_buttons}
-            onShare={handleShare}
-          />
+          {/* Main CTA Section with custom buttons */}
+          <PreviewMainCTA customButtons={link.custom_buttons || []} />
           
           {/* Stats and Footer */}
-          <SubdomainStatsFooter clickCount={link.click_count} />
+          <PreviewStatsFooter />
         </div>
       </div>
     </div>
