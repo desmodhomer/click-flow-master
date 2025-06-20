@@ -53,34 +53,20 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
     return brightness > 128;
   };
 
-  const getButtonSpacing = (spacing?: number, index?: number, isLast?: boolean) => {
-    const spacingValues = {
-      1: '4px',
-      2: '8px', 
-      3: '12px',
-      4: '16px',
-      5: '20px',
-      6: '24px'
+  // Usa la spaziatura del primo pulsante per tutti (o default)
+  const globalSpacing = customButtons[0]?.spacing || 3;
+
+  const getSpacingClass = (spacingValue: number) => {
+    const spacingClasses = {
+      1: 'mb-1',
+      2: 'mb-2', 
+      3: 'mb-3',
+      4: 'mb-4',
+      5: 'mb-5',
+      6: 'mb-6'
     };
     
-    const spacingValue = spacing || 3;
-    const marginBottom = spacingValues[spacingValue as keyof typeof spacingValues] || '12px';
-    
-    return isLast ? {} : { marginBottom };
-  };
-
-  const getButtonStyle = (button: CustomButton, index: number, isLast: boolean) => {
-    const spacing = getButtonSpacing(button.spacing, index, isLast);
-    
-    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
-      const customColorCode = (button as any).customColorCode;
-      return {
-        ...spacing,
-        backgroundColor: customColorCode
-      };
-    }
-    
-    return spacing;
+    return spacingClasses[spacingValue as keyof typeof spacingClasses] || 'mb-3';
   };
 
   const getButtonClasses = (button: CustomButton) => {
@@ -99,22 +85,32 @@ const SubdomainCustomButtons = ({ customButtons, onButtonClick }: SubdomainCusto
     return `${baseClasses} ${colorClass}`;
   };
 
+  const getButtonStyle = (button: CustomButton) => {
+    if (button.color && button.color.startsWith('custom-') && (button as any).customColorCode) {
+      const customColorCode = (button as any).customColorCode;
+      return {
+        backgroundColor: customColorCode
+      };
+    }
+    
+    return {};
+  };
+
   return (
     <div className="px-4 mb-6">
-      <div className="space-y-3">
-        {customButtons.map((button, index) => (
+      {customButtons.map((button, index) => (
+        <div key={button.id} className={index < customButtons.length - 1 ? getSpacingClass(globalSpacing) : ''}>
           <button
-            key={button.id}
             onClick={() => onButtonClick(button)}
             className={getButtonClasses(button)}
-            style={getButtonStyle(button, index, index === customButtons.length - 1)}
+            style={getButtonStyle(button)}
           >
             <div className="font-semibold">
               {button.text || `Pulsante ${index + 1}`}
             </div>
           </button>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };
