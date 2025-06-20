@@ -28,45 +28,41 @@ interface SubdomainLoaderProps {
 }
 
 const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoaderProps) => {
-  const hasExecuted = useRef(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
-    console.log('🚀 SubdomainLoader: useEffect triggered');
-    console.log('🔄 SubdomainLoader: hasExecuted.current:', hasExecuted.current);
-    console.log('🔄 SubdomainLoader: isProcessing:', isProcessing);
+    console.log('🚀 SubdomainLoader: useEffect triggered - hasLoaded:', hasLoaded);
     
     // Previeni esecuzioni multiple
-    if (hasExecuted.current || isProcessing) {
-      console.log('🔄 SubdomainLoader: Preventing duplicate execution');
+    if (hasLoaded) {
+      console.log('🔄 SubdomainLoader: Already loaded, skipping');
       return;
     }
     
     const loadLinkData = async () => {
       console.log('🎯 SubdomainLoader: Starting to load link data');
-      hasExecuted.current = true;
-      setIsProcessing(true);
+      setHasLoaded(true);
       onLoading(true);
       
       try {
         const hostname = window.location.hostname;
-        const parts = hostname.split('.');
-        
         console.log('🌐 SubdomainLoader: Full hostname:', hostname);
-        console.log('🔧 SubdomainLoader: Hostname parts:', parts);
-        console.log('📊 SubdomainLoader: Parts length:', parts.length);
         
         let slug: string | null = null;
         
-        // Logica migliorata per riconoscere il sottodominio
-        if (parts.length >= 2) {
-          // Se siamo su un sottodominio, prendi sempre la prima parte
-          const potentialSlug = parts[0];
-          console.log('🏷️ SubdomainLoader: Potential slug:', potentialSlug);
+        // Estrai lo slug dal sottodominio
+        if (hostname.endsWith('.lnkfire.dev')) {
+          const parts = hostname.split('.');
+          console.log('🔧 SubdomainLoader: Hostname parts:', parts);
           
-          // Verifica che non sia www o altri prefissi comuni
-          if (potentialSlug !== 'www' && potentialSlug !== 'api' && potentialSlug !== 'admin') {
-            slug = potentialSlug;
+          if (parts.length >= 3 && parts[0] !== 'www') {
+            slug = parts[0];
+          }
+        } else {
+          // Per ambiente di sviluppo
+          const parts = hostname.split('.');
+          if (parts.length >= 2 && parts[0] !== 'www') {
+            slug = parts[0];
           }
         }
         
@@ -79,22 +75,6 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         }
         
         console.log('🔍 SubdomainLoader: About to query database for slug:', slug);
-        console.log('🔗 SubdomainLoader: Using Supabase client');
-        
-        // Test connessione a Supabase prima
-        console.log('🧪 SubdomainLoader: Testing Supabase connection...');
-        const { data: testData, error: testError } = await supabase
-          .from('custom_links')
-          .select('count')
-          .limit(1);
-        
-        console.log('🧪 SubdomainLoader: Connection test result:', { testData, testError });
-        
-        if (testError) {
-          console.error('💥 SubdomainLoader: Supabase connection test failed:', testError);
-          onNotFound();
-          return;
-        }
         
         // Query principale
         const { data, error } = await supabase
@@ -109,18 +89,12 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
 
         if (error) {
           console.error('💥 SubdomainLoader: Database error:', error);
-          console.error('💥 SubdomainLoader: Error details:', {
-            message: error.message,
-            details: error.details,
-            hint: error.hint,
-            code: error.code
-          });
           onNotFound();
           return;
         }
 
         if (!data) {
-          console.log('🚫 SubdomainLoader: No data found for slug:', slug, '- calling onNotFound');
+          console.log('🚫 SubdomainLoader: No data found for slug:', slug);
           
           // Query per debug: vediamo tutti i record disponibili
           console.log('🔍 SubdomainLoader: Debugging - checking all available slugs...');
@@ -130,7 +104,9 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
             .limit(10);
           
           console.log('🔍 SubdomainLoader: Available slugs in database:', allSlugs);
-          console.log('🔍 SubdomainLoader: Debug query error (if any):', debugError);
+          if (debugError) {
+            console.log('🔍 SubdomainLoader: Debug query error:', debugError);
+          }
           
           onNotFound();
           return;
@@ -147,20 +123,22 @@ const SubdomainLoader = ({ onLinkLoaded, onNotFound, onLoading }: SubdomainLoade
         onLinkLoaded(typedData);
       } catch (error) {
         console.error('💥 SubdomainLoader: Unexpected error loading link:', error);
-        console.error('💥 SubdomainLoader: Error stack:', error instanceof Error ? error.stack : 'No stack trace');
         onNotFound();
       } finally {
         console.log('🧹 SubdomainLoader: Cleaning up - setting loading to false');
         onLoading(false);
-        setIsProcessing(false);
       }
     };
 
-    // Esegui immediatamente
-    loadLinkData();
-  }, []); // Rimosse le dipendenze per evitare problemi
+    // Esegui con un piccolo delay per assicurarci che tutto sia inizializzato
+    const timer = setTimeout(() => {
+      loadLinkData();
+    }, 100);
 
-  // Aggiungi un log per verificare che il componente si monti
+    return () => clearTimeout(timer);
+  }, []); // Nessuna dipendenza per evitare re-esecuzioni
+
+  // Log per verificare che il componente si monti
   useEffect(() => {
     console.log('🎬 SubdomainLoader: Component mounted');
     return () => {

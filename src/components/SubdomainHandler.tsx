@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SubdomainLoader from "./subdomain/SubdomainLoader";
 import SubdomainHeroSection from "./subdomain/SubdomainHeroSection";
 import SubdomainLoadingState from "./subdomain/SubdomainLoadingState";
@@ -24,6 +24,7 @@ const SubdomainHandler = () => {
     console.log('📥 SubdomainHandler: handleLinkLoaded called with:', link?.slug || 'null');
     setLinkData(link);
     setLoading(false);
+    setNotFound(false); // Reset notFound quando troviamo dati
     if (!link) {
       console.log('❌ SubdomainHandler: No link data received, setting notFound to true');
       setNotFound(true);
@@ -42,15 +43,16 @@ const SubdomainHandler = () => {
     setLoading(isLoading);
   };
 
-  // Renderizza sempre il SubdomainLoader per caricare i dati
   return (
-    <>
+    <div className="min-h-screen">
+      {/* Il SubdomainLoader è sempre presente e attivo */}
       <SubdomainLoader
         onLinkLoaded={handleLinkLoaded}
         onNotFound={handleNotFound}
         onLoading={handleLoading}
       />
       
+      {/* Condizioni di rendering */}
       {loading && (
         <>
           {console.log('⏳ SubdomainHandler: Rendering loading state')}
@@ -71,7 +73,7 @@ const SubdomainHandler = () => {
           <SubdomainHeroSection link={linkData} />
         </>
       )}
-    </>
+    </div>
   );
 };
 
