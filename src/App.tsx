@@ -27,76 +27,66 @@ const App = () => {
   const [isSubdomain, setIsSubdomain] = useState(false);
 
   useEffect(() => {
+    console.log('🚀 APP USEEFFECT STARTED');
+    
     const hostname = window.location.hostname;
     const pathname = window.location.pathname;
+    const href = window.location.href;
     
-    console.log('=== APP DEBUG START ===');
-    console.log('App: Full hostname:', hostname);
-    console.log('App: Full pathname:', pathname);
-    console.log('App: Window location href:', window.location.href);
+    console.log('🌐 HOSTNAME:', hostname);
+    console.log('📁 PATHNAME:', pathname);
+    console.log('🔗 FULL URL:', href);
     
-    // Logica migliorata per riconoscere i sottodomini
+    // Test specifico per edes.lnkfire.dev
+    if (hostname === 'edes.lnkfire.dev') {
+      console.log('✅ MATCHED edes.lnkfire.dev - SETTING AS SUBDOMAIN');
+      setIsSubdomain(true);
+      return;
+    }
+    
+    // Logica generale per altri casi
     const parts = hostname.split('.');
-    console.log('App: Hostname parts:', parts);
-    console.log('App: Parts length:', parts.length);
+    console.log('🔧 HOSTNAME PARTS:', parts);
     
-    let isRealSubdomain = false;
+    let shouldBeSubdomain = false;
     
-    // Controlla diversi scenari di sottodominio
     if (parts.length >= 2) {
       const subdomain = parts[0];
       const domain = parts.slice(1).join('.');
       
-      console.log('App: Extracted subdomain:', subdomain);
-      console.log('App: Extracted domain:', domain);
+      console.log('🏷️ SUBDOMAIN:', subdomain);
+      console.log('🌍 DOMAIN:', domain);
       
-      // Verifica se abbiamo un sottodominio valido
       if (subdomain !== 'www' && subdomain !== 'api' && subdomain !== 'admin') {
-        console.log('App: Subdomain is valid (not www/api/admin)');
-        
-        // Per domini personalizzati come lnkfire.dev
         if (domain === 'lnkfire.dev') {
-          console.log('App: Detected lnkfire.dev domain - setting as subdomain');
-          isRealSubdomain = true;
-        }
-        // Per domini lovable solo se NON siamo su route dell'app
-        else if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
-          console.log('App: Detected lovable domain, checking routes');
+          console.log('✅ VALID LNKFIRE.DEV SUBDOMAIN');
+          shouldBeSubdomain = true;
+        } else if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
           const isAppRoute = pathname.startsWith('/quest') || 
                             pathname.startsWith('/link-customizer') || 
                             pathname.startsWith('/preview/') ||
                             pathname.startsWith('/user-links') ||
                             pathname === '/';
           
-          console.log('App: Is app route?', isAppRoute);
-          
           if (!isAppRoute) {
-            console.log('App: Not an app route - setting as subdomain');
-            isRealSubdomain = true;
+            console.log('✅ VALID LOVABLE SUBDOMAIN (NOT APP ROUTE)');
+            shouldBeSubdomain = true;
           } else {
-            console.log('App: Is an app route - NOT a subdomain');
+            console.log('❌ LOVABLE BUT IS APP ROUTE');
           }
-        } else {
-          console.log('App: Unknown domain type:', domain);
         }
-      } else {
-        console.log('App: Invalid subdomain (www/api/admin)');
       }
-    } else {
-      console.log('App: Not enough hostname parts for subdomain');
     }
     
-    console.log('App: Final isRealSubdomain decision:', isRealSubdomain);
-    console.log('=== APP DEBUG END ===');
-    
-    setIsSubdomain(isRealSubdomain);
+    console.log('🎯 FINAL DECISION - IS SUBDOMAIN:', shouldBeSubdomain);
+    setIsSubdomain(shouldBeSubdomain);
   }, []);
 
-  console.log('App: Current render - isSubdomain state:', isSubdomain);
+  console.log('🎨 RENDERING - isSubdomain state:', isSubdomain);
 
   // Se siamo su un sottodominio, mostra il SubdomainHandler
   if (isSubdomain) {
-    console.log('App: Rendering SubdomainHandler because isSubdomain =', isSubdomain);
+    console.log('🎭 RENDERING SUBDOMAIN HANDLER');
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
@@ -110,7 +100,7 @@ const App = () => {
     );
   }
 
-  console.log('App: Rendering normal app routing because isSubdomain =', isSubdomain);
+  console.log('🏠 RENDERING NORMAL APP');
   // Altrimenti, mostra il normale routing dell'app
   return (
     <QueryClientProvider client={queryClient}>
